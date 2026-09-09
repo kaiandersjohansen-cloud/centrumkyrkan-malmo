@@ -1,5 +1,8 @@
 import { formatSwedishDate, formatSwedishTime } from "./dates";
 
+// Must match one of the API key's allowed HTTP referrers in Google Cloud Console.
+const SITE_ORIGIN = "https://www.centrumkyrkanmalmo.se/";
+
 interface GoogleCalendarEventTime {
   date?: string;
   dateTime?: string;
@@ -65,7 +68,14 @@ export async function getUpcomingCalendarEvents(maxResults = 6): Promise<Calenda
     `?key=${apiKey}&timeMin=${new Date().toISOString()}&singleEvents=true&orderBy=startTime&maxResults=${maxResults}`;
 
   try {
-    const res = await fetch(url, { next: { revalidate: 300 } });
+    // The key is restricted by HTTP referrer (as it was when this fetch ran in the
+    // browser). A server-side request sends no Referer, which Google rejects with
+    // API_KEY_HTTP_REFERRER_BLOCKED — so send it explicitly. This lets the key stay
+    // referrer-locked and server-side, rather than having to drop the restriction.
+    const res = await fetch(url, {
+      headers: { Referer: SITE_ORIGIN },
+      next: { revalidate: 300 },
+    });
     if (!res.ok) {
       // Google's error body carries the actual reason (bad key, key restrictions,
       // calendar not public) and never echoes the key back.
