@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#5b6b4a"/><text x="26%" y="58%" font-size="64" fill="#fff" font-family="serif">S</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: oklch(38% 0.06 145); }
+  textarea::placeholder, input::placeholder { color: oklch(65% 0.01 80); }
+  @media (max-width: 640px) { .kort-nav { flex-direction: column; } .kort-nav > * { width: 100%; } }
+</style>
+</helmet>
+
+<div style="font-family:'Public Sans',sans-serif;background:oklch(98.5% 0.006 90);color:oklch(20% 0.015 50);line-height:1.6;min-height:100vh;">
+  <header style="border-bottom:1px solid oklch(89% 0.008 80);">
+    <div style="max-width:680px;margin:0 auto;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <a href="centrumkyrkan-malmo.dc.html" style="font-size:14.5px;font-weight:500;color:oklch(42% 0.015 50);" style-hover="color:oklch(20% 0.015 50);">← Till hemsidan</a>
+      <a href="centrumkyrkan-malmo.dc.html" style="display:flex;align-items:center;gap:10px;font-family:'Lora',serif;font-size:16px;font-weight:500;"><img src="images/logo-sm.png" alt="Centrumkyrkan Malmö" style="height:28px;width:auto;">Centrumkyrkan Malmö</a>
+    </div>
+  </header>
+
+  <main style="max-width:640px;margin:0 auto;padding:56px 28px 96px;">
+    <p style="font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 16px;text-align:center;">Samtalskort för matbordet</p>
+    <h1 style="font-family:'Lora',serif;font-size:34px;font-weight:500;text-align:center;margin:0 0 16px;">Samtalskort för barnfamiljer</h1>
+    <p style="font-size:16.5px;color:oklch(42% 0.015 50);text-align:center;margin:0 0 44px;">Tio kort med bibelord, en praktik och en samtalsfråga.</p>
+
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:40px;">
+      <button type="button" onClick="{{ drawRandom }}" style="padding:13px 26px;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);border:none;border-radius:100px;font-weight:500;font-size:15px;cursor:pointer;font-family:'Public Sans',sans-serif;" style-hover="background:oklch(38% 0.06 145);">Dra ett kort</button>
+      <button type="button" onClick="{{ toggleHow }}" style="padding:13px 26px;background:oklch(94% 0.045 90);color:oklch(45% 0.1 85);border:1px solid oklch(87% 0.06 88);border-radius:100px;font-weight:500;font-size:15px;cursor:pointer;font-family:'Public Sans',sans-serif;" style-hover="background:oklch(90% 0.06 88);">Så använder ni korten</button>
+      <a href="samtalskort.pdf" download="Samtalskort-for-barnfamiljer.pdf" style="padding:13px 26px;background:oklch(94% 0.04 45);color:oklch(50% 0.13 45);border:1px solid oklch(87% 0.06 45);border-radius:100px;font-weight:500;font-size:15px;font-family:'Public Sans',sans-serif;" style-hover="background:oklch(90% 0.055 45);">Ladda ner som PDF</a>
+    </div>
+
+    <sc-if value="{{ showHow }}" hint-placeholder-val="{{ false }}">
+      <div style="background:oklch(94% 0.045 90);border:1px solid oklch(87% 0.06 88);border-radius:8px;padding:32px;margin-bottom:40px;">
+        <h2 style="font-family:'Lora',serif;font-size:22px;font-weight:500;margin:0 0 16px;color:oklch(45% 0.1 85);">Så använder ni korten</h2>
+        <p style="margin:0 0 14px;font-size:16px;color:oklch(30% 0.015 50);">Ta ett kort vid matbordet — ett i veckan räcker gott. Läs bibelordet högt, gör praktiken tillsammans och avsluta med samtalsfrågan.</p>
+        <p style="margin:0 0 20px;font-size:16px;color:oklch(30% 0.015 50);">Låt barnen svara fritt, utan rätt eller fel. Är någon för liten för att delta – låt dem lyssna medan de andra samtalar.</p>
+        <div style="padding-top:18px;border-top:1px solid oklch(87% 0.06 88);">
+          <p style="font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:oklch(45% 0.1 85);margin:0 0 8px;">Tips</p>
+          <p style="margin:0;font-style:italic;font-size:16px;color:oklch(30% 0.015 50);">Skriv ut korten och lägg dem i en burk mitt på bordet – låt någon dra ett.</p>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="{{ cardStyle }}">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:28px;">
+        <p style="{{ cardBadgeStyle }}">{{ cardNumber }}</p>
+        <p style="font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:oklch(68% 0.01 80);margin:0;">Samtalskort</p>
+      </div>
+
+      <h2 style="font-family:'Lora',serif;font-size:32px;font-weight:400;margin:0 0 28px;line-height:1.2;text-wrap:pretty;color:{{ accentInk }};">{{ cardTitle }}</h2>
+
+      <p style="font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px;color:{{ accentInk }};">Bibelord · {{ cardRef }}</p>
+      <p style="font-style:italic;font-size:17px;color:oklch(30% 0.015 50);margin:0 0 28px;text-wrap:pretty;">{{ cardVerse }}</p>
+
+      <div style="{{ dividerStyle }}">
+        <p style="font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px;color:{{ accentInk }};">Praktik · {{ cardPracticeName }}</p>
+        <p style="font-size:17px;color:oklch(30% 0.015 50);margin:0 0 28px;text-wrap:pretty;">{{ cardPractice }}</p>
+      </div>
+
+      <div style="{{ talkBoxStyle }}">
+        <p style="font-size:13px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px;color:{{ accentInk }};">Samtal</p>
+        <p style="font-style:italic;font-size:17px;color:oklch(28% 0.015 50);margin:0;text-wrap:pretty;">{{ cardTalk }}</p>
+      </div>
+    </div>
+
+    <div class="kort-nav" style="display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:24px;">
+      <button type="button" onClick="{{ prev }}" style="padding:12px 24px;background:none;border:1px solid oklch(85% 0.008 80);border-radius:100px;font-size:15px;font-weight:500;cursor:pointer;color:oklch(30% 0.015 50);font-family:'Public Sans',sans-serif;" style-hover="border-color:oklch(50% 0.06 145);color:oklch(50% 0.06 145);">← Föregående</button>
+      <button type="button" onClick="{{ toggleDone }}" style="{{ doneBtnStyle }}">{{ doneLabel }}</button>
+      <button type="button" onClick="{{ next }}" style="padding:12px 24px;background:none;border:1px solid oklch(85% 0.008 80);border-radius:100px;font-size:15px;font-weight:500;cursor:pointer;color:oklch(30% 0.015 50);font-family:'Public Sans',sans-serif;" style-hover="border-color:oklch(50% 0.06 145);color:oklch(50% 0.06 145);">Nästa →</button>
+    </div>
+
+    <sc-if value="{{ canDelete }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;justify-content:center;margin-top:20px;">
+        <button type="button" onClick="{{ deleteOwn }}" style="padding:10px 22px;background:none;border:1px solid oklch(80% 0.05 30);border-radius:100px;font-size:14.5px;font-weight:500;cursor:pointer;color:oklch(50% 0.13 30);font-family:'Public Sans',sans-serif;" style-hover="background:oklch(94% 0.04 30);border-color:oklch(60% 0.13 30);">Radera det här kortet</button>
+      </div>
+    </sc-if>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:32px;">
+      <sc-for list="{{ dots }}" as="d" hint-placeholder-count="10">
+        <button type="button" onClick="{{ d.go }}" aria-label="Kort {{ d.label }}" style="{{ d.style }}">{{ d.label }}</button>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:64px;background:oklch(94% 0.03 230);border:1px solid oklch(87% 0.045 230);border-radius:8px;padding:36px;">
+      <h2 style="font-family:'Lora',serif;font-size:24px;font-weight:500;margin:0 0 8px;color:oklch(44% 0.09 230);">Skriv ert eget kort</h2>
+      <p style="font-size:15.5px;color:oklch(42% 0.015 50);margin:0 0 24px;">Har ni ett bibelord eller en vana som betyder något i just er familj? Gör ett eget kort — det sparas i den här webbläsaren.</p>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <input type="text" value="{{ ownTitle }}" onChange="{{ onOwnTitle }}" placeholder="Rubrik, t.ex. Tacksamhet" style="padding:12px 16px;border:1px solid oklch(89% 0.008 80);border-radius:8px;font-size:15.5px;font-family:'Public Sans',sans-serif;background:white;color:oklch(20% 0.015 50);box-sizing:border-box;" />
+        <input type="text" value="{{ ownRef }}" onChange="{{ onOwnRef }}" placeholder="Bibelord, t.ex. Ps 100:4" style="padding:12px 16px;border:1px solid oklch(89% 0.008 80);border-radius:8px;font-size:15.5px;font-family:'Public Sans',sans-serif;background:white;color:oklch(20% 0.015 50);box-sizing:border-box;" />
+        <textarea value="{{ ownPractice }}" onChange="{{ onOwnPractice }}" rows="2" placeholder="Praktik – vad gör ni tillsammans?" style="padding:12px 16px;border:1px solid oklch(89% 0.008 80);border-radius:8px;font-size:15.5px;font-family:'Public Sans',sans-serif;background:white;color:oklch(20% 0.015 50);box-sizing:border-box;resize:vertical;"></textarea>
+        <textarea value="{{ ownTalk }}" onChange="{{ onOwnTalk }}" rows="2" placeholder="Samtalsfråga" style="padding:12px 16px;border:1px solid oklch(89% 0.008 80);border-radius:8px;font-size:15.5px;font-family:'Public Sans',sans-serif;background:white;color:oklch(20% 0.015 50);box-sizing:border-box;resize:vertical;"></textarea>
+        <button type="button" onClick="{{ saveOwn }}" style="align-self:flex-start;padding:12px 26px;background:oklch(44% 0.09 230);color:oklch(98.5% 0.006 90);border:none;border-radius:100px;font-weight:500;font-size:15px;cursor:pointer;font-family:'Public Sans',sans-serif;" style-hover="background:oklch(36% 0.09 230);">Lägg till kortet</button>
+      </div>
+      <sc-if value="{{ ownMsg }}" hint-placeholder-val="{{ false }}">
+        <p style="margin:16px 0 0;font-size:14.5px;font-weight:500;color:oklch(40% 0.09 230);">{{ ownMsg }}</p>
+      </sc-if>
+    </div>
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const BASE_CARDS = [
+  { title: "Sabbat", ref: "2 Mos 20:8", verse: "\u201dT\u00e4nk p\u00e5 sabbatsdagen s\u00e5 att du helgar den.\u201d", practiceName: "Slowmotionsabbat", practice: "G\u00f6r allt extra l\u00e5ngsamt en stund av m\u00e5ltiden \u2013 h\u00e4lla upp vatten, tugga, prata. Skratta \u00e5t hur konstigt (och sk\u00f6nt) det k\u00e4nns att inte skynda sig.", talk: "Vad skulle h\u00e4nda om vi levde lite l\u00e5ngsammare hela veckan?" },
+  { title: "B\u00f6n", ref: "Fil 4:6", verse: "\u201dBekymra er inte f\u00f6r n\u00e5got, utan l\u00e5t Gud f\u00e5 veta alla era \u00f6nskningar genom b\u00f6n och \u00e5kallan med tacks\u00e4gelse.\u201d", practiceName: "Popcornb\u00f6n", practice: "G\u00e5 snabbt runt bordet, som popcorn som poppar, och s\u00e4g en sak var \u2013 n\u00e5got ni tackar f\u00f6r eller ber om.", talk: "Om Jesus satt vid bordet nu, vad skulle du s\u00e4ga till honom?" },
+  { title: "Generositet", ref: "Ords 11:25", verse: "\u201dDen frikostige blir rik, och den som ger andra att dricka f\u00e5r sj\u00e4lv dricka.\u201d", practiceName: "Guds-jakten", practice: "G\u00e5 runt bordet \u2013 var har du sett Guds omsorg eller godhet denna vecka, stort eller litet?", talk: "Hur kan vi dela den godheten vidare till n\u00e5gon annan?" },
+  { title: "Tj\u00e4nande", ref: "Joh 13:14\u201315", verse: "\u201dOm nu jag, er Herre och M\u00e4stare, har tv\u00e4ttat era f\u00f6tter, s\u00e5 \u00e4r ocks\u00e5 ni skyldiga att tv\u00e4tta varandras f\u00f6tter. Jag har gett er ett exempel f\u00f6r att ni ska g\u00f6ra som jag har gjort mot er.\u201d", practiceName: "Mini-fottv\u00e4tt", practice: "Om ni v\u00e5gar \u2013 tv\u00e4tta en persons h\u00e4nder (eller f\u00f6tter) i en sk\u00e5l med vatten och s\u00e4g: \u201dSom Jesus har \u00e4lskat dig, [namn], f\u00e5r du \u00e4lska dem omkring dig.\u201d", talk: "Hur k\u00e4ndes det att bli tj\u00e4nad? Hur k\u00e4ndes det att tj\u00e4na?" },
+  { title: "Gemenskap", ref: "Pred 4:9\u201310", verse: "\u201dTv\u00e5 \u00e4r b\u00e4ttre \u00e4n en, de f\u00e5r god l\u00f6n f\u00f6r sin m\u00f6da. Om de faller kan den ene hj\u00e4lpa den andre upp igen.\u201d", practiceName: "V\u00e4lsignelsestolen", practice: "En person i taget s\u00e4tter sig i \u201dv\u00e4lsignelsestolen\u201d. De andra tackar Gud h\u00f6gt f\u00f6r n\u00e5got hos den personen \u2013 inte fr\u00e4mst vad personen g\u00f6r, utan vem personen \u00e4r.", talk: "Hur k\u00e4ndes det att bli v\u00e4lsignad av de andra?" },
+  { title: "Vara med Jesus", ref: "Ps 46:11", verse: "\u201dBli stilla och besinna att jag \u00e4r Gud.\u201d", practiceName: "60 sekunder tystnad", practice: "S\u00e4tt en timer och var helt tysta tillsammans. Skratta g\u00e4rna efter\u00e5t om det var sv\u00e5rt!", talk: "Vad h\u00f6r man n\u00e4r man \u00e4r tyst? K\u00e4ndes det sk\u00f6nt eller jobbigt?" },
+  { title: "Bli lik Jesus", ref: "Ef 5:1\u20132", verse: "\u201dBli d\u00e4rf\u00f6r Guds efterf\u00f6ljare, som hans \u00e4lskade barn. Och lev i k\u00e4rlek, s\u00e5 som Kristus har \u00e4lskat oss och utgett sig sj\u00e4lv f\u00f6r oss.\u201d", practiceName: "Viskleken", practice: "En person viskar n\u00e5got som Jesus sa till sin bordsgranne (fr\u00e5ga en vuxen om du inte kommer ih\u00e5g). Budskapet viskas vidare runt bordet. Den sista s\u00e4ger h\u00f6gt vad hen h\u00f6rde \u2013 st\u00e4mde det?", talk: "Hur kan vi hj\u00e4lpa varandra att inte bara komma ih\u00e5g det Jesus sa, utan ocks\u00e5 leva som han l\u00e4rde?" },
+  { title: "Vara med Jesus", ref: "Matt 11:28", verse: "\u201dKom till mig, alla ni som arbetar och b\u00e4r p\u00e5 tunga b\u00f6rdor, s\u00e5 ska jag ge er vila.\u201d", practiceName: "Andningsb\u00f6n", practice: "Andas in och t\u00e4nk orden \u201dkom till mig\u201d. Andas ut och t\u00e4nk \u201djag vilar i dig\u201d. Upprepa tre g\u00e5nger tillsammans.", talk: "Vad betyder det att \u201dvila\u201d i Jesus mitt i en helt vanlig vardag?" },
+  { title: "Bli lik Jesus", ref: "Gal 5:22\u201323", verse: "\u201dMen Andens frukt \u00e4r k\u00e4rlek, gl\u00e4dje, frid, t\u00e5lamod, v\u00e4nlighet, godhet, trofasthet, mildhet och sj\u00e4lvbeh\u00e4rskning. Lagen \u00e4r inte mot s\u00e5dant.\u201d", practiceName: "Fruktspaning", practice: "G\u00e5 igenom listan \u2013 ber\u00e4tta om en g\u00e5ng ni sett en av frukterna hos n\u00e5gon annan vid bordet den h\u00e4r veckan.", talk: "Vilken frukt vill du v\u00e4xa mest i just nu?" },
+  { title: "G\u00f6ra vad Jesus gjorde", ref: "Matt 25:35\u201336", verse: "\u201dJag var hungrig, och ni gav mig mat. Jag var t\u00f6rstig, och ni gav mig att dricka. Jag var en fr\u00e4mling, och ni \u00f6ppnade era hem f\u00f6r mig. Jag var sjuk, och ni tog hand om mig.\u201d", practiceName: "Uppdraget", practice: "Fundera tillsammans \u2013 vem i v\u00e5r stad, skola eller familj kan beh\u00f6va n\u00e5got av detta just nu? Best\u00e4m en konkret sak ni kan g\u00f6ra tillsammans denna vecka.", talk: "Hur tycker du det k\u00e4nns att hj\u00e4lpa andra?" }
+];
+
+const PALETTE = [
+  { ink: "oklch(46% 0.09 145)", soft: "oklch(94% 0.035 145)", line: "oklch(86% 0.05 145)" },
+  { ink: "oklch(52% 0.13 45)",  soft: "oklch(94% 0.04 45)",   line: "oklch(87% 0.06 45)" },
+  { ink: "oklch(50% 0.10 85)",  soft: "oklch(94% 0.045 90)",  line: "oklch(87% 0.06 88)" },
+  { ink: "oklch(48% 0.08 230)", soft: "oklch(94% 0.03 230)",  line: "oklch(87% 0.045 230)" },
+  { ink: "oklch(47% 0.09 350)", soft: "oklch(94% 0.032 350)", line: "oklch(87% 0.05 350)" },
+  { ink: "oklch(46% 0.09 195)", soft: "oklch(94% 0.035 195)", line: "oklch(86% 0.05 195)" },
+  { ink: "oklch(50% 0.11 25)",  soft: "oklch(94% 0.04 25)",   line: "oklch(87% 0.055 25)" },
+  { ink: "oklch(45% 0.09 265)", soft: "oklch(94% 0.03 265)",  line: "oklch(87% 0.045 265)" },
+  { ink: "oklch(48% 0.10 120)", soft: "oklch(94% 0.04 120)",  line: "oklch(86% 0.055 120)" },
+  { ink: "oklch(50% 0.11 60)",  soft: "oklch(94% 0.045 60)",  line: "oklch(87% 0.06 60)" }
+];
+
+const OWN_KEY = "ck_samtalskort_egna";
+const DONE_KEY = "ck_samtalskort_klara";
+
+class Component extends DCLogic {
+  state = { i: 0, showHow: false, own: [], done: [], ownTitle: "", ownRef: "", ownPractice: "", ownTalk: "", ownMsg: "" };
+
+  componentDidMount() {
+    let own = [], done = [];
+    try { own = JSON.parse(localStorage.getItem(OWN_KEY)) || []; } catch (e) {}
+    try { done = JSON.parse(localStorage.getItem(DONE_KEY)) || []; } catch (e) {}
+    this.setState({ own: own, done: done });
+  }
+
+  cards() { return BASE_CARDS.concat(this.state.own); }
+
+  pad(n) { return n < 10 ? "0" + n : String(n); }
+
+  renderVals() {
+    const cards = this.cards();
+    const i = Math.min(this.state.i, cards.length - 1);
+    const c = cards[i] || BASE_CARDS[0];
+    const isDone = this.state.done.indexOf(i) !== -1;
+
+    const pal = PALETTE[i % PALETTE.length];
+
+    const dots = cards.map((card, idx) => {
+      const active = idx === i;
+      const done = this.state.done.indexOf(idx) !== -1;
+      const p = PALETTE[idx % PALETTE.length];
+      let bg = p.soft, border = "1px solid " + p.line, color = p.ink;
+      if (done) { bg = p.soft; border = "1px solid " + p.ink; color = p.ink; }
+      if (active) { bg = p.ink; border = "1px solid " + p.ink; color = "oklch(98.5% 0.006 90)"; }
+      return {
+        label: this.pad(idx + 1),
+        go: () => this.setState({ i: idx }),
+        style: "width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:13px;font-weight:600;font-family:'Public Sans',sans-serif;background:" + bg + ";border:" + border + ";color:" + color + ";"
+      };
+    });
+
+    return {
+      cardNumber: this.pad(i + 1),
+      cardTitle: c.title,
+      cardRef: c.ref,
+      cardVerse: c.verse,
+      cardPracticeName: c.practiceName,
+      cardPractice: c.practice,
+      cardTalk: c.talk,
+      accentInk: pal.ink,
+      accentSoft: pal.soft,
+      accentLine: pal.line,
+      cardStyle: "background:oklch(99.5% 0.003 90);border:1px solid " + pal.line + ";border-top:5px solid " + pal.ink + ";border-radius:8px;padding:40px;min-height:420px;display:flex;flex-direction:column;",
+      cardBadgeStyle: "font-family:'Lora',serif;font-size:15px;font-weight:600;letter-spacing:.06em;margin:0;background:" + pal.soft + ";color:" + pal.ink + ";padding:4px 14px;border-radius:100px;",
+      dividerStyle: "padding-top:24px;border-top:1px solid " + pal.line + ";",
+      talkBoxStyle: "margin-top:auto;padding:22px 24px;border-radius:8px;background:" + pal.soft + ";",
+      dots: dots,
+      showHow: this.state.showHow,
+      toggleHow: () => this.setState({ showHow: !this.state.showHow }),
+      drawRandom: () => {
+        let n = i;
+        if (cards.length > 1) { while (n === i) n = Math.floor(Math.random() * cards.length); }
+        this.setState({ i: n });
+      },
+      prev: () => this.setState({ i: (i - 1 + cards.length) % cards.length }),
+      next: () => this.setState({ i: (i + 1) % cards.length }),
+      doneLabel: isDone ? "✓ Gjort" : "Markera som gjort",
+      doneBtnStyle: "padding:12px 24px;border-radius:100px;font-size:15px;font-weight:500;cursor:pointer;font-family:'Public Sans',sans-serif;" + (isDone
+        ? "background:" + pal.ink + ";border:1px solid " + pal.ink + ";color:oklch(98.5% 0.006 90);"
+        : "background:" + pal.soft + ";border:1px solid " + pal.line + ";color:" + pal.ink + ";"),
+      toggleDone: () => {
+        const done = this.state.done.slice();
+        const at = done.indexOf(i);
+        if (at === -1) done.push(i); else done.splice(at, 1);
+        localStorage.setItem(DONE_KEY, JSON.stringify(done));
+        this.setState({ done: done });
+      },
+      canDelete: i >= BASE_CARDS.length,
+      deleteOwn: () => {
+        const ownIdx = i - BASE_CARDS.length;
+        if (ownIdx < 0) return;
+        if (!confirm("Radera kortet \u201d" + c.title + "\u201d?")) return;
+        const own = this.state.own.slice();
+        own.splice(ownIdx, 1);
+        localStorage.setItem(OWN_KEY, JSON.stringify(own));
+        const done = this.state.done.filter((d) => d !== i).map((d) => (d > i ? d - 1 : d));
+        localStorage.setItem(DONE_KEY, JSON.stringify(done));
+        this.setState({ own: own, done: done, i: Math.max(0, i - 1), ownMsg: "Kortet är raderat." });
+      },
+      ownTitle: this.state.ownTitle,
+      ownRef: this.state.ownRef,
+      ownPractice: this.state.ownPractice,
+      ownTalk: this.state.ownTalk,
+      ownMsg: this.state.ownMsg,
+      onOwnTitle: (e) => this.setState({ ownTitle: e.target.value }),
+      onOwnRef: (e) => this.setState({ ownRef: e.target.value }),
+      onOwnPractice: (e) => this.setState({ ownPractice: e.target.value }),
+      onOwnTalk: (e) => this.setState({ ownTalk: e.target.value }),
+      saveOwn: () => {
+        if (!this.state.ownTitle.trim()) { this.setState({ ownMsg: "Ge kortet en rubrik först." }); return; }
+        const card = {
+          title: this.state.ownTitle.trim(),
+          ref: this.state.ownRef.trim() || "Eget kort",
+          verse: "",
+          practiceName: "Eget",
+          practice: this.state.ownPractice.trim(),
+          talk: this.state.ownTalk.trim()
+        };
+        const own = this.state.own.concat([card]);
+        localStorage.setItem(OWN_KEY, JSON.stringify(own));
+        this.setState({ own: own, ownTitle: "", ownRef: "", ownPractice: "", ownTalk: "", ownMsg: "Kortet är tillagt som nr " + this.pad(BASE_CARDS.length + own.length) + ".", i: BASE_CARDS.length + own.length - 1 });
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
