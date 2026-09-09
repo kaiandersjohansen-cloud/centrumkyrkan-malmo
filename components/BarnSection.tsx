@@ -28,10 +28,10 @@ export default function BarnSection() {
               Varje söndag under gudstjänsten. Vi pysslar, sjunger och leker utifrån bibliska teman. Biblia Mini för barn från 2,5 år till åk 1 och Biblia Maxi för barn från åk 2 till åk 6.
             </p>
             <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-              <a href="/Samtalskort.dc.html" className="btn-outline-green" style={pillOutline}>
+              <a href="/samtalskort" className="btn-outline-green" style={pillOutline}>
                 Samtalskort för barnfamiljer
               </a>
-              <a href="/Bordsbon.dc.html" className="btn-outline-green" style={pillOutline}>
+              <a href="/bordsbon" className="btn-outline-green" style={pillOutline}>
                 Vår nya bordsbön
               </a>
             </div>

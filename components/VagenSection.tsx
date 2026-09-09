@@ -96,7 +96,7 @@ export default function VagenSection() {
               >
                 Upptäckande Bibelsamtal →
               </a>
-              <a href="/Bordssamtal.dc.html" className="underline-link-green" style={{ ...linkStyle, display: "inline-block" }}>
+              <a href="/bordssamtal" className="underline-link-green" style={{ ...linkStyle, display: "inline-block" }}>
                 Bordssamtal – digitalt verktyg →
               </a>
             </div>

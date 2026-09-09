@@ -237,3 +237,25 @@ a {
 .banner-link:hover {
   text-decoration-thickness: 2px;
 }
+
+/* Bordsbön tool page */
+@media (max-width: 780px) {
+  .bb-grid {
+    grid-template-columns: 1fr !important;
+    gap: 48px !important;
+  }
+  .bb-right {
+    border-left: none !important;
+    padding-left: 0 !important;
+  }
+}
+
+/* Samtalskort tool page */
+@media (max-width: 640px) {
+  .kort-nav {
+    flex-direction: column;
+  }
+  .kort-nav > * {
+    width: 100%;
+  }
+}

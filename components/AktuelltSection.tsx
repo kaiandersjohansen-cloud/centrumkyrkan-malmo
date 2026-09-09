@@ -85,7 +85,7 @@ const CARDS: Card[] = [
     alt: "Fyra personer samtalar runt ett bord med Bibel och samtalsfrågor",
     title: "Testa Bordssamtal – nytt digitalt verktyg",
     description: "Ett enkelt verktyg för att komma i gång med bättre och djupare samtal tillsammans med vänner eller i hemgruppen.",
-    cta: { label: "Testa här", href: "/Bordssamtal.dc.html" },
+    cta: { label: "Testa här", href: "/bordssamtal" },
   },
   {
     key: "bordsbon",
@@ -93,7 +93,7 @@ const CARDS: Card[] = [
     alt: "Rör vid varje sak medan ni ber – Tack för livet som vi fått",
     title: "Vår nya bordsbön",
     description: "En helt ny bordsbön att lära sig utantill och be hemma kring matbordet – om liv, försörjning, tjänst och gemenskap.",
-    cta: { label: "Läs bönen här", href: "/Bordsbon.dc.html" },
+    cta: { label: "Läs bönen här", href: "/bordsbon" },
   },
   {
     key: "samtalskort",
@@ -103,7 +103,7 @@ const CARDS: Card[] = [
     imageBg: "oklch(98.5% 0.006 90)",
     title: "Nya Samtalskort – för barnfamiljer",
     description: "Tio kort med bibelord, en praktik och en samtalsfråga – perfekt vid matbordet med barnen.",
-    cta: { label: "Testa här", href: "/Samtalskort.dc.html" },
+    cta: { label: "Testa här", href: "/samtalskort" },
   },
   {
     key: "tacksagelse",
