@@ -54,7 +54,11 @@ function toListItem(ev: GoogleCalendarEvent, index: number): CalendarListItem {
 export async function getUpcomingCalendarEvents(maxResults = 6): Promise<CalendarListItem[] | null> {
   const apiKey = process.env.GOOGLE_CALENDAR_API_KEY;
   const calendarId = process.env.GOOGLE_CALENDAR_ID;
-  if (!apiKey || !calendarId) return null;
+  if (!apiKey || !calendarId) {
+    const missing = [!apiKey && "GOOGLE_CALENDAR_API_KEY", !calendarId && "GOOGLE_CALENDAR_ID"].filter(Boolean).join(", ");
+    console.warn(`[kalender] Not fetching live events — missing env var(s): ${missing}. Rendering the static fallback list instead.`);
+    return null;
+  }
 
   const url =
     `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events` +
@@ -62,10 +66,18 @@ export async function getUpcomingCalendarEvents(maxResults = 6): Promise<Calenda
 
   try {
     const res = await fetch(url, { next: { revalidate: 300 } });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      // Google's error body carries the actual reason (bad key, key restrictions,
+      // calendar not public) and never echoes the key back.
+      console.error(`[kalender] Google Calendar API ${res.status} ${res.statusText}: ${(await res.text()).slice(0, 500)}`);
+      return null;
+    }
     const data = (await res.json()) as { items?: GoogleCalendarEvent[] };
+    console.info(`[kalender] Fetched ${data.items?.length ?? 0} live event(s) from Google Calendar.`);
     return (data.items || []).map(toListItem);
-  } catch {
+  } catch (err) {
+    // Message only — the thrown object can carry the request URL, which contains the key.
+    console.error(`[kalender] Google Calendar fetch failed: ${err instanceof Error ? err.message : String(err)}`);
     return null;
   }
 }

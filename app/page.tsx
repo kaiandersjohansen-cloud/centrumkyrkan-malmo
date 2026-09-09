@@ -15,6 +15,12 @@ import MediaSection from "@/components/MediaSection";
 import Footer from "@/components/Footer";
 import { PRAYER_RELAY_EXPIRES, isExpired } from "@/lib/dates";
 
+// Declared on the segment rather than left to the calendar fetch's own revalidate:
+// if that fetch is skipped (missing API key) or fails at build time, no revalidate
+// hint is registered and the page bakes fully static — permanently stuck on the
+// fallback event list and the expiry-gated sections as of build time.
+export const revalidate = 300;
+
 export default function Home() {
   const showPrayerCampaign = !isExpired(PRAYER_RELAY_EXPIRES);
 
