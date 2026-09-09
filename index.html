@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Centrumkyrkan Malmö</title>
+<meta name="description" content="Vi följer Jesus tillsammans. Församlingen Centrumkyrkan Malmö – gudstjänst söndagar kl 15:30.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Centrumkyrkan Malmö">
+<meta property="og:description" content="Vi följer Jesus tillsammans. Församlingen Centrumkyrkan Malmö – gudstjänst söndagar kl 15:30.">
+<meta property="og:image" content="https://www.centrumkyrkanmalmo.se/images/hero-v2.jpg">
+<meta property="og:url" content="https://www.centrumkyrkanmalmo.se/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Centrumkyrkan Malmö">
+<meta name="twitter:description" content="Vi följer Jesus tillsammans. Församlingen Centrumkyrkan Malmö.">
+<meta name="twitter:image" content="https://www.centrumkyrkanmalmo.se/images/hero-v2.jpg">
+<script src="./support.js"></script>
+</head>
+<body>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect width="300" height="200" fill="#8a6a4f"/><text x="150" y="105" font-size="28" fill="#fff" text-anchor="middle" font-family="serif">CM</text></svg></template>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  .mobile-nav-toggle { display:none; }
+  .mobile-nav-panel { display:none; }
+  @media (max-width: 980px) {
+    .desktop-nav { display:none !important; }
+    .mobile-nav-toggle { display:flex !important; }
+  }
+  #nav-toggle:checked ~ .mobile-nav-panel { display:flex !important; }
+  @media (max-width: 780px) {
+    .stack-2, .stack-3 { grid-template-columns:1fr !important; gap:28px !important; }
+    .hero-h1 { font-size:32px !important; }
+    main#main-content > section { padding-top:56px !important; padding-bottom:56px !important; }
+    #gudstjanst { padding-top:40px !important; }
+    .desktop-hero { display:none !important; }
+    .mobile-hero { display:flex !important; }
+    .h2-lora { font-size:21px !important; }
+    .mhero-h1 { font-size:26px !important; }
+  }
+  .calendar-events { border-top:1px solid oklch(89% 0.008 80); }
+  .calendar-event { display:grid;grid-template-columns:110px 1fr;gap:28px;align-items:center;padding:25px 8px;border-bottom:1px solid oklch(89% 0.008 80); }
+  .calendar-date { font-family:'Lora',serif;color:oklch(50% 0.06 145);font-size:16px;text-transform:uppercase;letter-spacing:.06em; }
+  .calendar-title { font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 4px; }
+  .calendar-meta { margin:0;color:oklch(42% 0.015 50);font-size:15.5px; }
+    .calendar-status { text-align:center;color:oklch(42% 0.015 50);padding:28px 0;margin:0; }
+  @media (max-width: 700px) {
+    div[style*="grid-template-columns:110px 1fr"] { grid-template-columns:1fr !important; gap:4px !important; padding:18px 4px !important; }
+    .calendar-date { font-size:13px !important; }
+    .calendar-title { font-size:16px !important; }
+    .calendar-meta { font-size:13.5px !important; }
+  }
+  @keyframes heroTextBreathe { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.06); } }
+  @keyframes heroCtaBreathe { 0%,100% { transform: scale(1); } 50% { transform: scale(1.06); } }
+  #quiz-overlay { position:fixed;inset:0;background:oklch(15% 0.02 50 / 0.55);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+  #quiz-overlay.open { display:flex; }
+  #search-overlay { position:fixed;inset:0;background:oklch(15% 0.02 50 / 0.55);z-index:300;display:none;align-items:flex-start;justify-content:center;padding:80px 20px 20px;}
+  #search-overlay.open { display:flex; }
+  #bone-overlay { position:fixed;inset:0;background:oklch(15% 0.02 50 / 0.55);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+  #bone-overlay.open { display:flex; }
+  .quiz-step { display:none; }
+  .quiz-step.active { display:block; }
+  .quiz-answer-btn { cursor:pointer;border:1px solid oklch(50% 0.06 145);background:transparent;color:oklch(50% 0.06 145);padding:12px 26px;border-radius:100px;font-size:15.5px;font-weight:500;font-family:'Public Sans',sans-serif; }
+  .quiz-answer-btn:hover { background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90); }
+  #quiz-trigger:hover { background:oklch(42% 0.06 145); }
+</style>
+<script>
+(function(){
+  var API_KEY = "AIzaSyD9hBUY6AiM4iDjEkzNA8EMc3VuHBGBRHg";
+  var CAL_ID = "centrumkyrkanmalmo@gmail.com";
+  var DAYS = ["sön","mån","tis","ons","tor","fre","lör"];
+  var MONTHS = ["jan","feb","mar","apr","maj","jun","jul","aug","sep","okt","nov","dec"];
+  function fmtDate(d){ return DAYS[d.getDay()] + " " + d.getDate() + " " + MONTHS[d.getMonth()]; }
+  function fmtTime(d){ return d.toLocaleTimeString("sv-SE",{hour:"2-digit",minute:"2-digit"}); }
+  function fmtDateRange(start, end){
+    if (!end || end.getTime() < start.getTime() + 1) return fmtDate(start);
+    return fmtDate(start) + "<br>" + fmtDate(end);
+  }
+  function render(events){
+    var list = document.getElementById("calendar-list");
+    if (!list) return;
+    if (!events.length){ list.innerHTML = '<p style="text-align:center;color:oklch(42% 0.015 50);padding:32px 0;margin:0;">Inga kommande händelser just nu.</p>'; return; }
+    list.innerHTML = events.map(function(ev){
+      var start = ev.start.dateTime ? new Date(ev.start.dateTime) : new Date(ev.start.date + "T00:00:00");
+      var end = null;
+      if (ev.start.dateTime && ev.end && ev.end.dateTime) {
+        var end_dt = new Date(ev.end.dateTime);
+        if (end_dt.toDateString() !== start.toDateString()) end = end_dt;
+      } else if (!ev.start.dateTime && ev.end && ev.end.date) {
+        end = new Date(ev.end.date + "T00:00:00");
+        var d = end.getDate();
+        end.setDate(d - 1);
+      }
+      var date_label = end ? fmtDateRange(start, end) : fmtDate(start);
+      var meta = ev.start.dateTime ? fmtTime(start) + (ev.location ? " · " + ev.location : "") : (ev.location || "");
+      return '<div style="display:grid;grid-template-columns:110px 1fr;gap:28px;align-items:center;padding:25px 8px;border-bottom:1px solid oklch(89% 0.008 80);">' +
+        '<p class="calendar-date" style="font-family:\'Lora\',serif;color:oklch(50% 0.06 145);font-size:15px;text-transform:uppercase;letter-spacing:.06em;margin:0;">' + date_label + '</p>' +
+        '<div><h3 class="calendar-title" style="font-family:\'Lora\',serif;font-size:19px;font-weight:600;margin:0 0 4px;">' + ev.summary + '</h3>' +
+        (meta ? '<p class="calendar-meta" style="margin:0;color:oklch(42% 0.015 50);font-size:15.5px;">' + meta + '</p>' : '') + '</div>' +
+        '</div>';
+    }).join("");
+  }
+  fetch("https://www.googleapis.com/calendar/v3/calendars/" + encodeURIComponent(CAL_ID) + "/events?key=" + API_KEY + "&timeMin=" + new Date().toISOString() + "&singleEvents=true&orderBy=startTime&maxResults=6")
+    .then(function(r){ return r.json(); })
+    .then(function(data){ render(data.items || []); })
+    .catch(function(){ /* keep placeholder content on failure */ });
+
+  function nextSunday(from){
+    var d = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+    var add = (7 - d.getDay()) % 7;
+    d.setDate(d.getDate() + add);
+    return d;
+  }
+  (function(){
+    var tries = 0;
+    var timer = setInterval(function(){
+      tries++;
+      var els = document.querySelectorAll("[data-event-expire]:not([data-expire-checked])");
+      var now = new Date();
+      els.forEach(function(el){
+        el.setAttribute("data-expire-checked", "1");
+        var expire = new Date(el.getAttribute("data-event-expire") + "T00:00:00");
+        if (now >= expire) el.style.display = "none";
+      });
+      if (tries > 100) clearInterval(timer);
+    }, 100);
+  })();
+  function renderNextSundayCta(events){
+    var els = [document.getElementById("next-sunday-cta"), document.getElementById("next-sunday-cta-desktop")].filter(Boolean);
+    if (!els.length) return;
+    var sunday = null, time = "15:30";
+    (events || []).some(function(ev){
+      if (!ev.start) return false;
+      var start = ev.start.dateTime ? new Date(ev.start.dateTime) : new Date(ev.start.date + "T00:00:00");
+      if (start.getDay() !== 0) return false;
+      sunday = start;
+      if (ev.start.dateTime) time = fmtTime(start);
+      return true;
+    });
+    if (!sunday) {
+      sunday = nextSunday(new Date());
+      var now = new Date();
+      if (sunday.toDateString() === now.toDateString() && now.getHours() * 60 + now.getMinutes() >= 15 * 60 + 30) {
+        sunday.setDate(sunday.getDate() + 7);
+      }
+    }
+    els.forEach(function(el){ el.textContent = "Vad händer framöver?"; });
+  }
+  fetch("https://www.googleapis.com/calendar/v3/calendars/" + encodeURIComponent(CAL_ID) + "/events?key=" + API_KEY + "&timeMin=" + new Date().toISOString() + "&singleEvents=true&orderBy=startTime&maxResults=10")
+    .then(function(r){ return r.json(); })
+    .then(function(data){ renderNextSundayCta(data.items || []); })
+    .catch(function(){ /* keep static fallback text on failure */ });
+
+  var info_tries = 0;
+  var info_timer = setInterval(function(){
+    info_tries++;
+    var banner = document.getElementById("info-banner");
+    if (banner) {
+      if (new Date() >= new Date(2026,7,23,18,0,0)) banner.style.display = "none";
+      clearInterval(info_timer);
+    }
+    if (info_tries > 100) clearInterval(info_timer);
+  }, 100);
+
+  var SEARCH_PAGES = [
+    { href: "Samtalskort.dc.html", title: "Samtalskort för barnfamiljer", sub: "Verktyg", keys: "samtalskort barn familj matbord bibelord praktik samtalsfråga kort pdf" },
+    { href: "Bordsbon.dc.html", title: "Vår nya bordsbön", sub: "Verktyg", keys: "bordsbön bön måltid mat tacka liv försörjning tjänst gemenskap amen" },
+    { href: "Bordssamtal.dc.html", title: "Bordssamtal", sub: "Verktyg", keys: "bordssamtal samtal middag frågor gäster gemenskap" }
+  ];
+  var SECTION_KEYS = {
+    "gudstjanst": "gudstjänst söndag predikan lovsång nattvard tider",
+    "kalender": "kalender händelser program datum vad händer",
+    "bonuppmaning": "bön bönestafett böneämnen fasta morgonbön lunchbön böneskola",
+    "vagen": "nästa steg dop medlem medlemskap alpha smågrupp växa engagera",
+    "barn": "barn ungdom biblia söndagsskola cungarna tonår familj",
+    "om-oss": "om oss stab pastor personal ledning historia tro vision styrelse",
+    "media": "media podcast predikan lyssna spotify apple poddar",
+    "kontakt": "kontakt hitta hit adress mejl telefon ge gåva swish besök"
+  };
+  var search_index = null, search_loaded = false;
+
+  function stripHtml(html){
+    var doc = new DOMParser().parseFromString(html, "text/html");
+    Array.prototype.forEach.call(doc.querySelectorAll("script,style,template,svg"), function(n){ n.remove(); });
+    return (doc.body ? doc.body.textContent : "").replace(/\s+/g, " ").trim();
+  }
+  function buildIndex(){
+    var idx = [];
+    Array.prototype.forEach.call(document.querySelectorAll("section[id]"), function(sec){
+      var id = sec.id;
+      if (id === "hero" || id === "hero-mobile") return;
+      if (sec.offsetParent === null && getComputedStyle(sec).display === "none") return;
+      var heading = sec.querySelector("h2, h1");
+      var label = sec.querySelector("p");
+      var title = (heading && heading.textContent.trim()) || (label && label.textContent.trim()) || id;
+      idx.push({
+        title: title.length > 70 ? title.slice(0, 70) + "…" : title,
+        sub: "På hemsidan",
+        href: "#" + id,
+        text: (sec.textContent || "").replace(/\s+/g, " ").trim(),
+        keys: SECTION_KEYS[id] || ""
+      });
+    });
+    SEARCH_PAGES.forEach(function(p){
+      idx.push({ title: p.title, sub: p.sub, href: p.href, text: "", keys: p.keys });
+      fetch(p.href).then(function(r){ return r.text(); }).then(function(html){
+        idx.forEach(function(e){ if (e.href === p.href) e.text = stripHtml(html); });
+      }).catch(function(){});
+    });
+    return idx;
+  }
+  function norm(s){ return (s || "").toLowerCase().replace(/[åä]/g, "a").replace(/ö/g, "o"); }
+  function runSearch(q, resultsEl){
+    q = norm(q.trim());
+    if (q.length < 2) { resultsEl.innerHTML = '<p style="margin:0;padding:26px 16px;color:oklch(52% 0.015 50);font-size:15px;">Skriv minst två bokstäver för att söka.</p>'; return; }
+    var words = q.split(/\s+/);
+    var hits = [];
+    search_index.forEach(function(e){
+      var t = norm(e.title), k = norm(e.keys), b = norm(e.text), score = 0, snippet = "";
+      words.forEach(function(w){
+        if (t.indexOf(w) !== -1) score += 12;
+        if (k.indexOf(w) !== -1) score += 7;
+        var at = b.indexOf(w);
+        if (at !== -1) {
+          score += 3;
+          if (!snippet) snippet = e.text.slice(Math.max(0, at - 60), at + 110).trim();
+        }
+      });
+      if (score > 0) hits.push({ e: e, score: score, snippet: snippet });
+    });
+    hits.sort(function(a, b){ return b.score - a.score; });
+    if (!hits.length) { resultsEl.innerHTML = '<p style="margin:0;padding:26px 16px;color:oklch(52% 0.015 50);font-size:15px;">Inga träffar. Prova ett annat ord.</p>'; return; }
+    resultsEl.innerHTML = hits.slice(0, 8).map(function(hit){
+      var snip = hit.snippet ? '<p style="margin:6px 0 0;font-size:14px;color:oklch(48% 0.015 50);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">…' + hit.snippet + '…</p>' : "";
+      return '<a href="' + hit.e.href + '" data-search-hit="1" style="display:block;padding:14px 16px;border-radius:8px;text-decoration:none;color:inherit;">' +
+        '<p style="margin:0;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:oklch(50% 0.06 145);">' + hit.e.sub + '</p>' +
+        '<p style="margin:3px 0 0;font-family:\'Lora\',serif;font-size:17px;color:oklch(20% 0.015 50);">' + hit.e.title + '</p>' + snip + '</a>';
+    }).join("");
+  }
+  if (!window.__navCloseWired) {
+    window.__navCloseWired = true;
+    document.addEventListener("click", function(e){
+      var el = e.target;
+      var a = el && el.closest ? el.closest("a,button") : null;
+      if (!a) return;
+      if (!a.closest(".mobile-nav-panel")) return;
+      var t = document.getElementById("nav-toggle");
+      if (t) t.checked = false;
+    }, true);
+  }
+
+  var search_tries = 0;
+  var search_timer = setInterval(function(){
+    search_tries++;
+    var overlay = document.getElementById("search-overlay");
+    var input = document.getElementById("search-input");
+    var results = document.getElementById("search-results");
+    var closebtn = document.getElementById("search-close");
+    var openbtn = document.getElementById("search-open");
+    if (overlay && input && results && closebtn && openbtn) {
+      clearInterval(search_timer);
+      if (window.__searchWired) return;
+      window.__searchWired = true;
+      function openSearch(){
+        if (!search_loaded) { search_index = buildIndex(); search_loaded = true; }
+        overlay.classList.add("open");
+        runSearch(input.value, results);
+        setTimeout(function(){ input.focus(); }, 40);
+      }
+      function closeSearch(){ overlay.classList.remove("open"); }
+      openbtn.addEventListener("click", openSearch);
+      var openmobile = document.getElementById("search-open-mobile");
+      if (openmobile) openmobile.addEventListener("click", function(){
+        var t = document.getElementById("nav-toggle");
+        if (t) t.checked = false;
+        openSearch();
+      });
+      closebtn.addEventListener("click", closeSearch);
+      overlay.addEventListener("click", function(e){ if (e.target === overlay) closeSearch(); });
+      document.addEventListener("keydown", function(e){ if (e.key === "Escape") closeSearch(); });
+      input.addEventListener("input", function(){ runSearch(input.value, results); });
+      results.addEventListener("click", function(e){
+        var a = e.target.closest ? e.target.closest("[data-search-hit]") : null;
+        if (a) closeSearch();
+      });
+    }
+    if (search_tries > 100) clearInterval(search_timer);
+  }, 100);
+
+  var bcta_tries = 0;
+  var bcta_timer = setInterval(function(){
+    bcta_tries++;
+    var a = document.getElementById("hero-cta-desktop");
+    var b = document.getElementById("hero-cta-mobile");
+    var sec = document.getElementById("bonuppmaning");
+    if (a || b || sec) {
+      clearInterval(bcta_timer);
+      if (new Date() > new Date(2026,8,6,23,59,0)) {
+        if (a) a.style.display = "none";
+        if (b) b.style.display = "none";
+        if (sec) sec.style.display = "none";
+      }
+    }
+    if (bcta_tries > 100) clearInterval(bcta_timer);
+  }, 100);
+
+  var quiz_tries = 0;
+  var quiz_timer = setInterval(function(){
+    quiz_tries++;
+    var overlay = document.getElementById("quiz-overlay");
+    var trigger = document.getElementById("quiz-trigger");
+    var close_btn = document.getElementById("quiz-close");
+    var quiz_end = new Date(2026,7,16,21,0,0);
+    if (new Date() >= quiz_end) {
+      if (trigger) trigger.style.display = "none";
+      clearInterval(quiz_timer);
+      return;
+    }
+    if (overlay && trigger && close_btn) {
+      clearInterval(quiz_timer);
+      var steps = overlay.querySelectorAll(".quiz-step");
+      var show_step = function(name){
+        steps.forEach(function(s){ s.classList.toggle("active", s.getAttribute("data-step") === name); });
+      };
+      trigger.addEventListener("click", function(){
+        show_step("q_start");
+        overlay.classList.add("open");
+      });
+      close_btn.addEventListener("click", function(){ overlay.classList.remove("open"); });
+      overlay.addEventListener("click", function(e){
+        if (e.target === overlay) { overlay.classList.remove("open"); return; }
+        var go_btn = e.target.closest("[data-goto]");
+        if (go_btn) { show_step(go_btn.getAttribute("data-goto")); return; }
+        var pick_btn = e.target.closest("[data-pick]");
+        if (pick_btn) {
+          var picked = pick_btn.getAttribute("data-pick");
+          var machine = Math.random() < 0.5 ? "1" : "2";
+          if (picked === machine) {
+            show_step("result_win");
+          } else {
+            var lose_el = document.getElementById("quiz-lose-text");
+            if (lose_el) lose_el.innerHTML = "Jag t\u00e4nkte p\u00e5 " + machine + ".<br>Skicka din b\u00e4ttre h\u00e4lft eller skaffa barnvakt!";
+            show_step("result_lose");
+          }
+        }
+      });
+    }
+    if (quiz_tries > 100) clearInterval(quiz_timer);
+  }, 100);
+
+  var bone_tries = 0;
+  var bone_timer = setInterval(function(){
+    bone_tries++;
+    var overlay = document.getElementById("bone-overlay");
+    var trigger = document.getElementById("bone-trigger");
+    var close_btn = document.getElementById("bone-close");
+    var signup_btn = document.getElementById("bone-signup-btn");
+    var date_select = document.getElementById("bone-date-select");
+    var name_input = document.getElementById("bone-name-input");
+    var msg_el = document.getElementById("bone-signup-msg");
+    var list_el = document.getElementById("bone-signup-list");
+    if (overlay && trigger && close_btn && signup_btn && date_select && name_input && msg_el && list_el) {
+      clearInterval(bone_timer);
+      if (window.__boneWired) return;
+      window.__boneWired = true;
+      var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxhmQBWNGsu0VSBCeBBziS24IlHOSsMgbjLjpW8IpJhvl21CjKxE4NsEX19_BIplvMl/exec";
+      var date_labels = {};
+      Array.prototype.forEach.call(date_select.options, function(o){ if (o.value) date_labels[o.value] = o.textContent; });
+
+      function apply_counts(counts){
+        Array.prototype.forEach.call(date_select.options, function(o){
+          if (!o.value) return;
+          var c = counts[o.value] || 0;
+          o.textContent = date_labels[o.value] + (c === 0 ? " (ledig)" : c === 1 ? " (1 ber)" : " (" + c + " ber)");
+        });
+      }
+      function refresh_counts(retries){
+        retries = retries === undefined ? 2 : retries;
+        fetch(SCRIPT_URL).then(function(r){ return r.json(); }).then(apply_counts).catch(function(){
+          if (retries > 0) setTimeout(function(){ refresh_counts(retries - 1); }, 600);
+        });
+      }
+      refresh_counts();
+      date_select.addEventListener("focus", function(){ refresh_counts(); });
+      date_select.addEventListener("mousedown", function(){ refresh_counts(); });
+      date_select.addEventListener("click", function(){ refresh_counts(); });
+
+      trigger.addEventListener("click", function(){ overlay.classList.add("open"); });
+      close_btn.addEventListener("click", function(){ overlay.classList.remove("open"); });
+      overlay.addEventListener("click", function(e){ if (e.target === overlay) overlay.classList.remove("open"); });
+
+      var STORAGE_KEY = "ck_bonestafett_signups";
+      function get_signups(){
+        try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch(e){ return []; }
+      }
+      function render_list(){
+        var signups = get_signups();
+        if (!signups.length) { list_el.innerHTML = ""; return; }
+        var by_date = {};
+        signups.forEach(function(s){ (by_date[s.date] = by_date[s.date] || []).push(s.name); });
+        var dates = Object.keys(by_date).sort();
+        list_el.innerHTML = dates.map(function(d){
+          var names = by_date[d].join(", ");
+          return '<div style="font-size:14.5px;color:oklch(42% 0.015 50);padding:8px 14px;background:oklch(98.5% 0.006 90);border-radius:6px;"><strong>' + (date_labels[d] || d) + ':</strong> ' + names + '</div>';
+        }).join("");
+      }
+      render_list();
+
+      signup_btn.addEventListener("click", function(){
+        if (!date_select.value) {
+          msg_el.style.color = "oklch(95% 0.03 30)";
+          msg_el.textContent = "Välj ett datum först.";
+          msg_el.style.display = "block";
+          return;
+        }
+        var signups = get_signups();
+        var name = name_input.value.trim();
+        if (!name) {
+          msg_el.style.color = "oklch(95% 0.03 30)";
+          msg_el.textContent = "Skriv ditt namn först.";
+          msg_el.style.display = "block";
+          return;
+        }
+        signups.push({ date: date_select.value, name: name });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(signups));
+        render_list();
+        fetch("https://script.google.com/macros/s/AKfycbxhmQBWNGsu0VSBCeBBziS24IlHOSsMgbjLjpW8IpJhvl21CjKxE4NsEX19_BIplvMl/exec", {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          body: JSON.stringify({ date: date_select.value, name: name })
+        }).catch(function(){});
+        msg_el.style.color = "oklch(98.5% 0.006 90)";
+        msg_el.textContent = "Tack! Du är uppskriven på " + date_labels[date_select.value] + ".";
+        msg_el.style.display = "block";
+        name_input.value = "";
+        date_select.value = "";
+      });
+    }
+    if (bone_tries > 100) clearInterval(bone_timer);
+  }, 100);
+})();
+</script>
+<script src="image-slot.js"></script>
+</helmet>
+
+<div style="font-family:'Public Sans',sans-serif;background:oklch(98.5% 0.006 90);color:oklch(20% 0.015 50);line-height:1.6;">
+
+  <!-- NAV -->
+  <header style="position:sticky;top:0;z-index:50;background:oklch(98.5% 0.006 90 / 0.9);backdrop-filter:blur(8px);border-bottom:1px solid oklch(89% 0.008 80);">
+    <input type="checkbox" id="nav-toggle" style="position:absolute;opacity:0;width:1px;height:1px;">
+    <a href="#main-content" style="position:absolute;left:8px;top:-60px;background:oklch(20% 0.015 50);color:oklch(98.5% 0.006 90);padding:10px 18px;border-radius:6px;font-size:15px;font-weight:500;z-index:100;" style-focus="top:8px;">Hoppa till huvudinnehåll</a>
+    <div style="max-width:1080px;margin:0 auto;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <a href="#main-content" style="display:flex;align-items:center;gap:10px;font-family:'Lora',serif;font-weight:500;font-size:18px;letter-spacing:0.02em;"><img src="images/logo-sm.png" alt="Centrumkyrkan Malmö" width="36" height="36" style="height:36px;width:36px;object-fit:contain;flex-shrink:0;"><span style="white-space:nowrap;">Centrumkyrkan Malmö</span></a>
+      <nav class="desktop-nav" style="display:flex;gap:20px;font-size:14.5px;font-weight:500;color:oklch(38% 0.015 50);white-space:nowrap;">
+        <a href="#gudstjanst" style-hover="color:oklch(20% 0.015 50);">Gudstjänst</a>
+        <a href="#kalender" style-hover="color:oklch(20% 0.015 50);">Kalender</a>
+        <a href="#vagen" style-hover="color:oklch(20% 0.015 50);">Ditt nästa steg</a>
+        <a href="#barn" style-hover="color:oklch(20% 0.015 50);">Barn &amp; unga</a>
+        <a href="#om-oss" style-hover="color:oklch(20% 0.015 50);">Om oss</a>
+        <a href="#media" style-hover="color:oklch(20% 0.015 50);">Media</a>
+        <a href="#kontakt" style-hover="color:oklch(20% 0.015 50);">Kontakt</a>
+      </nav>
+      <button type="button" id="search-open" class="desktop-nav" aria-label="Sök på sidan" style="align-items:center;justify-content:center;width:40px;height:40px;border:1px solid oklch(85% 0.008 80);background:none;border-radius:100px;cursor:pointer;color:oklch(38% 0.015 50);flex-shrink:0;" style-hover="border-color:oklch(50% 0.06 145);color:oklch(50% 0.06 145);"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></button>
+      <a href="#kontakt" class="desktop-nav" style="display:flex;border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:9px 20px;border-radius:100px;font-size:15px;font-weight:500;white-space:nowrap;" style-hover="background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);">Hitta hit</a>
+      <label for="nav-toggle" class="mobile-nav-toggle" aria-label="Öppna meny" style="align-items:center;justify-content:center;width:40px;height:40px;border:1px solid oklch(20% 0.015 50);border-radius:8px;font-size:18px;cursor:pointer;">☰</label>
+    </div>
+    <nav class="mobile-nav-panel" style="flex-direction:column;padding:4px 28px 24px;gap:2px;border-top:1px solid oklch(89% 0.008 80);">
+      <a href="#gudstjanst" style="padding:12px 0;border-bottom:1px solid oklch(89% 0.008 80);">Gudstjänst</a>
+      <a href="#kalender" style="padding:12px 0;border-bottom:1px solid oklch(89% 0.008 80);">Kalender</a>
+      <a href="#vagen" style="padding:12px 0;border-bottom:1px solid oklch(89% 0.008 80);">Ditt nästa steg</a>
+      <a href="#barn" style="padding:12px 0;border-bottom:1px solid oklch(89% 0.008 80);">Barn &amp; unga</a>
+      <a href="#om-oss" style="padding:12px 0;border-bottom:1px solid oklch(89% 0.008 80);">Om oss</a>
+      <a href="#media" style="padding:12px 0;border-bottom:1px solid oklch(89% 0.008 80);">Media</a>
+      <a href="#kontakt" style="padding:12px 0;border-bottom:1px solid oklch(89% 0.008 80);">Kontakt</a>
+      <button type="button" id="search-open-mobile" style="display:flex;align-items:center;gap:10px;padding:14px 0 4px;background:none;border:none;font-size:16px;font-family:'Public Sans',sans-serif;color:oklch(50% 0.06 145);font-weight:500;cursor:pointer;text-align:left;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>Sök på sidan</button>
+    </nav>
+  </header>
+
+  <!-- INFORMATION -->
+  <div id="info-banner" style="background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:11px 28px;text-align:center;">
+    <p style="margin:0 auto;max-width:1080px;font-size:15px;font-weight:500;line-height:1.45;text-wrap:pretty;">Ingen gudstjänst söndag 23 augusti (församlingshelg) — <a href="#kalender" style="color:oklch(98.5% 0.006 90);text-decoration:underline;text-underline-offset:3px;white-space:nowrap;" style-hover="text-decoration-thickness:2px;">se kalendern</a></p>
+  </div>
+
+  <div id="quiz-overlay">
+    <div style="background:oklch(98.5% 0.006 90);border-radius:8px;max-width:420px;width:100%;padding:32px;position:relative;text-align:center;">
+      <button id="quiz-close" type="button" aria-label="Stäng" style="position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;cursor:pointer;color:oklch(38% 0.015 50);">✕</button>
+      <h3 style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 24px;">Ska du på lovsångsgudstjänst?</h3>
+
+      <div class="quiz-step active" data-step="q_start">
+        <p style="margin:0 0 20px;font-size:16px;">Är du ungdom eller UV?</p>
+        <div style="display:flex;gap:12px;justify-content:center;">
+          <button class="quiz-answer-btn" data-goto="result_ungdom">Ja</button>
+          <button class="quiz-answer-btn" data-goto="q_vuxen">Nej</button>
+        </div>
+      </div>
+
+      <div class="quiz-step" data-step="q_vuxen">
+        <p style="margin:0 0 20px;font-size:16px;">Är du vuxen utan små barn?</p>
+        <div style="display:flex;gap:12px;justify-content:center;">
+          <button class="quiz-answer-btn" data-goto="result_vuxen">Ja</button>
+          <button class="quiz-answer-btn" data-goto="q_smabarn">Nej</button>
+        </div>
+      </div>
+
+      <div class="quiz-step" data-step="q_smabarn">
+        <p style="margin:0 0 20px;font-size:16px;">Är du småbarnsförälder?</p>
+        <div style="display:flex;gap:12px;justify-content:center;">
+          <button class="quiz-answer-btn" data-goto="q_number">Ja</button>
+          <button class="quiz-answer-btn" data-goto="q_start">Nej</button>
+        </div>
+      </div>
+
+      <div class="quiz-step" data-step="q_number">
+        <p style="margin:0 0 20px;font-size:16px;">Tänk på siffran 1 eller 2</p>
+        <div style="display:flex;gap:12px;justify-content:center;">
+          <button class="quiz-answer-btn" data-pick="1">1</button>
+          <button class="quiz-answer-btn" data-pick="2">2</button>
+        </div>
+      </div>
+
+      <div class="quiz-step" data-step="result_ungdom">
+        <p style="margin:0;font-size:18px;font-family:'Lora',serif;">Klart du kommer!</p>
+      </div>
+      <div class="quiz-step" data-step="result_vuxen">
+        <p style="margin:0;font-size:18px;font-family:'Lora',serif;">Då har du tid – välkommen!</p>
+      </div>
+      <div class="quiz-step" data-step="result_win">
+        <p style="margin:0;font-size:18px;font-family:'Lora',serif;">Grattis - din tur!</p>
+      </div>
+      <div class="quiz-step" data-step="result_lose">
+        <p id="quiz-lose-text" style="margin:0;font-size:18px;font-family:'Lora',serif;">Skicka din bättre hälft!</p>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content" style="scroll-margin-top:88px;">
+  <!-- HERO (desktop/tablet) -->
+  <section id="hero" class="desktop-hero" style="max-width:760px;margin:0 auto;padding:120px 28px 64px;text-align:center;scroll-margin-top:88px;">
+    <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 24px;">Församlingen Centrumkyrkan Malmö</p>
+    <h1 class="hero-h1" style="font-family:'Lora',serif;font-size:48px;line-height:1.22;font-weight:500;margin:0 0 26px;letter-spacing:-0.01em;">Vi följer Jesus tillsammans</h1>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;">
+      <a href="#kalender" id="next-sunday-cta-desktop" style="background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:15px 30px;border-radius:100px;font-weight:500;font-size:15.5px;" style-hover="background:oklch(38% 0.06 145);">Vad händer framöver?</a>
+      <a href="#bonuppmaning" id="hero-cta-desktop" style="display:inline-block;white-space:nowrap;border:1px solid oklch(58% 0.14 45);color:oklch(58% 0.14 45);padding:12px 26px;border-radius:100px;font-size:16px;font-weight:500;">Centrumkyrkan ber</a>
+    </div>
+    <div style="margin-top:32px;display:inline-flex;align-items:center;gap:16px;border:1px solid oklch(50% 0.06 145);border-radius:100px;padding:10px 20px 10px 24px;">
+      <span style="font-size:13px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:oklch(50% 0.06 145);">Senaste predikan</span>
+      <a href="https://open.spotify.com/show/0eoXIm6SvC0ESOcMxQ4x7y?si=955d03a244e54df6" target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Spotify" style="display:flex;color:oklch(50% 0.06 145);">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.36-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.36-1.32 9.76-.66 13.5 1.62.361.181.54.78.241 1.201zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.38C8.76 5.939 15.72 6.24 19.681 8.58c.539.3.719 1.02.419 1.56-.3.421-1.02.599-1.559.3z"/></svg>
+      </a>
+      <a href="https://podcasts.apple.com/us/podcast/centrumkyrkan-malm%C3%B6/id1620946879" target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Apple Podcasts" style="display:flex;color:oklch(50% 0.06 145);">
+        <svg width="20" height="20" viewBox="0 0 448 512" fill="currentColor"><path d="M224 24C110.4 24 18.2 116 15.9 229.1c-1.9 90.7 53.4 169.3 132.6 202.1c9.5 3.9 19.8-3.4 19.8-13.7v-19.6c0-6.1-3.7-11.6-9.3-14c-54.4-23.5-92.5-78.9-90.6-142.6C70.4 165.4 141.6 96 228.5 96C314.4 96 384 165.6 384 251.5c0 63.6-38.1 118.4-92.6 141.8c-5.6 2.4-9.3 7.9-9.3 14v19.6c0 10.3 10.3 17.6 19.8 13.7C381.1 407.9 436.6 328.5 432 235.5C427.4 122.5 331.5 24 224 24zm-2.8 78c-72.9 0-131.9 59.9-129.1 133.4c1.6 42.6 24.2 79.7 57.8 101.6c9.4 6.1 21.9-.6 21.9-11.8v-24.4c0-4.9-2.3-9.4-6.1-12.5c-15.4-12.2-25.5-30.6-26-51.4c-1-40.2 31.5-74.4 71.7-74.9c41-.5 74.4 32.6 74.4 73.5c0 21.1-9.6 39.9-24.7 52.5c-3.8 3.2-6.1 7.7-6.1 12.6v24.4c0 11.2 12.5 17.9 21.9 11.8c33.1-21.6 55.4-58.2 57.6-100.1C338.4 165.8 279.6 102 221.2 102zM224 224c-17.7 0-32 14.3-32 32c0 8.4 3.2 16 8.5 21.6c1.6 1.7 2.6 3.9 3 6.2l14.5 90.9c.6 3.9 4 6.7 7.9 6.7h.1c4 0 7.3-2.9 7.9-6.7l14.4-90.9c.4-2.3 1.5-4.5 3-6.2c5.3-5.7 8.5-13.3 8.5-21.6c.1-17.7-14.2-32-31.8-32z"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <div class="desktop-hero" style="max-width:1080px;margin:0 auto 48px;padding:0 28px;">
+    <div style="width:100%;aspect-ratio:16/9;border-radius:6px;overflow:hidden;position:relative;">
+      <img src="images/hero-v2.jpg" alt="Gudstjänst i Centrumkyrkan Malmö" width="1600" height="900" fetchpriority="high" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center 42%;display:block;">
+      <div style="position:absolute;inset:0;background:linear-gradient(oklch(98.5% 0.006 90 / 1), oklch(98.5% 0.006 90 / 0.6) 14%, transparent 40%, transparent 78%, oklch(98.5% 0.006 90 / 0.22));pointer-events:none;"></div>
+      <div style="position:absolute;inset:0;box-shadow:inset 0 0 60px oklch(96.5% 0.01 95 / 0.35);pointer-events:none;"></div>
+      <p style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);margin:0;font-family:'Lora',serif;font-size:28px;font-weight:500;color:oklch(99% 0.005 90);text-shadow:0 2px 16px oklch(20% 0.02 50 / 0.5);white-space:nowrap;animation:heroTextBreathe 6s ease-in-out infinite;">Du är varmt välkommen!</p>
+    </div>
+  </div>
+
+  <!-- HERO (mobile) -->
+  <section id="hero-mobile" class="mobile-hero" style="display:none;position:relative;min-height:88svh;flex-direction:column;justify-content:space-between;scroll-margin-top:88px;">
+    <img src="images/hero-v2.jpg" alt="Gudstjänst i Centrumkyrkan Malmö" width="1200" height="1500" fetchpriority="high" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;">
+    <div style="position:absolute;inset:0;background:linear-gradient(oklch(15% 0.02 50 / 0.25), oklch(15% 0.02 50 / 0.15) 40%, oklch(15% 0.02 50 / 0.35) 58%, oklch(15% 0.02 50 / 0.85));"></div>
+    <div style="position:relative;flex:1;display:flex;align-items:center;padding:0 24px;text-align:center;color:oklch(99% 0.005 90);margin-top:16svh;">
+      <div>
+        <p style="font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:oklch(88% 0.06 145);margin:0 0 14px;text-shadow:0 2px 4px oklch(10% 0.02 50 / 0.9),0 2px 14px oklch(10% 0.02 50 / 0.9);">Församlingen Centrumkyrkan Malmö</p>
+        <h1 class="mhero-h1" style="font-family:'Lora',serif;font-size:26px;line-height:1.2;font-weight:500;margin:0;letter-spacing:-0.01em;white-space:nowrap;text-shadow:0 2px 16px oklch(15% 0.02 50 / 0.7);">Vi följer Jesus tillsammans</h1>
+      </div>
+    </div>
+    <div style="position:relative;padding:0 24px 44px;text-align:center;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <a href="#kalender" id="next-sunday-cta" style="background:oklch(98.5% 0.006 90);color:oklch(50% 0.06 145);padding:15px 30px;border-radius:100px;font-weight:600;font-size:15.5px;">Vad händer framöver?</a>
+        <a href="#bonuppmaning" id="hero-cta-mobile" style="display:inline-block;background:oklch(58% 0.14 45);border:1px solid oklch(58% 0.14 45);color:oklch(98.5% 0.006 90);padding:12px 26px;border-radius:100px;font-size:16px;font-weight:500;">Centrumkyrkan ber</a>
+        <div style="background:transparent;border:1px solid oklch(98.5% 0.006 90);border-radius:100px;padding:12px 22px 12px 26px;display:inline-flex;align-items:center;gap:14px;justify-content:center;">
+          <span style="font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:oklch(98.5% 0.006 90);">Senaste predikan</span>
+          <a href="https://open.spotify.com/show/0eoXIm6SvC0ESOcMxQ4x7y?si=955d03a244e54df6" target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Spotify" style="display:flex;color:oklch(98.5% 0.006 90);">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.36-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.36-1.32 9.76-.66 13.5 1.62.361.181.54.78.241 1.201zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.38C8.76 5.939 15.72 6.24 19.681 8.58c.539.3.719 1.02.419 1.56-.3.421-1.02.599-1.559.3z"/></svg>
+          </a>
+          <a href="https://podcasts.apple.com/us/podcast/centrumkyrkan-malm%C3%B6/id1620946879" target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Apple Podcasts" style="display:flex;color:oklch(98.5% 0.006 90);">
+            <svg width="18" height="18" viewBox="0 0 448 512" fill="currentColor"><path d="M224 24C110.4 24 18.2 116 15.9 229.1c-1.9 90.7 53.4 169.3 132.6 202.1c9.5 3.9 19.8-3.4 19.8-13.7v-19.6c0-6.1-3.7-11.6-9.3-14c-54.4-23.5-92.5-78.9-90.6-142.6C70.4 165.4 141.6 96 228.5 96C314.4 96 384 165.6 384 251.5c0 63.6-38.1 118.4-92.6 141.8c-5.6 2.4-9.3 7.9-9.3 14v19.6c0 10.3 10.3 17.6 19.8 13.7C381.1 407.9 436.6 328.5 432 235.5C427.4 122.5 331.5 24 224 24zm-2.8 78c-72.9 0-131.9 59.9-129.1 133.4c1.6 42.6 24.2 79.7 57.8 101.6c9.4 6.1 21.9-.6 21.9-11.8v-24.4c0-4.9-2.3-9.4-6.1-12.5c-15.4-12.2-25.5-30.6-26-51.4c-1-40.2 31.5-74.4 71.7-74.9c41-.5 74.4 32.6 74.4 73.5c0 21.1-9.6 39.9-24.7 52.5c-3.8 3.2-6.1 7.7-6.1 12.6v24.4c0 11.2 12.5 17.9 21.9 11.8c33.1-21.6 55.4-58.2 57.6-100.1C338.4 165.8 279.6 102 221.2 102zM224 224c-17.7 0-32 14.3-32 32c0 8.4 3.2 16 8.5 21.6c1.6 1.7 2.6 3.9 3 6.2l14.5 90.9c.6 3.9 4 6.7 7.9 6.7h.1c4 0 7.3-2.9 7.9-6.7l14.4-90.9c.4-2.3 1.5-4.5 3-6.2c5.3-5.7 8.5-13.3 8.5-21.6c.1-17.7-14.2-32-31.8-32z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CENTRUMKYRKAN BER -->
+  <section id="bonuppmaning" style="padding:48px 28px 96px;background:oklch(98.5% 0.006 90);scroll-margin-top:88px;">
+    <div style="max-width:1080px;margin:0 auto;">
+      <div style="max-width:640px;margin:0 auto 48px;text-align:center;">
+        <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(58% 0.14 45);margin:0 0 18px;">Centrumkyrkan ber</p>
+        <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:32px;font-weight:500;margin:0 0 18px;">Centrumkyrkan ber!</h2>
+        <p style="font-size:17px;color:oklch(42% 0.015 50);margin:0;">Inför en ny termin vill vi ta extra tid i bön.</p>
+      </div>
+
+      <div style="background:oklch(58% 0.14 45);color:oklch(98.5% 0.006 90);border-radius:8px;padding:32px;margin-bottom:32px;">
+        <h3 style="margin:0 0 8px;font-family:'Lora',serif;font-size:20px;font-weight:600;">Bönestafett 24 augusti – 6 september</h3>
+        <p style="margin:0 0 20px;font-size:15px;opacity:0.92;">Skriv upp dig mellan 24 augusti och 6 september att särskilt be för böneämnen nedan.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <select id="bone-date-select" style="padding:12px 16px;border-radius:6px;border:none;font-size:15px;flex:1;min-width:170px;background:oklch(98.5% 0.006 90);color:oklch(30% 0.015 50);">
+            <option value="">Välj datum</option>
+            <option value="2026-08-24">Mån 24 aug</option>
+            <option value="2026-08-25">Tis 25 aug</option>
+            <option value="2026-08-26">Ons 26 aug</option>
+            <option value="2026-08-27">Tor 27 aug</option>
+            <option value="2026-08-28">Fre 28 aug</option>
+            <option value="2026-08-29">Lör 29 aug</option>
+            <option value="2026-08-30">Sön 30 aug</option>
+            <option value="2026-08-31">Mån 31 aug</option>
+            <option value="2026-09-01">Tis 1 sep</option>
+            <option value="2026-09-02">Ons 2 sep</option>
+            <option value="2026-09-03">Tor 3 sep</option>
+            <option value="2026-09-04">Fre 4 sep</option>
+            <option value="2026-09-05">Lör 5 sep</option>
+            <option value="2026-09-06">Sön 6 sep</option>
+          </select>
+          <input id="bone-name-input" type="text" placeholder="Ditt namn" style="padding:12px 16px;border-radius:6px;border:none;font-size:15px;flex:1;min-width:170px;background:oklch(98.5% 0.006 90);color:oklch(30% 0.015 50);">
+          <button id="bone-signup-btn" type="button" style="background:oklch(20% 0.015 50);color:oklch(98.5% 0.006 90);padding:12px 26px;border-radius:100px;font-weight:500;font-size:15px;border:none;cursor:pointer;white-space:nowrap;">Skriv upp mig</button>
+        </div>
+        <p id="bone-signup-msg" style="display:none;margin:16px 0 0;font-size:14px;font-weight:500;"></p>
+        <div id="bone-signup-list" style="display:none;"></div>
+      </div>
+
+
+      <div style="margin-bottom:40px;">
+        <h3 style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 20px;">Böneämnen att be för</h3>
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;">
+          <span style="background:oklch(90% 0.05 45);color:oklch(38% 0.1 45);padding:9px 18px;border-radius:100px;font-size:14.5px;">Alpha-kursen</span>
+          <span style="background:oklch(90% 0.04 145);color:oklch(30% 0.07 145);padding:9px 18px;border-radius:100px;font-size:14.5px;">Djupare relationer &amp; måltider</span>
+          <span style="background:oklch(90% 0.05 45);color:oklch(38% 0.1 45);padding:9px 18px;border-radius:100px;font-size:14.5px;">Mission och Diakoni</span>
+          <span style="background:oklch(90% 0.04 145);color:oklch(30% 0.07 145);padding:9px 18px;border-radius:100px;font-size:14.5px;">Valet i Sverige</span>
+          <span style="background:oklch(90% 0.05 45);color:oklch(38% 0.1 45);padding:9px 18px;border-radius:100px;font-size:14.5px;">Barn &amp; ungdomar</span>
+          <span style="background:oklch(90% 0.04 145);color:oklch(30% 0.07 145);padding:9px 18px;border-radius:100px;font-size:14.5px;">Tacksamhet för församlingen</span>
+          <span style="background:oklch(90% 0.05 45);color:oklch(38% 0.1 45);padding:9px 18px;border-radius:100px;font-size:14.5px;">Vänner som inte tror</span>
+          <button id="bone-trigger" type="button" style="background:none;border:1px solid oklch(58% 0.14 45);color:oklch(58% 0.14 45);padding:12px 24px;border-radius:100px;font-size:15px;font-weight:500;cursor:pointer;">Läs böneämnena i sin helhet →</button>
+        </div>
+      </div>
+
+      <p style="text-align:center;font-style:italic;color:oklch(42% 0.015 50);font-size:16px;line-height:1.6;margin:0;">Hittills har ni inte bett om något i mitt namn.<br>Be, och ni ska få, så att er glädje blir fullkomlig. Joh. 16:24</p>
+    </div>
+  </section>
+
+  <div id="search-overlay">
+    <div style="background:oklch(98.5% 0.006 90);border-radius:10px;max-width:620px;width:100%;max-height:78vh;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid oklch(89% 0.008 80);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="oklch(50% 0.06 145)" stroke-width="2" stroke-linecap="round" style="flex-shrink:0;"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg>
+        <input id="search-input" type="text" placeholder="Sök – t.ex. samtalskort, bordsbön, stab, medlem" autocomplete="off" style="flex:1;min-width:0;border:none;background:none;font-size:17px;font-family:'Public Sans',sans-serif;color:oklch(20% 0.015 50);outline:none;">
+        <button type="button" id="search-close" aria-label="Stäng" style="border:none;background:none;font-size:19px;cursor:pointer;color:oklch(45% 0.015 50);flex-shrink:0;">✕</button>
+      </div>
+      <div id="search-results" style="overflow-y:auto;padding:8px;"></div>
+    </div>
+  </div>
+
+  <div id="bone-overlay">
+    <div style="background:oklch(98.5% 0.006 90);border-radius:8px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;padding:36px;position:relative;">
+      <button id="bone-close" type="button" aria-label="Stäng" style="position:absolute;top:12px;right:14px;border:none;background:none;font-size:20px;cursor:pointer;color:oklch(38% 0.015 50);">✕</button>
+      <h3 style="font-family:'Lora',serif;font-size:22px;font-weight:500;margin:0 0 28px;">Böneämnen hösten 2026</h3>
+      <div style="display:flex;flex-direction:column;gap:22px;">
+        <div style="display:flex;gap:16px;"><div style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:oklch(58% 0.14 45);color:oklch(98.5% 0.006 90);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">1</div><div><h4 style="margin:0 0 6px;font-size:16px;font-weight:600;">Alpha-kursen (start 24 september)</h4><p style="margin:0;color:oklch(42% 0.015 50);font-size:15px;line-height:1.55;">Be för alla som ska gå kursen i höst och att flera anmäler sig. Be att de som ännu inte tror ska möta Jesus på ett verkligt sätt och för samtalsledarna kring borden.</p></div></div>
+        <div style="display:flex;gap:16px;"><div style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:oklch(58% 0.14 45);color:oklch(98.5% 0.006 90);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">2</div><div><h4 style="margin:0 0 6px;font-size:16px;font-weight:600;">Djupare relationer och fler måltider tillsammans</h4><p style="margin:0;color:oklch(42% 0.015 50);font-size:15px;line-height:1.55;">Be att helgens tema får rota sig i vardagen – att vi som församling faktiskt öppnar våra hem och bord för varandra och för nya människor.</p></div></div>
+        <div style="display:flex;gap:16px;"><div style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:oklch(58% 0.14 45);color:oklch(98.5% 0.006 90);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">3</div><div><h4 style="margin:0 0 6px;font-size:16px;font-weight:600;">Mission och diakoni</h4><p style="margin:0;color:oklch(42% 0.015 50);font-size:15px;line-height:1.55;">Be för våra missionärer i Bangladesh och för hur vi som församling kan få tjäna utsatta grupper i Malmö.</p></div></div>
+        <div style="display:flex;gap:16px;"><div style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:oklch(58% 0.14 45);color:oklch(98.5% 0.006 90);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">4</div><div><h4 style="margin:0 0 6px;font-size:16px;font-weight:600;">Valet i Sverige</h4><p style="margin:0;color:oklch(42% 0.015 50);font-size:15px;line-height:1.55;">Be för visdom hos väljare och de som blir valda, för ett sunt samtalsklimat i valrörelsens sista veckor, och att kyrkan är ljus och salt oavsett utgång.</p></div></div>
+        <div style="display:flex;gap:16px;"><div style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:oklch(58% 0.14 45);color:oklch(98.5% 0.006 90);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">5</div><div><h4 style="margin:0 0 6px;font-size:16px;font-weight:600;">Barn och ungdomar i församlingen</h4><p style="margin:0;color:oklch(42% 0.015 50);font-size:15px;line-height:1.55;">Be för Biblia, Cungarna och de unga som går bibelskola i höst – att de växer i sin relation med Jesus, och för Erik och Tamanda som leder det arbetet.</p></div></div>
+        <div style="display:flex;gap:16px;"><div style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:oklch(58% 0.14 45);color:oklch(98.5% 0.006 90);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">6</div><div><h4 style="margin:0 0 6px;font-size:16px;font-weight:600;">Tacksamhet för vad Gud gör i församlingen</h4><p style="margin:0;color:oklch(42% 0.015 50);font-size:15px;line-height:1.55;">Tacka konkret för det du kommer på – stort som smått.</p></div></div>
+        <div style="display:flex;gap:16px;"><div style="flex-shrink:0;width:30px;height:30px;border-radius:50%;background:oklch(58% 0.14 45);color:oklch(98.5% 0.006 90);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;">7</div><div><h4 style="margin:0 0 6px;font-size:16px;font-weight:600;">Våra vänner som inte tror</h4><p style="margin:0;color:oklch(42% 0.015 50);font-size:15px;line-height:1.55;">Be för de vänner, grannar och kollegor var och en bär på – att Gud öppnar dörrar till samtal och att de får möta hans kärlek.</p></div></div>
+      </div>
+      <p style="text-align:center;font-style:italic;color:oklch(42% 0.015 50);font-size:15px;line-height:1.6;margin:28px 0 0;padding-top:24px;border-top:1px solid oklch(89% 0.008 80);">Hittills har ni inte bett om något i mitt namn.<br>Be, och ni ska få, så att er glädje blir fullkomlig. Joh. 16:24</p>
+    </div>
+  </div>
+
+  <!-- GUDSTJÄNST -->
+  <section id="gudstjanst" style="padding:48px 28px 96px;background:oklch(96.5% 0.01 95);scroll-margin-top:88px;">
+    <div style="max-width:1080px;margin:0 auto;">
+      <div style="max-width:640px;margin:0 auto 64px;text-align:center;">
+        <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Gudstjänst</p>
+        <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:32px;font-weight:500;margin:0 0 18px;">Söndagar kl 15:30 - mitt i Malmö.</h2>
+        <p style="font-size:17px;color:oklch(42% 0.015 50);margin:0;">Vi firar gudstjänst i Betaniakyrkans lokaler med lovsång, predikan, nattvard och söndagsskola för barnen. Kom som du är – vi bjuder på fika efteråt.</p>
+      </div>
+      <div class="stack-3" style="display:grid;grid-template-columns:repeat(3,1fr);">
+        <div style="padding:0 32px;border-left:1px solid oklch(89% 0.008 80);">
+          <p style="font-family:'Lora',serif;font-size:15px;color:oklch(50% 0.06 145);margin:0 0 10px;">Tid</p>
+          <p style="margin:0;color:oklch(42% 0.015 50);font-size:16px;">Varje söndag kl 15:30<br>(om inget annat meddelas)</p>
+        </div>
+        <div style="padding:0 32px;border-left:1px solid oklch(89% 0.008 80);">
+          <p style="font-family:'Lora',serif;font-size:15px;color:oklch(50% 0.06 145);margin:0 0 10px;">Plats</p>
+          <p style="margin:0;color:oklch(42% 0.015 50);font-size:16px;">Betaniakyrkan, Föreningsgatan 32</p>
+        </div>
+        <div style="padding:0 32px;border-left:1px solid oklch(89% 0.008 80);border-right:1px solid oklch(89% 0.008 80);">
+          <p style="font-family:'Lora',serif;font-size:15px;color:oklch(50% 0.06 145);margin:0 0 10px;">Barnen</p>
+          <p style="margin:0;color:oklch(42% 0.015 50);font-size:16px;">Söndagsskola under gudstjänsten</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AKTUELLT -->
+  <section style="padding:56px 28px 96px;">
+    <div style="max-width:1080px;margin:0 auto;">
+      <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 24px;text-align:center;">Aktuellt</p>
+      <div class="stack-3" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px;">
+      <div data-event-expire="2026-09-14" style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;">
+          <img src="images/tro-arbete-serie.jpg" alt="Tro &amp; Arbete – ny predikoserie" width="800" height="450" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div style="padding:24px;">
+          <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Ny predikoserie – Tro &amp; Arbete</h2>
+          <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0 0 16px;">Under tre söndagar tittar vi på vad Bibeln säger om arbete:<br>30 aug – Guds plan<br>6 sep – Våra problem<br>13 sep – Goda nyheter</p>
+          <span style="display:inline-block;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;">Varmt välkommen</span>
+        </div>
+      </div>
+      <div data-event-expire="2026-08-10" style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;">
+          <img src="images/quiz-vafflor-glass.jpg" alt="Quiz, våfflor & glass hemma hos Kai &amp; Stina, 9 augusti" width="800" height="450" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div style="padding:24px;">
+          <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Quiz, våfflor &amp; glass – söndag 9 augusti kl 18:00</h2>
+          <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0 0 16px;">Hemma hos Kai &amp; Stina, Bävergatan 11, Malmö. För alla åldrar – även större barn som gillar glass och quiz! Varmt välkommen!</p>
+          <span style="display:inline-block;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;">Ingen anmälan</span>
+        </div>
+      </div>
+      <div data-event-expire="2026-08-17" style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;">
+          <img src="images/lovsangsgudstjanst.jpg" alt="Lovsångsgudstjänst söndag 16 augusti kl 19:00" width="800" height="450" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div style="padding:24px;">
+          <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Lovsångsgudstjänst – söndag 16 augusti kl 19:00</h2>
+          <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0 0 16px;">Ett fantastiskt sätt att återkoppla efter sommaren och ladda batterierna med Guds närvaro inför en ny termin.</p>
+          <span style="display:inline-block;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;">Varmt välkommen</span>
+        </div>
+      </div>
+      <div data-event-expire="2026-08-24" style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;background:oklch(96.5% 0.01 95);">
+          <img src="images/forsamlingshelg.jpg" alt="Församlingshelg 22–23 augusti 2026" width="800" height="450" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block;">
+        </div>
+        <div style="padding:24px;">
+          <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Församlingshelg 22–23 augusti 2026</h2>
+          <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0 0 16px;">Strandhem Missionsgård i Örkelljunga. Gemenskap, andakter, bön och aktiviteter för alla åldrar (ungdomarna börjar 21 augusti).</p>
+          <span style="display:inline-block;background:oklch(85% 0.01 80);color:oklch(42% 0.015 50);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;">Anmälan stängd</span>
+        </div>
+      </div>
+      <div data-event-expire="2026-09-21" style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;">
+          <img src="images/alska-malmo-jesus.jpg" alt="Älska Malmö 2026 – Jesus!? med Joel MacInnes och Marie-Louise Nilsson" width="800" height="450" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div style="padding:24px;">
+          <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Älska Malmö 2026 – Jesus!?</h2>
+          <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0 0 16px;">Två kvällar i Europaporten med fokus på att berätta dem goda nyheterna om Jesus. Bjud gärna med en vän.</p>
+          <span style="display:inline-block;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;">Varmt välkommen!</span>
+        </div>
+      </div>
+      <div data-event-expire="2026-09-25" style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;">
+          <img src="images/alpha-24-sep.png" alt="Alpha-kurs start 24/9 kl 18.30, Centrumkyrkan Malmö & Immanuelskyrkan" width="800" height="450" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div style="padding:24px;">
+          <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Ny Alpha-kurs torsdag 24 sep 2026 kl 18:30</h2>
+          <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0 0 16px;">Med Immanuelskyrkan, Köpenhamnsvägen 3 – med en egen "Centrumkyrkan samtalsgrupp". Nyfiken på tron? Alpha är perfekt för dig.</p>
+          <a href="mailto:stina.b.johansen@gmail.com?subject=Jag%20%C3%A4r%20intresserad%20av%20Alpha-kursen" style="display:inline-block;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;" style-hover="background:oklch(38% 0.06 145);">Anmäl dig till Alpha</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;">
+          <img src="images/bordssamtal-hero.png" alt="Fyra personer samtalar runt ett bord med Bibel och samtalsfrågor" width="1700" height="1000" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div style="padding:24px;">
+        <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Testa Bordssamtal – nytt digitalt verktyg</h2>
+        <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0 0 16px;">Ett enkelt verktyg för att komma i gång med bättre och djupare samtal tillsammans med vänner eller i hemgruppen.</p>
+        <a href="Bordssamtal.dc.html" style="display:inline-block;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;align-self:flex-start;" style-hover="background:oklch(38% 0.06 145);">Testa här</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;">
+          <img src="images/bordsbon-card.png" alt="Rör vid varje sak medan ni ber – Tack för livet som vi fått" width="800" height="450" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div style="padding:24px;">
+          <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Vår nya bordsbön</h2>
+          <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0 0 16px;">En helt ny bordsbön att lära sig utantill och be hemma kring matbordet – om liv, försörjning, tjänst och gemenskap.</p>
+          <a href="Bordsbon.dc.html" style="display:inline-block;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;" style-hover="background:oklch(38% 0.06 145);">Läs bönen här</a>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;background:oklch(98.5% 0.006 90);">
+          <img src="images/samtalskort-card.png" alt="Samtalskort för barnfamiljer" width="800" height="450" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:contain;display:block;">
+        </div>
+        <div style="padding:24px;">
+          <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Nya Samtalskort – för barnfamiljer</h2>
+          <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0 0 16px;">Tio kort med bibelord, en praktik och en samtalsfråga – perfekt vid matbordet med barnen.</p>
+          <a href="Samtalskort.dc.html" style="display:inline-block;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;" style-hover="background:oklch(38% 0.06 145);">Testa här</a>
+        </div>
+      </div>
+      <div data-event-expire="2026-10-12" style="display:flex;flex-direction:column;background:oklch(96.5% 0.01 95);border-radius:8px;overflow:hidden;">
+        <div style="aspect-ratio:16/9;overflow:hidden;">
+          <img src="images/tacksagelse-card.jpg" alt="Thankful – Tacksägelsebruncher i hemmen 11 oktober" width="800" height="450" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div style="padding:24px;">
+          <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 10px;">Save the date: Tacksägelsebruncher</h2>
+          <p style="font-size:15px;color:oklch(42% 0.015 50);margin:0;">Tacksägelsebruncher i hemmen innan gudstjänsten, 11 oktober. Mer info och anmälan kommer!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VECKANS REFLEKTION -->
+  <section id="reflektion" style="display:none;padding:96px 28px;background:oklch(96.5% 0.01 95);scroll-margin-top:88px;">
+    <div style="max-width:640px;margin:0 auto 48px;text-align:center;">
+      <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Veckans reflektion</p>
+    </div>
+    <div style="max-width:640px;margin:0 auto;background:oklch(98.5% 0.006 90);border-radius:8px;overflow:hidden;position:relative;">
+      <div style="padding:48px 40px 36px;position:relative;z-index:1;">
+        <p style="font-family:'Lora',serif;font-size:56px;line-height:1;color:oklch(72% 0.045 130);margin:0 0 8px;">“</p>
+        <blockquote style="margin:0 0 24px;font-family:'Lora',serif;font-size:24px;line-height:1.45;font-weight:500;color:oklch(20% 0.015 50);">När Jesus rullade ur sängen i gryningen och gick ensam till Oljeberget för att be, var det kärlek som drev honom dit, inte ett andligt betygssystem.</blockquote>
+        <p style="margin:0 0 14px;font-size:16.5px;color:oklch(42% 0.015 50);">För Jesus var gemenskapen med Fadern hans djupaste längtan, källan till hans identitet och den enda vägen till sant liv.</p>
+        <p style="margin:0 0 20px;font-size:16.5px;color:oklch(42% 0.015 50);">Gud för ingen närvarolista och delar inte ut betyg. Det här handlar om kärlek.</p>
+        <div style="width:32px;height:1px;background:oklch(50% 0.06 145);margin:0 0 16px;"></div>
+        <p style="margin:0;font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:oklch(50% 0.06 145);">Tyler Staton</p>
+      </div>
+      <div aria-hidden="true" style="position:absolute;right:0;bottom:0;width:55%;height:100%;overflow:hidden;pointer-events:none;filter:blur(28px);-webkit-mask-image:linear-gradient(to left, black 25%, transparent 100%);mask-image:linear-gradient(to left, black 25%, transparent 100%);">
+        <div style="position:absolute;right:40px;bottom:-70px;width:260px;height:260px;border-radius:50%;background:oklch(50% 0.06 145 / 0.16);"></div>
+        <div style="position:absolute;right:-20px;bottom:30px;width:150px;height:150px;border-radius:50%;background:oklch(89% 0.008 80 / 0.9);"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DITT NÄSTA STEG -->
+  <section id="vagen" style="padding:96px 28px;">
+    <div style="max-width:1080px;margin:0 auto;">
+      <div style="max-width:640px;margin:0 auto 64px;text-align:center;">
+        <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Ditt nästa steg</p>
+        <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:32px;font-weight:500;margin:0;">Var du än är i din tro finns mer att upptäcka.</h2>
+      </div>
+      <div class="stack-3" style="display:grid;grid-template-columns:repeat(3,1fr);gap:0;">
+        <div style="padding:32px 32px 0;border-top:1px solid oklch(20% 0.015 50);">
+          <p style="font-family:'Lora',serif;font-size:16px;color:oklch(50% 0.06 145);margin:0 0 14px;">01</p>
+          <h3 style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 12px;"><a href="https://testaalpha.se" style="border-bottom:1px solid oklch(60% 0.02 50);" style-hover="border-color:oklch(20% 0.015 50);">Alpha-kurs</a></h3>
+          <p style="margin:0 0 14px;color:oklch(42% 0.015 50);font-size:16px;">Utforska den kristna tron tillsammans, i en avslappnad miljö – öppet för alla frågor. Nästa kurs: 24 september 2026.</p>
+          <a href="mailto:stina.b.johansen@gmail.com" style="display:block;width:fit-content;color:oklch(50% 0.06 145);font-weight:600;font-size:16px;border-bottom:1px solid oklch(50% 0.06 145);padding-bottom:2px;" style-hover="border-color:oklch(38% 0.06 145);color:oklch(38% 0.06 145);">Intresseanmälan →</a>
+          <a href="https://testaalpha.se" target="_blank" rel="noopener noreferrer" style="display:block;width:fit-content;margin-top:10px;color:oklch(50% 0.06 145);font-weight:600;font-size:16px;border-bottom:1px solid oklch(50% 0.06 145);padding-bottom:2px;" style-hover="border-color:oklch(38% 0.06 145);color:oklch(38% 0.06 145);">Läs mer om Alpha →</a>
+        </div>
+        <div style="padding:32px 32px 0;border-top:1px solid oklch(20% 0.015 50);">
+          <p style="font-family:'Lora',serif;font-size:16px;color:oklch(50% 0.06 145);margin:0 0 14px;">02</p>
+          <h3 style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 12px;"><a href="https://practicingtheway.org" style="border-bottom:1px solid oklch(60% 0.02 50);" style-hover="border-color:oklch(20% 0.015 50);">Praktisera Vägen</a></h3>
+          <p style="margin:0 0 14px;color:oklch(42% 0.015 50);font-size:16px;">En kurs som fördjupar dig i kristen praktik och efterföljelse i vardagen. Nästa kurs: Våren 2027.</p>
+          <a href="mailto:kai@centrumkyrkanmalmo.se?subject=Jag%20%C3%A4r%20intresserad%20av%20kursen%20Praktisera%20V%C3%A4gen" style="display:inline-block;color:oklch(50% 0.06 145);font-weight:600;font-size:16px;border-bottom:1px solid oklch(50% 0.06 145);padding-bottom:2px;" style-hover="border-color:oklch(38% 0.06 145);color:oklch(38% 0.06 145);">Intresseanmälan →</a>
+          <a href="https://www.practicingtheway.org" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:10px;color:oklch(50% 0.06 145);font-weight:600;font-size:16px;border-bottom:1px solid oklch(50% 0.06 145);padding-bottom:2px;" style-hover="border-color:oklch(38% 0.06 145);color:oklch(38% 0.06 145);">Läs mer om Praktisera Vägen →</a>
+        </div>
+        <div style="padding:32px 32px 0;border-top:1px solid oklch(20% 0.015 50);">
+          <p style="font-family:'Lora',serif;font-size:16px;color:oklch(50% 0.06 145);margin:0 0 14px;">03</p>
+          <h3 style="font-family:'Lora',serif;font-size:20px;font-weight:500;margin:0 0 12px;">Hemgrupp &amp; Gudstjänst</h3>
+          <p style="margin:0 0 14px;color:oklch(42% 0.015 50);font-size:16px;">Landa i gemenskapen genom att dela livet med andra i hemgrupp och på söndagar. Är du nyfiken på hemgrupp?</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="mailto:kai@centrumkyrkanmalmo.se?subject=Jag%20%C3%A4r%20intresserad%20av%20hemgrupp" style="display:inline-block;color:oklch(50% 0.06 145);font-weight:600;font-size:16px;border-bottom:1px solid oklch(50% 0.06 145);padding-bottom:2px;" style-hover="border-color:oklch(38% 0.06 145);color:oklch(38% 0.06 145);">Hör av dig →</a>
+            <a href="https://docs.google.com/document/d/1GDmtuoY-sA_PsGTUcHGAL7sKHLX6inL-P1z7IlEvHK8/edit?usp=share_link" target="_blank" rel="noopener noreferrer" style="display:inline-block;color:oklch(50% 0.06 145);font-weight:600;font-size:16px;border-bottom:1px solid oklch(50% 0.06 145);padding-bottom:2px;" style-hover="border-color:oklch(38% 0.06 145);color:oklch(38% 0.06 145);">Upptäckande Bibelsamtal →</a>
+            <a href="Bordssamtal.dc.html" style="display:inline-block;color:oklch(50% 0.06 145);font-weight:600;font-size:16px;border-bottom:1px solid oklch(50% 0.06 145);padding-bottom:2px;" style-hover="border-color:oklch(38% 0.06 145);color:oklch(38% 0.06 145);">Bordssamtal – digitalt verktyg →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VÅR LIVSRYTM -->
+  <section style="padding:96px 28px;background:oklch(96.5% 0.01 95);">
+    <div style="max-width:640px;margin:0 auto 56px;text-align:center;">
+      <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Vår livsrytm</p>
+      <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:30px;font-weight:500;margin:0 0 20px;">Vår gemensamma livsrytm.</h2>
+      <p style="font-size:16.5px;color:oklch(42% 0.015 50);margin:0;text-align:left;">Centrumkyrkan Malmö är på en resa där vi återupptäcker vad det betyder att <a href="https://open.spotify.com/episode/1ACJd4oe7qRIkGfKpgeWcj?si=48121ad871bc47bd" target="_blank" rel="noopener noreferrer" style="color:oklch(20% 0.015 50);font-weight:500;border-bottom:1px solid oklch(60% 0.02 50);">följa Jesus</a>. Det gör vi bland annat genom att undervisa i kristna praktiker som leder oss fram till en gemensam livsrytm att följa tillsammans. Klicka på varje praktik för att lyssna till undervisning.</p>
+    </div>
+    <div class="stack-2" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.1fr 0.8fr;gap:56px;align-items:start;">
+      <div>
+        
+        <div style="display:flex;flex-direction:column;">
+          <div style="padding:16px 0;border-top:1px solid oklch(89% 0.008 80);">
+            <p style="margin:0;font-size:16px;color:oklch(42% 0.015 50);">Att bli en gemenskap som tar sig tid att vila i en kultur av stress och upptagenhet genom att praktisera <a href="https://open.spotify.com/episode/1rBmJyYmhWcbQcb0TyH4Lp?si=xzJNBEE8QUuiHausCiQqBg" target="_blank" rel="noopener noreferrer" style="display:inline-block;border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:4px 14px;border-radius:100px;font-weight:500;font-size:15px;">sabbaten</a></p>
+          </div>
+          <div style="padding:16px 0;border-top:1px solid oklch(89% 0.008 80);">
+            <p style="margin:0;font-size:16px;color:oklch(42% 0.015 50);">Att bli en gemenskap av förnöjsamhet i en kultur av materialism genom att praktisera <a href="https://open.spotify.com/episode/1R8D3WEpqtgh6EcX4nfgdY?si=vlNRlj-qSX6sWg4AVxydXg" target="_blank" rel="noopener noreferrer" style="display:inline-block;border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:4px 14px;border-radius:100px;font-weight:500;font-size:15px;">generositet</a></p>
+          </div>
+          <div style="padding:16px 0;border-top:1px solid oklch(89% 0.008 80);">
+            <p style="margin:0;font-size:16px;color:oklch(42% 0.015 50);">Att bli en församling av kärlek i en kultur av individualism och ytlighet genom att praktisera <a href="https://open.spotify.com/episode/7ebYV73MD2TjgRwSQnJf25?si=y9RhiOEpRfGd8LZcLGzkXA" target="_blank" rel="noopener noreferrer" style="display:inline-block;border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:4px 14px;border-radius:100px;font-weight:500;font-size:15px;">gemenskap</a></p>
+          </div>
+          <div style="padding:16px 0;border-top:1px solid oklch(89% 0.008 80);">
+            <p style="margin:0;font-size:16px;color:oklch(42% 0.015 50);">Att bli en gemenskap som lever i relation till Gud i en kultur av distraktion och verklighetsflykt genom att praktisera <a href="https://open.spotify.com/episode/2LLyN49K64798wcDfXDLLm?si=Ryg05V87QIi3jziuOWzARQ" target="_blank" rel="noopener noreferrer" style="display:inline-block;border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:4px 14px;border-radius:100px;font-weight:500;font-size:15px;">bön</a></p>
+          </div>
+          <div style="padding:16px 0;border-top:1px solid oklch(89% 0.008 80);">
+            <p style="margin:0;font-size:16px;color:oklch(42% 0.015 50);">Att bli en gemenskap av helighet i en kultur av utsvävningar och omoral genom att praktisera <a href="https://open.spotify.com/episode/4xw8zDnB5UcKA2HeVuE2fZ?si=fT2PNTvCS8-jlRoXQ-x9tg" target="_blank" rel="noopener noreferrer" style="display:inline-block;border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:4px 14px;border-radius:100px;font-weight:500;font-size:15px;">fasta</a></p>
+          </div>
+          <div style="padding:16px 0;border-top:1px solid oklch(89% 0.008 80);border-bottom:1px solid oklch(89% 0.008 80);">
+            <p style="margin:0;font-size:16px;color:oklch(42% 0.015 50);">En gemenskap av rättvisa och barmhärtighet i en kultur av orättvisa och behov genom att praktisera <a href="https://open.spotify.com/episode/6T1tKD98LBwOrGBSckmGvC?si=9Db77RqpTtyhgShyDJ5qfQ" target="_blank" rel="noopener noreferrer" style="display:inline-block;border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:4px 14px;border-radius:100px;font-weight:500;font-size:15px;">tjänande</a></p>
+          </div>
+        </div>
+        <p style="margin:20px 0 0;font-size:15px;font-weight:600;color:oklch(42% 0.015 50);">Kommande praktiker</p>
+        <ul style="margin:6px 0 0;padding:0;list-style:none;font-size:15px;color:oklch(50% 0.015 60);">
+          <li>Skriften (hösten 2026)</li>
+          <li>Vittna (fastan 2027)</li>
+          <li>Avskildhet och tystnad (våren 2027)</li>
+        </ul>
+      </div>
+      <div style="width:100%;border-radius:6px;overflow:hidden;">
+        <img src="images/livsrytm-illustration-sm.jpg" alt="Vår gemensamma livsrytm" width="700" height="1244" loading="lazy" decoding="async" style="width:100%;height:auto;display:block;">
+      </div>
+    </div>
+  </section>
+
+  <!-- KALENDER -->
+  <section id="kalender" style="padding:96px 28px;scroll-margin-top:88px;">
+    <div style="max-width:1080px;margin:0 auto;">
+      <div style="max-width:640px;margin:0 auto 36px;text-align:center;">
+        <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Kalender</p>
+        <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:32px;font-weight:500;margin:0;">Vad händer framöver</h2>
+      </div>
+      <div id="calendar-list" style="max-width:760px;margin:0 auto;border-top:1px solid oklch(89% 0.008 80);">
+        <div style="display:grid;grid-template-columns:110px 1fr;gap:28px;align-items:center;padding:25px 8px;border-bottom:1px solid oklch(89% 0.008 80);">
+          <p class="calendar-date" style="font-family:'Lora',serif;color:oklch(50% 0.06 145);font-size:15px;text-transform:uppercase;letter-spacing:.06em;margin:0;">Sön 19 jul</p>
+          <div>
+            <h3 class="calendar-title" style="font-family:'Lora',serif;font-size:19px;font-weight:600;margin:0 0 4px;">Uppehåll under sommaren. Ingen gudstjänst</h3>
+            <p class="calendar-meta" style="margin:0;color:oklch(42% 0.015 50);font-size:15.5px;">15:30–18:00 · Föreningsgatan 32, Malmö</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:110px 1fr;gap:28px;align-items:center;padding:25px 8px;border-bottom:1px solid oklch(89% 0.008 80);">
+          <p class="calendar-date" style="font-family:'Lora',serif;color:oklch(50% 0.06 145);font-size:15px;text-transform:uppercase;letter-spacing:.06em;margin:0;">Tor 24 sep</p>
+          <div>
+            <h3 class="calendar-title" style="font-family:'Lora',serif;font-size:19px;font-weight:600;margin:0 0 4px;">Ny Alpha-kurs startar</h3>
+            <p class="calendar-meta" style="margin:0;color:oklch(42% 0.015 50);font-size:15.5px;">18:30 · Köpenhamnsvägen 3 (Immanuelskyrkan)</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:110px 1fr;gap:28px;align-items:center;padding:25px 8px;border-bottom:1px solid oklch(89% 0.008 80);">
+          <p class="calendar-date" style="font-family:'Lora',serif;color:oklch(50% 0.06 145);font-size:15px;text-transform:uppercase;letter-spacing:.06em;margin:0;">Lör 22 aug<br>Sön 23 aug</p>
+          <div>
+            <h3 class="calendar-title" style="font-family:'Lora',serif;font-size:19px;font-weight:600;margin:0 0 4px;">Församlingshelg (Anmälan)</h3>
+            <p class="calendar-meta" style="margin:0;color:oklch(42% 0.015 50);font-size:15.5px;">10:00 · Missionsgården Strandhem, Smålandsvägen 48, 286 35 Örkelljunga, Sverige</p>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center;margin-top:32px;">
+        <a href="https://calendar.google.com/calendar/embed?src=centrumkyrkanmalmo%40gmail.com&ctz=Europe%2FStockholm&mode=AGENDA" target="_blank" rel="noopener noreferrer" style="display:inline-block;border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:12px 26px;border-radius:100px;font-size:16px;font-weight:500;">Se hela kalendern →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BARN & UNGDOMAR -->
+  <section id="barn" style="padding:96px 28px;background:oklch(96.5% 0.01 95);scroll-margin-top:88px;">
+    <div style="max-width:1080px;margin:0 auto;">
+      <div style="max-width:640px;margin:0 auto 64px;text-align:center;">
+        <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Barn &amp; ungdomar</p>
+        <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:32px;font-weight:500;margin:0;">Från söndagsskola till ungdomsgrupp.</h2>
+      </div>
+      <div class="stack-2" style="display:grid;grid-template-columns:1fr 1fr;gap:72px;">
+        <div style="padding-top:24px;border-top:1px solid oklch(89% 0.008 80);">
+          <h3 style="font-family:'Lora',serif;font-size:19px;font-weight:500;margin:0 0 12px;">Söndagsskolan Biblia</h3>
+          <p style="margin:0 0 14px;color:oklch(42% 0.015 50);font-size:15.5px;">Varje söndag under gudstjänsten. Vi pysslar, sjunger och leker utifrån bibliska teman. Biblia Mini för barn från 2,5 år till åk 1 och Biblia Maxi för barn från åk 2 till åk 6.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <a href="Samtalskort.dc.html" style="display:inline-block;background:oklch(98.5% 0.006 90);color:oklch(50% 0.06 145);border:1px solid oklch(50% 0.06 145);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;">Samtalskort för barnfamiljer</a>
+            <a href="Bordsbon.dc.html" style="display:inline-block;background:oklch(98.5% 0.006 90);color:oklch(50% 0.06 145);border:1px solid oklch(50% 0.06 145);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;">Vår nya bordsbön</a>
+          </div>
+        </div>
+        <div style="padding-top:24px;border-top:1px solid oklch(89% 0.008 80);">
+          <h3 style="font-family:'Lora',serif;font-size:19px;font-weight:500;margin:0 0 12px;">Ungdomsgruppen Cungarna</h3>
+          <p style="margin:0 0 14px;color:oklch(42% 0.015 50);font-size:15.5px;">För dig från 7:an tills du fyller 18. Vi träffas fredagar och söndagar – varannan vecka. Tamanda Sandström är ansvarig för ungdomsarbetet och nås på <a href="tel:0767970055" style="font-weight:500;border-bottom:1px solid oklch(60% 0.02 50);" style-hover="border-color:oklch(20% 0.015 50);">0767-970055</a>.</p>
+          <a href="https://www.instagram.com/centrumkyrkans_ungdomar/" target="_blank" rel="noopener noreferrer" style="display:inline-block;background:oklch(98.5% 0.006 90);color:oklch(50% 0.06 145);border:1px solid oklch(50% 0.06 145);padding:11px 22px;border-radius:100px;font-weight:500;font-size:15px;">Följ Cungarna på Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OM OSS -->
+  <section id="om-oss" style="padding:96px 28px;scroll-margin-top:88px;">
+    <div class="stack-2" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1.1fr 0.9fr;gap:72px;">
+      <div>
+        <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Om oss</p>
+        <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:30px;font-weight:500;margin:0 0 22px;">En ung församling med Jesus i centrum.</h2>
+        <p style="font-size:16px;color:oklch(42% 0.015 50);margin:0 0 18px;">Centrumkyrkan Malmö startade som en församlingsplantering 2019 och är idag en pingstförsamling med omkring hundra vuxna och barn, ansluten till Pingst FFS.</p>
+        <p style="font-size:16px;color:oklch(42% 0.015 50);margin:0 0 18px;">Jesus Kristus är centrum för allt vi är och gör. Vi bekänner oss till Bibeln och den klassiska kristna tron, och alla är välkomna att vara med, oavsett bakgrund.</p>
+        <p style="font-size:16px;color:oklch(42% 0.015 50);margin:0 0 22px;">Är du intresserad att gå med som medlem kan du klicka länken nedan så blir du kontaktat av en av våra pastorer.</p>
+        <a href="https://forms.gle/zawZodEq8Bt11TC77" target="_blank" rel="noopener" style="display:inline-block;background:oklch(98.5% 0.006 90);color:oklch(50% 0.06 145);border:1px solid oklch(50% 0.06 145);padding:15px 30px;border-radius:100px;font-weight:600;font-size:15.5px;" style-hover="background:oklch(95% 0.02 100);">Ansök om medlemskap</a>
+      </div>
+      <div>
+        <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Pastorer och stab</p>
+        <div style="display:flex;flex-direction:column;gap:24px;">
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="width:88px;height:88px;flex:none;border-radius:50%;overflow:hidden;">
+            <img src="images/kai-johansen.jpeg" alt="Kai Johansen" width="88" height="88" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;display:block;">
+          </div>
+          <div>
+            <h3 style="font-family:'Lora',serif;font-size:19px;font-weight:500;margin:0 0 6px;">Kai Johansen</h3>
+            <p style="margin:0;color:oklch(42% 0.015 50);font-size:15.5px;">Pastor och föreståndare. Gift med Stina, fyra barn.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="width:88px;height:88px;flex:none;border-radius:50%;overflow:hidden;">
+            <img src="images/erik-thordin2.jpeg" alt="Erik Thordin" width="88" height="88" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block;">
+          </div>
+          <div>
+            <h3 style="font-family:'Lora',serif;font-size:19px;font-weight:500;margin:0 0 6px;">Erik Thordin</h3>
+            <p style="margin:0;color:oklch(42% 0.015 50);font-size:15.5px;">Pastor med ansvar för barnverksamhet. Gift med Lovisa, tre barn.</p>
+          </div>
+        </div>
+        <div style="display:flex;gap:20px;align-items:flex-start;">
+          <div style="width:88px;height:88px;flex:none;border-radius:50%;overflow:hidden;">
+            <img src="images/tamanda-svanstrom.jpeg" alt="Tamanda Sandström" width="88" height="88" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block;">
+          </div>
+          <div>
+            <h3 style="font-family:'Lora',serif;font-size:19px;font-weight:500;margin:0 0 6px;">Tamanda Sandström</h3>
+            <p style="margin:0;color:oklch(42% 0.015 50);font-size:15.5px;">Ungdomsledare och församlingsmedarbetare. Gift med Elliot.</p>
+          </div>
+        </div>
+        </div>
+        <div style="margin-top:32px;padding-top:32px;border-top:1px solid oklch(89% 0.008 80);">
+          <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 12px;">Vill du ge en gåva till församlingen?</p>
+          <p style="margin:0;color:oklch(42% 0.015 50);font-size:16px;">Swish: 123 360 55 24 · Bankgiro: 5437-4228</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt" style="padding:96px 28px;background:oklch(96.5% 0.01 95);scroll-margin-top:88px;">
+    <div class="stack-2" style="max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:72px;">
+      <div>
+        <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Kontakt &amp; förbön</p>
+        <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:30px;font-weight:500;margin:0 0 26px;">Hör gärna av dig.</h2>
+        <div style="display:flex;flex-direction:column;gap:14px;font-size:16px;margin-bottom:30px;">
+          <p style="margin:0;">Föreningsgatan 32, 211 52 Malmö <span style="color:oklch(50% 0.015 60);">(Betaniakyrkan)</span></p>
+          <p style="margin:0;"><a href="mailto:hej@centrumkyrkanmalmo.se" style="font-weight:500;border-bottom:1px solid oklch(60% 0.02 50);" style-hover="border-color:oklch(20% 0.015 50);">hej@centrumkyrkanmalmo.se</a></p>
+        </div>
+        <p style="font-size:16px;color:oklch(42% 0.015 50);margin:0 0 22px;max-width:48ch;">Har du ett bönämne? Vi vill gärna be för dig – hör av dig så tar vi det vidare.</p>
+        <a href="mailto:hej@centrumkyrkanmalmo.se" style="display:inline-block;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);padding:15px 30px;border-radius:100px;font-weight:500;font-size:15.5px;" style-hover="background:oklch(30% 0.02 50);">Skicka ett meddelande</a>
+        <p style="font-size:16px;color:oklch(42% 0.015 50);margin:26px 0 22px;max-width:48ch;">Har du behov av samtal eller själavård kan du kontakta pastor Kai Johansen som har tystnadsplikt.</p>
+        <a href="mailto:kai@centrumkyrkanmalmo.se?subject=Samtal%20med%20pastor%20Kai%20Johansen" style="display:inline-block;background:oklch(98.5% 0.006 90);color:oklch(50% 0.06 145);border:1px solid oklch(50% 0.06 145);padding:15px 30px;border-radius:100px;font-weight:600;font-size:15.5px;" style-hover="background:oklch(95% 0.02 100);">Samtal eller själavård</a>
+      </div>
+      <div>
+        <div style="width:100%;aspect-ratio:4/3;border-radius:6px;overflow:hidden;border:1px solid oklch(89% 0.008 80);">
+          <iframe src="https://www.google.com/maps?q=F%C3%B6reningsgatan+32,+Malm%C3%B6&output=embed" title="Karta till Föreningsgatan 32, Malmö" style="border:0;width:100%;height:100%;display:block;filter:grayscale(0.85) contrast(0.92) brightness(1.04) sepia(0.08);" loading="lazy"></iframe>
+        </div>
+        <a href="https://www.google.com/maps?q=F%C3%B6reningsgatan+32,+Malm%C3%B6" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:12px;font-size:15px;font-weight:500;border-bottom:1px solid oklch(60% 0.02 50);">Öppna i Google Maps →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOCIALA MEDIER & PODD -->
+  <section id="media" style="padding:96px 28px;scroll-margin-top:88px;">
+    <div style="max-width:1080px;margin:0 auto;text-align:center;">
+      <p style="font-size:14px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 18px;">Sociala medier &amp; Podd</p>
+      <h2 class="h2-lora" style="font-family:'Lora',serif;font-size:32px;font-weight:500;margin:0 0 32px;">Du hittar oss även här.</h2>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+        <a href="https://www.facebook.com/centrumkyrkanmalmo" target="_blank" rel="noopener noreferrer" style="border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:12px 26px;border-radius:100px;font-size:16px;font-weight:500;" style-hover="background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);">Facebook</a>
+        <a href="https://www.instagram.com/centrumkyrkanmalmo/" target="_blank" rel="noopener noreferrer" style="border:1px solid oklch(50% 0.06 145);color:oklch(50% 0.06 145);padding:12px 26px;border-radius:100px;font-size:16px;font-weight:500;" style-hover="background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);">Instagram</a>
+      </div>
+      <div style="margin-top:32px;">
+        <p style="font-size:14px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 16px;">Lyssna till podcast</p>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+          <a href="https://open.spotify.com/show/0eoXIm6SvC0ESOcMxQ4x7y?si=955d03a244e54df6" target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Spotify" style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;border:1px solid oklch(50% 0.06 145);border-radius:50%;color:oklch(50% 0.06 145);" style-hover="background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.36-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.36-1.32 9.76-.66 13.5 1.62.361.181.54.78.241 1.201zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.38C8.76 5.939 15.72 6.24 19.681 8.58c.539.3.719 1.02.419 1.56-.3.421-1.02.599-1.559.3z"/></svg>
+          </a>
+          <a href="https://podcasts.apple.com/us/podcast/centrumkyrkan-malm%C3%B6/id1620946879" target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Apple Podcasts" style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;border:1px solid oklch(50% 0.06 145);border-radius:50%;color:oklch(50% 0.06 145);" style-hover="background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);">
+            <svg width="24" height="24" viewBox="0 0 448 512" fill="currentColor"><path d="M224 24C110.4 24 18.2 116 15.9 229.1c-1.9 90.7 53.4 169.3 132.6 202.1c9.5 3.9 19.8-3.4 19.8-13.7v-19.6c0-6.1-3.7-11.6-9.3-14c-54.4-23.5-92.5-78.9-90.6-142.6C70.4 165.4 141.6 96 228.5 96C314.4 96 384 165.6 384 251.5c0 63.6-38.1 118.4-92.6 141.8c-5.6 2.4-9.3 7.9-9.3 14v19.6c0 10.3 10.3 17.6 19.8 13.7C381.1 407.9 436.6 328.5 432 235.5C427.4 122.5 331.5 24 224 24zm-2.8 78c-72.9 0-131.9 59.9-129.1 133.4c1.6 42.6 24.2 79.7 57.8 101.6c9.4 6.1 21.9-.6 21.9-11.8v-24.4c0-4.9-2.3-9.4-6.1-12.5c-15.4-12.2-25.5-30.6-26-51.4c-1-40.2 31.5-74.4 71.7-74.9c41-.5 74.4 32.6 74.4 73.5c0 21.1-9.6 39.9-24.7 52.5c-3.8 3.2-6.1 7.7-6.1 12.6v24.4c0 11.2 12.5 17.9 21.9 11.8c33.1-21.6 55.4-58.2 57.6-100.1C338.4 165.8 279.6 102 221.2 102zM224 224c-17.7 0-32 14.3-32 32c0 8.4 3.2 16 8.5 21.6c1.6 1.7 2.6 3.9 3 6.2l14.5 90.9c.6 3.9 4 6.7 7.9 6.7h.1c4 0 7.3-2.9 7.9-6.7l14.4-90.9c.4-2.3 1.5-4.5 3-6.2c5.3-5.7 8.5-13.3 8.5-21.6c.1-17.7-14.2-32-31.8-32z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="background:oklch(20% 0.015 50);color:oklch(75% 0.01 70);padding:48px 28px;">
+    <div style="max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+      <a href="#main-content" style="font-family:'Lora',serif;font-weight:500;font-size:16px;margin:0;color:oklch(90% 0.006 90);display:flex;align-items:center;gap:10px;text-decoration:none;"><img src="images/logo-sm.png" alt="Centrumkyrkan Malmö" width="32" height="32" loading="lazy" decoding="async" style="height:32px;width:32px;object-fit:contain;flex-shrink:0;"><span style="white-space:nowrap;">Centrumkyrkan Malmö</span></a>
+      <nav style="display:flex;gap:24px;font-size:14.5px;flex-wrap:wrap;">
+        <a href="#gudstjanst">Gudstjänst</a>
+        <a href="#kalender">Kalender</a>
+        <a href="#vagen">Ditt nästa steg</a>
+        <a href="#barn">Barn &amp; unga</a>
+        <a href="#om-oss">Om oss</a>
+        <a href="#media">Media</a>
+        <a href="#kontakt">Kontakt</a>
+      </nav>
+      <p style="margin:0;font-size:14px;color:oklch(65% 0.008 70);">© 2026 Centrumkyrkan Malmö · Org. nr: 802527-6661</p>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="https://www.centrumkyrkanmalmo.se/_vercel/insights/script.js"></script>
+</body>
+</html>

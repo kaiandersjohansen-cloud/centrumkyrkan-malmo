@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><rect width="200" height="200" fill="#5b6b4a"/><text x="30%" y="55%" font-size="60" fill="#fff" font-family="serif">B</text></svg></template>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; }
+  a { color: inherit; text-decoration: none; }
+  input::placeholder { color: oklch(60% 0.01 80); }
+</style>
+</helmet>
+
+<div style="font-family:'Public Sans',sans-serif;background:oklch(98.5% 0.006 90);color:oklch(20% 0.015 50);line-height:1.6;min-height:100vh;">
+  <header style="border-bottom:1px solid oklch(89% 0.008 80);">
+    <div style="max-width:680px;margin:0 auto;padding:20px 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;">
+      <a href="centrumkyrkan-malmo.dc.html" style="font-size:14.5px;font-weight:500;color:oklch(42% 0.015 50);" style-hover="color:oklch(20% 0.015 50);">← Till hemsidan</a>
+      <a href="centrumkyrkan-malmo.dc.html" style="display:flex;align-items:center;gap:10px;font-family:'Lora',serif;font-size:16px;font-weight:500;"><img src="images/logo-sm.png" alt="Centrumkyrkan Malmö" style="height:28px;width:auto;">Centrumkyrkan Malmö</a>
+    </div>
+  </header>
+
+  <main style="max-width:640px;margin:0 auto;padding:56px 28px 96px;">
+    <p style="font-size:14px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:oklch(50% 0.06 145);margin:0 0 16px;text-align:center;">Digitalt samtalsverktyg</p>
+    <h1 style="font-family:'Lora',serif;font-size:34px;font-weight:500;text-align:center;margin:0 0 16px;">Bordssamtal</h1>
+    <p style="font-size:16.5px;color:oklch(42% 0.015 50);text-align:center;margin:0 0 48px;">Frågor för att lära känna varandra bättre<br><span style="font-size:13px;">(utvecklad av Practicing The Way)</span></p>
+
+    <sc-if value="{{ isSetup }}" hint-placeholder-val="{{ true }}">
+      <div style="background:oklch(99.5% 0.003 90);border:1px solid oklch(89% 0.008 80);border-radius:8px;padding:40px;">
+        <p style="font-family:'Lora',serif;font-size:18px;font-weight:500;margin:0 0 16px;">Välj frågetyp</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;">
+          <button type="button" onClick="{{ setCategoryStart }}" style="{{ catStartStyle }}">Starta smått</button>
+          <button type="button" onClick="{{ setCategoryDeep }}" style="{{ catDeepStyle }}">Gå djupare</button>
+          <button type="button" onClick="{{ setCategoryMix }}" style="{{ catMixStyle }}">Blandat</button>
+        </div>
+
+        <p style="font-family:'Lora',serif;font-size:18px;font-weight:500;margin:0 0 16px;">Deltagare</p>
+        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+          <input type="text" value="{{ nameInput }}" onChange="{{ onNameInput }}" onKeyDown="{{ onNameKeyDown }}" placeholder="Skriv ett namn" style="flex:1;min-width:0;padding:12px 16px;border:1px solid oklch(89% 0.008 80);border-radius:8px;font-size:15.5px;font-family:'Public Sans',sans-serif;background:white;color:oklch(20% 0.015 50);box-sizing:border-box;" />
+          <button type="button" onClick="{{ addName }}" style="padding:12px 22px;background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);border:none;border-radius:100px;font-weight:500;font-size:15px;cursor:pointer;white-space:nowrap;" style-hover="background:oklch(38% 0.06 145);">Lägg till</button>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;">
+          <sc-for list="{{ participantChips }}" as="p" hint-placeholder-count="0">
+            <span style="display:inline-flex;align-items:center;gap:8px;background:oklch(96.5% 0.01 95);border:1px solid oklch(89% 0.008 80);border-radius:100px;padding:8px 8px 8px 16px;font-size:15px;">
+              {{ p.name }}
+              <button type="button" onClick="{{ p.remove }}" aria-label="Ta bort" style="border:none;background:none;color:oklch(42% 0.015 50);cursor:pointer;font-size:14px;width:22px;height:22px;border-radius:50%;line-height:22px;" style-hover="background:oklch(89% 0.008 80);">✕</button>
+            </span>
+          </sc-for>
+        </div>
+
+        <button type="button" onClick="{{ start }}" disabled="{{ startDisabled }}" style="{{ startBtnStyle }}">Starta samtalet</button>
+        <sc-if value="{{ startDisabled }}" hint-placeholder-val="{{ true }}">
+          <p style="margin:14px 0 0;font-size:14px;color:oklch(50% 0.015 50);">Lägg till minst 2 deltagare för att starta.</p>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isPlay }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:32px;">
+          <sc-for list="{{ turnChips }}" as="p" hint-placeholder-count="0">
+            <span style="{{ p.chipStyle }}">{{ p.name }}</span>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ poolExhausted }}" hint-placeholder-val="{{ false }}">
+          <div style="background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);border-radius:8px;padding:48px 36px;text-align:center;">
+            <p style="font-family:'Lora',serif;font-size:20px;margin:0;">Alla frågor i denna kategori har använts!</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ hasQuestion }}" hint-placeholder-val="{{ true }}">
+          <div style="background:oklch(50% 0.06 145);color:oklch(98.5% 0.006 90);border-radius:8px;padding:48px 36px;text-align:center;">
+            <p style="font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin:0 0 18px;opacity:.85;">{{ turnLabel }}</p>
+            <p style="font-family:'Lora',serif;font-size:24px;line-height:1.4;font-weight:500;margin:0;">{{ currentQuestion }}</p>
+          </div>
+        </sc-if>
+
+        <p style="text-align:center;color:oklch(42% 0.015 50);font-size:14.5px;margin:20px 0 32px;">{{ progressText }}</p>
+
+        <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+          <button type="button" onClick="{{ nextTurn }}" disabled="{{ poolExhausted }}" style="{{ nextBtnStyle }}">Nästa fråga →</button>
+          <button type="button" onClick="{{ end }}" style="padding:14px 28px;background:none;border:1px solid oklch(89% 0.008 80);border-radius:100px;font-weight:500;font-size:15px;cursor:pointer;color:oklch(42% 0.015 50);" style-hover="border-color:oklch(20% 0.015 50);color:oklch(20% 0.015 50);">Avsluta samtalet</button>
+        </div>
+      </div>
+    </sc-if>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const QUESTIONS_START = [
+  "Vilken hobby önskar du att du hade mer tid för?",
+  "När ändrade du senast åsikt om något?",
+  "Om du kunde forska om ett ämne på heltid, vilket skulle du välja?",
+  "Vilken titel skulle du ge det här kapitlet i din livshistoria?",
+  "Vad är ett roligt men pinsamt minne du har från uppväxten?",
+  "Vilken var en av dina favoritdagar den senaste månaden, och varför?",
+  "Vilka aktiviteter eller miljöer väcker mest glädje hos dig?",
+  "Vilken plats betyder mycket för dig, och varför är den så speciell?",
+  "Vilken bok, förutom Bibeln, tycker du att alla borde läsa?",
+  "Vilken enkel glädjekälla har du i vardagen?",
+  "Är du mer en som spenderar eller sparar pengar?",
+  "Vad är en av dina favoritaktiviteter på en ledig dag?",
+  "Om du kunde äta middag med en person, levande eller död (förutom Jesus), vem skulle det vara och varför?",
+  "Vad ångrar du att du slutade med, eller vad önskar du att du hade slutat med tidigare?",
+  "Vilken egenskap värdesätter du mest hos en vän?",
+  "Vilket äventyr på din önskelista hoppas du få uppleva en dag?",
+  "Vad var det senaste ögonblicket som fyllde dig med förundran?",
+  "Om du skulle hålla en 15-minuters presentation om vad som helst, vilket ämne och vilken titel skulle du välja? Var kreativ.",
+  "Om du var en karaktär i en film, vilken karaktär skulle du vara, och i vilken film?",
+  "Vilken annan stad eller land skulle du kunna se dig bo i, och varför?",
+  "Vilken orättvisa eller fråga engagerar dig starkt?",
+  "Inom vilket ämne skulle du säga att du har mest kunskap?",
+  "Vad är en av dina märkligaste \"grejer\" som stör dig?",
+  "Vilken känsla har du känt mest den här veckan, och varför?",
+  "Vad är du nyfiken på just nu?",
+  "Om du kunde bevittna en historisk händelse, vilken skulle du välja?",
+  "Vilket minnesvärt råd har du fått?",
+  "Vad är en av dina stoltaste prestationer, stor eller liten?",
+  "Om du kom med en varningstext, vad skulle den säga?",
+  "Om du vann på lotteriet, vad skulle du göra med pengarna?",
+  "På vilket litet sätt har du bidragit till någon annans glädje eller välmående på senaste tiden?",
+  "Vilka är några saker på din personliga \"må-bra-lista\"?",
+  "Vilken är den mest minnesvärda gåvan du fått?",
+  "Vilket konstverk (målning, arkitektur, skulptur, film osv.) berör dig, och varför?",
+  "Berätta om en gång någon var generös mot dig. Vem var det, och vad hände?",
+  "Vilken påhittad värld skulle du helst vilja leva i, och varför?",
+  "Om du kunde skriva en bok tillsammans med en författare, förr eller nu, vem skulle det vara, och vad skulle boken handla om?",
+  "Om Gud skulle svara på en fråga från dig idag, vilken skulle det vara?",
+  "Om du skulle visa runt någon i din hemstad, vart skulle du ta dem först som betyder något för dig?",
+  "Vilken är den bästa konsert du varit på, och varför?",
+  "Om du bara fick använda tre ord för att beskriva din familj, vilka skulle det vara?",
+  "Vilken är din favoritplats du rest till, och varför?",
+  "Hur uttrycker du naturligast kärlek till de du bryr dig om?",
+  "Vad är en liten eller enkel sak du vill vara mer tacksam för?",
+  "Under vilka omständigheter visar du dig från din bästa sida? Och din sämsta?",
+  "Vilken berättelse i evangelierna berör dig mest?",
+  "Vilken person i evangelierna känner du mest igen dig i, och varför?",
+  "Vad lär du dig om dig själv just nu?",
+  "Vad har nyligen förändrats till det bättre i ditt liv?",
+  "Vilken irrationell rädsla hade du som barn?"
+];
+
+const QUESTIONS_DEEP = [
+  "Vilket mönster från din uppväxtfamilj hoppas du bära vidare, och vilket hoppas du lämna bakom dig?",
+  "Vem är en av dina \"hjältar\" (nära eller på avstånd), och vad beundrar du mest hos dem?",
+  "Avsluta meningen: Jag håller på att lära mig acceptera ______.",
+  "Vad försöker du avlära dig just nu?",
+  "Vilken uppmuntran fick du senast som verkligen betydde något för dig?",
+  "Vad hoppas du att dina nära och kära säger om dig när du dör?",
+  "Vilken svår upplevelse ogillade du först men är tacksam för nu?",
+  "Vilken av Jesu undervisningar tycker du är svårast att förstå eller leva ut?",
+  "Vem stod du närmast i din familj som barn, och hur har den relationen förändrats eller förblivit densamma?",
+  "Var i syskonordningen är du, och hur tror du det format dig som person?",
+  "Hur har du upplevt förlåtelsens kraft, genom att ge eller ta emot den?",
+  "Vad tror du ditt yngre jag skulle beundra hos dig idag?",
+  "Om ditt framtida jag kunde ge dig råd inför den kommande tiden, vad tror du de skulle säga?",
+  "Vad vill du släppa taget om i år?",
+  "Vilken var en stor vändpunkt i ditt liv?",
+  "Vilken egenskap eller hållning hos Jesus önskar du mest att gestalta?",
+  "Vad skulle du kunna ångra om tio år om livet fortsätter som nu, och vad kan du göra åt det redan idag?",
+  "Vilken längtan har du som du väntar på att få se uppfylld?",
+  "Om din vecka var ett ljus, brinner lågan starkt, svagt eller något mittemellan? Varför?",
+  "Vilken utmaning från din ungdom visar sig fortfarande i ditt liv idag?",
+  "Vilken lögn kämpar du för att inte tro på?",
+  "Vilket är ditt favoritögonblick med ditt barn (eller som du minns med dina föräldrar)?",
+  "Vad gillar du mest med dig själv?",
+  "Vilken bön har blivit besvarad, och vilken väntar fortfarande på svar, det senaste året?",
+  "Vem har format och påverkat dig mest i livet, förutom Jesus, och hur?",
+  "Om vi frågade en god vän till dig, vilka värderingar skulle de säga att du lever efter mest?",
+  "Vilka platser eller vanor ger din själ den djupaste vilan just nu?",
+  "När kände du dig senast vilsen eller ensam?",
+  "På vilket område i ditt liv bjuder Gud in dig till djupare offer och osjälviskhet?",
+  "Vilken egenskap hos någon i den här gruppen beundrar du?",
+  "Vilken vana vill du bryta, och vilken vill du bygga upp, i år?",
+  "På vilket område i ditt liv känner du dig minst fri?",
+  "Känner du dig lugn just nu? Varför eller varför inte?",
+  "Inom vilket område känner du den största klyftan mellan den du är och den Jesus bjuder in dig att bli?",
+  "Vad undviker du just nu i ditt liv – en person, ett beslut, ett problem – och varför?",
+  "Vilka sidor av dig kommer fram när du känner dig mest trygg och som dig själv?",
+  "Vilken utmaning brottas du med just nu som kräver Guds hjälp?",
+  "Vilket ord beskriver bäst hur du vill att andra ska uppleva dig?",
+  "Vilken sanning om Gud har du svårt att tro på just nu?",
+  "Vilka egenskaper hade du som barn som fortfarande stämmer på dig idag, eller som du tappat?",
+  "Vilka antaganden gör folk ibland om dig som inte är sanna?",
+  "Vilket ord, uttryck eller bild från Bibeln vägleder dig genom den här perioden i livet?",
+  "På vilket sätt känner du behov av att växa på ett sätt som går emot din personlighet?",
+  "Om du kunde återupp­leva ett barndomsminne, vilket skulle det vara?",
+  "Har du någon gång gått igenom en period som kändes som \"en öken\"? Om så, vad lärde du dig?",
+  "Hur visar sig rädsla mest i ditt liv just nu?",
+  "Under vilken period i ditt liv kände du dig mest levande, och varför?",
+  "Vilken händelse har format vem du är idag?",
+  "Vilka delar av att följa Jesus känns mest naturliga, och vilka känns mest onaturliga, för dig?",
+  "Om du visste att det var din sista dag, vad skulle du sluta prioritera som du idag tycker är viktigt?"
+];
+
+const OLIVE = "oklch(50% 0.06 145)";
+const OLIVE_DARK = "oklch(38% 0.06 145)";
+const CREAM = "oklch(98.5% 0.006 90)";
+const BORDER = "oklch(89% 0.008 80)";
+const MUTED = "oklch(42% 0.015 50)";
+const INK = "oklch(20% 0.015 50)";
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function pillStyle(active) {
+  return active
+    ? "cursor:pointer;border:1px solid " + OLIVE + ";background:" + OLIVE + ";color:" + CREAM + ";padding:11px 22px;border-radius:100px;font-size:15px;font-weight:500;font-family:'Public Sans',sans-serif;"
+    : "cursor:pointer;border:1px solid " + BORDER + ";background:transparent;color:" + INK + ";padding:11px 22px;border-radius:100px;font-size:15px;font-weight:500;font-family:'Public Sans',sans-serif;";
+}
+
+class Component extends DCLogic {
+  state = {
+    screen: "setup",
+    category: "mix",
+    nameInput: "",
+    participants: [],
+    turnOrder: [],
+    turnPos: 0,
+    usedIdx: [],
+    currentIdx: null,
+    currentPersonId: null,
+    poolExhausted: false,
+    nextId: 1
+  };
+
+  getPool(category) {
+    if (category === "start") return QUESTIONS_START;
+    if (category === "deep") return QUESTIONS_DEEP;
+    return QUESTIONS_START.concat(QUESTIONS_DEEP);
+  }
+
+  onNameInput = (e) => this.setState({ nameInput: e.target.value });
+
+  onNameKeyDown = (e) => {
+    if (e.key === "Enter") { e.preventDefault(); this.addName(); }
+  };
+
+  addName = () => {
+    const name = this.state.nameInput.trim();
+    if (!name) return;
+    this.setState((s) => ({
+      participants: s.participants.concat([{ id: s.nextId, name }]),
+      nextId: s.nextId + 1,
+      nameInput: ""
+    }));
+  };
+
+  removeName = (id) => {
+    this.setState((s) => ({ participants: s.participants.filter((p) => p.id !== id) }));
+  };
+
+  setCategoryStart = () => this.setState({ category: "start" });
+  setCategoryDeep = () => this.setState({ category: "deep" });
+  setCategoryMix = () => this.setState({ category: "mix" });
+
+  drawQuestion(pool, usedIdx) {
+    const available = [];
+    for (let i = 0; i < pool.length; i++) if (!usedIdx.includes(i)) available.push(i);
+    if (available.length === 0) return null;
+    return available[Math.floor(Math.random() * available.length)];
+  }
+
+  start = () => {
+    if (this.state.participants.length < 2) return;
+    const pool = this.getPool(this.state.category);
+    const turnOrder = shuffle(this.state.participants.map((p) => p.id));
+    const idx = this.drawQuestion(pool, []);
+    this.setState({
+      screen: "play",
+      turnOrder,
+      turnPos: 0,
+      usedIdx: idx === null ? [] : [idx],
+      currentIdx: idx,
+      currentPersonId: turnOrder[0],
+      poolExhausted: idx === null
+    });
+  };
+
+  nextTurn = () => {
+    const pool = this.getPool(this.state.category);
+    const idx = this.drawQuestion(pool, this.state.usedIdx);
+    this.setState((s) => {
+      const turnPos = (s.turnPos + 1) % s.turnOrder.length;
+      return {
+        turnPos,
+        usedIdx: idx === null ? s.usedIdx : s.usedIdx.concat([idx]),
+        currentIdx: idx,
+        currentPersonId: s.turnOrder[turnPos],
+        poolExhausted: idx === null
+      };
+    });
+  };
+
+  end = () => {
+    this.setState({
+      screen: "setup",
+      turnOrder: [],
+      turnPos: 0,
+      usedIdx: [],
+      currentIdx: null,
+      currentPersonId: null,
+      poolExhausted: false
+    });
+  };
+
+  renderVals() {
+    const s = this.state;
+    const pool = this.getPool(s.category);
+    const participantChips = s.participants.map((p) => ({ name: p.name, remove: () => this.removeName(p.id) }));
+    const turnChips = s.participants.map((p) => ({
+      name: p.name,
+      chipStyle:
+        "padding:8px 16px;border-radius:100px;font-size:14px;font-weight:500;" +
+        (p.id === s.currentPersonId
+          ? "background:" + OLIVE + ";color:" + CREAM + ";"
+          : "background:oklch(96.5% 0.01 95);color:" + MUTED + ";border:1px solid " + BORDER + ";")
+    }));
+    const currentPerson = s.participants.find((p) => p.id === s.currentPersonId);
+    const startDisabled = s.participants.length < 2;
+    const remaining = pool.length - s.usedIdx.length;
+
+    return {
+      isSetup: s.screen === "setup",
+      isPlay: s.screen === "play",
+      nameInput: s.nameInput,
+      onNameInput: this.onNameInput,
+      onNameKeyDown: this.onNameKeyDown,
+      addName: this.addName,
+      participantChips,
+      turnChips,
+      setCategoryStart: this.setCategoryStart,
+      setCategoryDeep: this.setCategoryDeep,
+      setCategoryMix: this.setCategoryMix,
+      catStartStyle: pillStyle(s.category === "start"),
+      catDeepStyle: pillStyle(s.category === "deep"),
+      catMixStyle: pillStyle(s.category === "mix"),
+      startDisabled,
+      startBtnStyle: startDisabled
+        ? "width:100%;padding:15px;background:oklch(89% 0.008 80);color:oklch(60% 0.01 80);border:none;border-radius:100px;font-weight:600;font-size:16px;cursor:not-allowed;font-family:'Public Sans',sans-serif;"
+        : "width:100%;padding:15px;background:" + OLIVE + ";color:" + CREAM + ";border:none;border-radius:100px;font-weight:600;font-size:16px;cursor:pointer;font-family:'Public Sans',sans-serif;",
+      start: this.start,
+      nextTurn: this.nextTurn,
+      end: this.end,
+      poolExhausted: s.poolExhausted,
+      hasQuestion: !s.poolExhausted && s.currentIdx !== null,
+      turnLabel: currentPerson ? currentPerson.name + "s tur" : "",
+      currentQuestion: s.currentIdx !== null ? pool[s.currentIdx] : "",
+      progressText: s.poolExhausted
+        ? "Byt kategori eller avsluta samtalet."
+        : remaining + " av " + pool.length + " frågor kvar i vald kategori.",
+      nextBtnStyle: s.poolExhausted
+        ? "padding:14px 28px;background:oklch(89% 0.008 80);color:oklch(60% 0.01 80);border:none;border-radius:100px;font-weight:600;font-size:15px;cursor:not-allowed;font-family:'Public Sans',sans-serif;"
+        : "padding:14px 28px;background:" + OLIVE + ";color:" + CREAM + ";border:none;border-radius:100px;font-weight:600;font-size:15px;cursor:pointer;font-family:'Public Sans',sans-serif;"
+    };
+  }
+}
+</script>
+</body>
+</html>
