@@ -67,7 +67,7 @@ const CARDS: Card[] = [
     alt: "Älska Malmö 2026 – Jesus!? med Joel MacInnes och Marie-Louise Nilsson",
     title: "Älska Malmö 2026 – Jesus!?",
     description: "Två kvällar i Europaporten med fokus på att berätta dem goda nyheterna om Jesus. Bjud gärna med en vän.",
-    cta: { badge: "Varmt välkommen!" },
+    cta: { label: "Kolla hela programmet", href: "https://www.alskamalmo.se" },    
     expires: new Date(2026, 8, 21),
   },
   {
