@@ -15,25 +15,6 @@ interface Card {
 
 const CARDS: Card[] = [
   {
-    key: "tro-arbete",
-    image: "/images/tro-arbete-serie.jpg",
-    alt: "Tro & Arbete – ny predikoserie",
-    title: "Ny predikoserie – Tro & Arbete",
-    description: (
-      <>
-        Under tre söndagar tittar vi på vad Bibeln säger om arbete:
-        <br />
-        30 aug – Guds plan
-        <br />
-        6 sep – Våra problem
-        <br />
-        13 sep – Goda nyheter
-      </>
-    ),
-    cta: { badge: "Varmt välkommen" },
-    expires: new Date(2026, 8, 14),
-  },
-  {
     key: "quiz-vafflor",
     image: "/images/quiz-vafflor-glass.jpg",
     alt: "Quiz, våfflor & glass hemma hos Kai & Stina, 9 augusti",
