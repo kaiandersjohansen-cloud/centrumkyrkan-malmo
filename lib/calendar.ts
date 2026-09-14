@@ -16,12 +16,24 @@ export interface CalendarListItem {
   id: string;
   dateLabel: string;
   title: string;
-  meta: string;
+  time: string;
+  location: string;
 }
 
 function formatDateLabel(start: Date, end: Date | null): string {
   if (!end || end.getTime() < start.getTime() + 1) return formatSwedishDate(start);
   return `${formatSwedishDate(start)} — ${formatSwedishDate(end)}`;
+}
+
+// Strips the Swedish postal code and trailing country name from a Google Places
+// address string, e.g. "Storgatan 1, 211 55 Malmo, Sverige" -> "Storgatan 1, Malmo".
+function cleanLocation(location: string): string {
+  return location
+    .split(",")
+    .map((part) => part.trim())
+    .filter((part) => part.length > 0 && !/^sverige$/i.test(part))
+    .map((part) => part.replace(/^\d{3}\s?\d{2}\s+/, ""))
+    .join(", ");
 }
 
 function toListItem(ev: GoogleCalendarEvent, index: number): CalendarListItem {
@@ -36,15 +48,15 @@ function toListItem(ev: GoogleCalendarEvent, index: number): CalendarListItem {
     end.setDate(end.getDate() - 1);
   }
 
-  const meta = ev.start.dateTime
-    ? `${formatSwedishTime(start)}${ev.location ? ` · ${ev.location}` : ""}`
-    : ev.location || "";
+  const time = ev.start.dateTime ? formatSwedishTime(start) : "";
+  const location = ev.location ? cleanLocation(ev.location) : "";
 
   return {
     id: `${ev.summary}-${index}`,
     dateLabel: formatDateLabel(start, end),
     title: ev.summary,
-    meta,
+    time,
+    location,
   };
 }
 
