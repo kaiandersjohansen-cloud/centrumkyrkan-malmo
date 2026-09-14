@@ -1,9 +1,9 @@
 import { getUpcomingCalendarEvents } from "@/lib/calendar";
 
 const FALLBACK_EVENTS = [
-  { dateLabel: "Sön 19 jul", title: "Uppehåll under sommaren. Ingen gudstjänst", meta: "15:30–18:00 · Föreningsgatan 32, Malmö" },
-  { dateLabel: "Tor 24 sep", title: "Ny Alpha-kurs startar", meta: "18:30 · Köpenhamnsvägen 3 (Immanuelskyrkan)" },
-  { dateLabel: "Lör 22 aug\nSön 23 aug", title: "Församlingshelg (Anmälan)", meta: "10:00 · Missionsgården Strandhem, Smålandsvägen 48, 286 35 Örkelljunga, Sverige" },
+  { dateLabel: "Sön 19 jul", time: "15:30–18:00", location: "Föreningsgatan 32, Malmö", title: "Uppehåll under sommaren. Ingen gudstjänst" },
+  { dateLabel: "Tor 24 sep", time: "18:30", location: "Köpenhamnsvägen 3 (Immanuelskyrkan)", title: "Ny Alpha-kurs startar" },
+  { dateLabel: "Lör 22 aug\nSön 23 aug", time: "10:00", location: "Missionsgården Strandhem, Smålandsvägen 48, Örkelljunga", title: "Församlingshelg (Anmälan)" },
 ];
 
 export default async function KalenderSection() {
@@ -32,11 +32,11 @@ export default async function KalenderSection() {
           {(events || FALLBACK_EVENTS).map((ev, i) => (
             <div key={`${ev.title}-${i}`} className="calendar-event">
               <p className="calendar-date" style={{ margin: 0, whiteSpace: "pre-line" }}>
-                {ev.dateLabel}
+                {ev.dateLabel}{ev.time && ` ${ev.time}`}
               </p>
               <div>
                 <h3 className="calendar-title">{ev.title}</h3>
-                {ev.meta && <p className="calendar-meta">{ev.meta}</p>}
+                {ev.location && <p className="calendar-meta">{ev.location}</p>}
               </div>
             </div>
           ))}
