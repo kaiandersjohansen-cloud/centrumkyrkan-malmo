@@ -18,5 +18,5 @@ export function formatSwedishDate(d: Date): string {
 }
 
 export function formatSwedishTime(d: Date): string {
-  return d.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit", timeZone: "Europe/Stockholm" });
 }
