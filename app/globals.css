@@ -100,7 +100,7 @@ a {
 }
 .calendar-event {
   display: grid;
-  grid-template-columns: 110px 1fr;
+    grid-template-columns: 150px 1fr;
   gap: 28px;
   align-items: center;
   padding: 25px 8px;
