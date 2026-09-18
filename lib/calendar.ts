@@ -63,7 +63,7 @@ function toListItem(ev: GoogleCalendarEvent, index: number): CalendarListItem {
 // Live-fetches the church's public Google Calendar. Requires GOOGLE_CALENDAR_API_KEY
 // and GOOGLE_CALENDAR_ID (previously hardcoded client-side in the legacy site — moved
 // server-side here so the key is no longer exposed in page source).
-export async function getUpcomingCalendarEvents(maxResults = 6): Promise<CalendarListItem[] | null> {
+export async function getUpcomingCalendarEvents(maxResults = 8): Promise<CalendarListItem[] | null> {
   const apiKey = process.env.GOOGLE_CALENDAR_API_KEY;
   const calendarId = process.env.GOOGLE_CALENDAR_ID;
   if (!apiKey || !calendarId) return null;
