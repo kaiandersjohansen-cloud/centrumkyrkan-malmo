@@ -93,4 +93,87 @@ const CARDS: Card[] = [
     imageBg: "oklch(98.5% 0.006 90)",
     title: "Nya Samtalskort – för barnfamiljer",
     description: "Tio kort med bibelord, en praktik och en samtalsfråga – perfekt vid matbordet med barnen.",
-    cta: { label: "Testa här", href:
+    cta: { label: "Testa här", href: "/samtalskort" },
+  },
+];
+
+export default function AktuelltSection() {
+  const visibleCards = CARDS.filter((c) => !c.expires || !isExpired(c.expires));
+
+  return (
+    <section style={{ padding: "56px 28px 96px" }}>
+      <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+        <p
+          style={{
+            fontSize: 14,
+            fontWeight: 600,
+            letterSpacing: "0.12em",
+            textTransform: "uppercase",
+            color: "oklch(50% 0.06 145)",
+            margin: "0 0 24px",
+            textAlign: "center",
+          }}
+        >
+          Aktuellt
+        </p>
+        <div className="stack-3" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(240px,1fr))", gap: 24 }}>
+          {visibleCards.map((card) => (
+            <div key={card.key} style={{ display: "flex", flexDirection: "column", background: "oklch(96.5% 0.01 95)", borderRadius: 8, overflow: "hidden" }}>
+              <div style={{ aspectRatio: "16/9", overflow: "hidden", background: card.imageBg }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={card.image}
+                  alt={card.alt}
+                  width={800}
+                  height={450}
+                  loading="lazy"
+                  decoding="async"
+                  style={{ width: "100%", height: "100%", objectFit: card.imageFit || "cover", display: "block" }}
+                />
+              </div>
+              <div style={{ padding: 24 }}>
+                <h2 className="h2-lora" style={{ fontFamily: "var(--font-lora), serif", fontSize: 20, fontWeight: 500, margin: "0 0 10px" }}>
+                  {card.title}
+                </h2>
+                <p style={{ fontSize: 15, color: "oklch(42% 0.015 50)", margin: card.cta ? "0 0 16px" : 0 }}>{card.description}</p>
+                {card.cta && "badge" in card.cta && (
+                  <span
+                    style={{
+                      display: "inline-block",
+                      background: card.cta.muted ? "oklch(85% 0.01 80)" : "oklch(50% 0.06 145)",
+                      color: card.cta.muted ? "oklch(42% 0.015 50)" : "oklch(98.5% 0.006 90)",
+                      padding: "11px 22px",
+                      borderRadius: 100,
+                      fontWeight: 500,
+                      fontSize: 15,
+                    }}
+                  >
+                    {card.cta.badge}
+                  </span>
+                )}
+                {card.cta && "href" in card.cta && (
+                  
+                    href={card.cta.href}
+                    className="btn-solid-green"
+                    style={{
+                      display: "inline-block",
+                      background: "oklch(50% 0.06 145)",
+                      color: "oklch(98.5% 0.006 90)",
+                      padding: "11px 22px",
+                      borderRadius: 100,
+                      fontWeight: 500,
+                      fontSize: 15,
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    {card.cta.label}
+                  </a>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
