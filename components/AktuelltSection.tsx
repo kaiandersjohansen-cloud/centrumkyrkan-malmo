@@ -65,7 +65,7 @@ const CARDS: Card[] = [
     image: "/images/tacksagelse-card.jpg",
     alt: "Thankful – Tacksägelsebruncher i hemmen 11 oktober",
     title: "Tacksägelsebruncher – söndag 11 oktober",
-    description: "Söndag 11 oktober är det tacksägelsedagen – ett perfekt tillfälle att ge extra tid åt gemenskapen och visa hur tacksamma vi är för varandra. Välkommen till tacksägelsebrunch med knytkalas i hemmen kl 10:30–ca 13:30, innan gudstjänsten.",
+    description: "Söndag 11 oktober är det tacksägelsedagen! Ett perfekt tillfälle att ge extra tid åt gemenskapen och visa hur tacksamma vi är för Gud och varandra. Välkommen till tacksägelsebrunch med knytkalas i hemmen kl 10:30–ca 13:30, innan gudstjänsten.",
     cta: { label: "Info och anmälan", href: "https://forms.gle/TRmLiygLgiyhtMKM6" },
     expires: new Date(2026, 9, 12),
   },
