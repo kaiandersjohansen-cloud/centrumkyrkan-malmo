@@ -152,7 +152,7 @@ export default function AktuelltSection() {
                   </span>
                 )}
                 {card.cta && "href" in card.cta && (
-                  
+                  <a
                     href={card.cta.href}
                     className="btn-solid-green"
                     style={{
