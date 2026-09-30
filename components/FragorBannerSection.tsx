@@ -6,14 +6,12 @@ const SLIDO_URL = "https://app.sli.do/event/m8BdE767AkEa3LcnrjwdXS";
 const FRAGOR_BANNER_EXPIRES = new Date("2026-10-11T23:59:00+02:00"); // 11 okt 2026 23:59
 
 const CSS = `
-.fragor-mobile { display: none; padding-top: 32px; }
 .fragor-banner-btn { transition: background 0.2s ease; }
 .fragor-banner-btn:hover { background: rgb(125 45 18) !important; }
 @media (max-width: 1000px) {
   .fragor-banner-btn { padding: 11px 20px !important; font-size: 14px !important; }
 }
 @media (max-width: 780px) {
-  .fragor-mobile { display: block; }
   .fragor-section { padding: 0 16px !important; margin-bottom: 8px !important; }
   .fragor-banner-btn {
     position: static !important;

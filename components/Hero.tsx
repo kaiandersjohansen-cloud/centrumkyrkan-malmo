@@ -201,7 +201,7 @@ export default function Hero({ showPrayerCta }: HeroProps) {
           }}
         />
         <div style={{ position: "relative", flex: 1, display: "flex", alignItems: "center", padding: "0 24px", textAlign: "center", color: "oklch(99% 0.005 90)", marginTop: "16svh" }}>
-          <div>
+          <div style={{ width: "100%" }}>
             <p
               style={{
                 fontSize: 13,
@@ -230,6 +230,9 @@ export default function Hero({ showPrayerCta }: HeroProps) {
             >
               Vi följer Jesus tillsammans
             </h1>
+            <div style={{ margin: "24px -24px 0", textAlign: "left" }}>
+              <FragorBannerSection id="fragor-om-bibeln-mobil" />
+            </div>
           </div>
         </div>
         <div style={{ position: "relative", padding: "0 24px 44px", textAlign: "center" }}>
@@ -299,10 +302,6 @@ export default function Hero({ showPrayerCta }: HeroProps) {
           </div>
         </div>
       </section>
-
-      <div className="fragor-mobile">
-        <FragorBannerSection id="fragor-om-bibeln-mobil" />
-      </div>
     </>
   );
 }
