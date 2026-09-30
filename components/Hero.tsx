@@ -26,102 +26,105 @@ export default function Hero({ showPrayerCta }: HeroProps) {
       <section
         id="hero"
         className="desktop-hero"
-        style={{ maxWidth: 760, margin: "0 auto", padding: "120px 28px 64px", textAlign: "center", scrollMarginTop: 88 }}
+        style={{ textAlign: "center", scrollMarginTop: 88 }}
       >
-        <p
-          style={{
-            fontSize: 14,
-            fontWeight: 600,
-            letterSpacing: "0.12em",
-            textTransform: "uppercase",
-            color: "oklch(50% 0.06 145)",
-            margin: "0 0 24px",
-          }}
-        >
-          Församlingen Centrumkyrkan Malmö
-        </p>
-        <h1
-          className="hero-h1"
-          style={{
-            fontFamily: "var(--font-lora), serif",
-            fontSize: 48,
-            lineHeight: 1.22,
-            fontWeight: 500,
-            margin: "0 0 26px",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          Vi följer Jesus tillsammans
-        </h1>
-        <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
-          <a
-            href="#kalender"
-            id="next-sunday-cta-desktop"
-            className="btn-solid-green"
+        <div style={{ maxWidth: 760, margin: "0 auto", padding: "120px 28px 0" }}>
+          <p
             style={{
-              background: "oklch(50% 0.06 145)",
-              color: "oklch(98.5% 0.006 90)",
-              padding: "15px 30px",
-              borderRadius: 100,
-              fontWeight: 500,
-              fontSize: 15.5,
-            }}
-          >
-            Vad händer framöver?
-          </a>
-          {showPrayerCta && (
-            <a
-              href="#bonuppmaning"
-              id="hero-cta-desktop"
-              style={{
-                display: "inline-block",
-                whiteSpace: "nowrap",
-                border: "1px solid oklch(58% 0.14 45)",
-                color: "oklch(58% 0.14 45)",
-                padding: "12px 26px",
-                borderRadius: 100,
-                fontSize: 16,
-                fontWeight: 500,
-              }}
-            >
-              Centrumkyrkan ber
-            </a>
-          )}
-        </div>
-        <div
-          style={{
-            marginTop: 32,
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 16,
-            border: "1px solid oklch(50% 0.06 145)",
-            borderRadius: 100,
-            padding: "10px 20px 10px 24px",
-          }}
-        >
-          <span
-            style={{
-              fontSize: 13,
+              fontSize: 14,
               fontWeight: 600,
-              letterSpacing: "0.08em",
+              letterSpacing: "0.12em",
               textTransform: "uppercase",
               color: "oklch(50% 0.06 145)",
+              margin: "0 0 24px",
             }}
           >
-            Senaste predikan
-          </span>
-          <a href={SPOTIFY_URL} target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Spotify" style={{ display: "flex", color: "oklch(50% 0.06 145)" }}>
-            <SpotifyIcon />
-          </a>
-          <a href={APPLE_PODCASTS_URL} target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Apple Podcasts" style={{ display: "flex", color: "oklch(50% 0.06 145)" }}>
-            <ApplePodcastsIcon />
-          </a>
+            Församlingen Centrumkyrkan Malmö
+          </p>
+          <h1
+            className="hero-h1"
+            style={{
+              fontFamily: "var(--font-lora), serif",
+              fontSize: 48,
+              lineHeight: 1.22,
+              fontWeight: 500,
+              margin: "0 0 26px",
+              letterSpacing: "-0.01em",
+            }}
+          >
+            Vi följer Jesus tillsammans
+          </h1>
+        </div>
+
+        <FragorBannerSection />
+
+        <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 28px 64px" }}>
+          <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
+            <a
+              href="#kalender"
+              id="next-sunday-cta-desktop"
+              className="btn-solid-green"
+              style={{
+                background: "oklch(50% 0.06 145)",
+                color: "oklch(98.5% 0.006 90)",
+                padding: "15px 30px",
+                borderRadius: 100,
+                fontWeight: 500,
+                fontSize: 15.5,
+              }}
+            >
+              Vad händer framöver?
+            </a>
+            {showPrayerCta && (
+              <a
+                href="#bonuppmaning"
+                id="hero-cta-desktop"
+                style={{
+                  display: "inline-block",
+                  whiteSpace: "nowrap",
+                  border: "1px solid oklch(58% 0.14 45)",
+                  color: "oklch(58% 0.14 45)",
+                  padding: "12px 26px",
+                  borderRadius: 100,
+                  fontSize: 16,
+                  fontWeight: 500,
+                }}
+              >
+                Centrumkyrkan ber
+              </a>
+            )}
+          </div>
+          <div
+            style={{
+              marginTop: 32,
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 16,
+              border: "1px solid oklch(50% 0.06 145)",
+              borderRadius: 100,
+              padding: "10px 20px 10px 24px",
+            }}
+          >
+            <span
+              style={{
+                fontSize: 13,
+                fontWeight: 600,
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                color: "oklch(50% 0.06 145)",
+              }}
+            >
+              Senaste predikan
+            </span>
+            <a href={SPOTIFY_URL} target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Spotify" style={{ display: "flex", color: "oklch(50% 0.06 145)" }}>
+              <SpotifyIcon />
+            </a>
+            <a href={APPLE_PODCASTS_URL} target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Apple Podcasts" style={{ display: "flex", color: "oklch(50% 0.06 145)" }}>
+              <ApplePodcastsIcon />
+            </a>
+          </div>
         </div>
       </section>
-
-      <div className="desktop-hero">
-        <FragorBannerSection />
-      </div>
 
       <div className="desktop-hero" style={{ maxWidth: 1080, margin: "0 auto 48px", padding: "0 28px" }}>
         <div style={{ width: "100%", aspectRatio: "16/9", borderRadius: 6, overflow: "hidden", position: "relative" }}>
