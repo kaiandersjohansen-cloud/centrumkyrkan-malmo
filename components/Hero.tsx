@@ -1,3 +1,5 @@
+import FragorBannerSection from "@/components/FragorBannerSection";
+
 const SpotifyIcon = ({ size = 22 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
     <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.36-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141 4.36-1.32 9.76-.66 13.5 1.62.361.181.54.78.241 1.201zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.6.18-1.2.72-1.38C8.76 5.939 15.72 6.24 19.681 8.58c.539.3.719 1.02.419 1.56-.3.421-1.02.599-1.559.3z" />
@@ -116,6 +118,10 @@ export default function Hero({ showPrayerCta }: HeroProps) {
           </a>
         </div>
       </section>
+
+      <div className="desktop-hero">
+        <FragorBannerSection />
+      </div>
 
       <div className="desktop-hero" style={{ maxWidth: 1080, margin: "0 auto 48px", padding: "0 28px" }}>
         <div style={{ width: "100%", aspectRatio: "16/9", borderRadius: 6, overflow: "hidden", position: "relative" }}>
@@ -290,6 +296,10 @@ export default function Hero({ showPrayerCta }: HeroProps) {
           </div>
         </div>
       </section>
+
+      <div className="fragor-mobile">
+        <FragorBannerSection id="fragor-om-bibeln-mobil" />
+      </div>
     </>
   );
 }
