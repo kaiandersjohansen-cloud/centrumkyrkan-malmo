@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "#vagen", label: "Ditt nästa steg" },
   { href: "#barn", label: "Barn & unga" },
   { href: "#om-oss", label: "Om oss" },
+  { href: "#mission", label: "Mission" },
   { href: "#media", label: "Media" },
   { href: "#kontakt", label: "Kontakt" },
 ];

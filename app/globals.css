@@ -52,7 +52,7 @@ a {
 .mobile-nav-panel {
   display: none;
 }
-@media (max-width: 980px) {
+@media (max-width: 1240px) {
   .desktop-nav {
     display: none !important;
   }

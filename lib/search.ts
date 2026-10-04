@@ -5,6 +5,7 @@ const SECTION_KEYS: Record<string, string> = {
   vagen: "nästa steg dop medlem medlemskap alpha smågrupp växa engagera",
   barn: "barn ungdom biblia söndagsskola cungarna tonår familj",
   "om-oss": "om oss stab pastor personal ledning historia tro vision styrelse",
+  mission: "mission bangladesh evangelister ingen utelatt nipen jibon missionskollekt ge be",
   media: "media podcast predikan lyssna spotify apple poddar",
   kontakt: "kontakt hitta hit adress mejl telefon ge gåva swish besök",
 };

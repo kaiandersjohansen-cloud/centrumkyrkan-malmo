@@ -10,6 +10,7 @@ import LivsrytmSection from "@/components/LivsrytmSection";
 import KalenderSection from "@/components/KalenderSection";
 import BarnSection from "@/components/BarnSection";
 import OmOssSection from "@/components/OmOssSection";
+import MissionSection from "@/components/MissionSection";
 import KontaktSection from "@/components/KontaktSection";
 import MediaSection from "@/components/MediaSection";
 import Footer from "@/components/Footer";
@@ -33,6 +34,7 @@ export default function Home() {
         <KalenderSection />
         <BarnSection />
         <OmOssSection />
+        <MissionSection />
         <KontaktSection />
         <MediaSection />
       </main>
