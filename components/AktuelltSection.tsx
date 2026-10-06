@@ -50,14 +50,6 @@ const CARDS: Card[] = [
     cta: { label: "Testa här", href: "/bordssamtal" },
   },
   {
-    key: "bordsbon",
-    image: "/images/bordsbon-card.png",
-    alt: "Rör vid varje sak medan ni ber – Tack för livet som vi fått",
-    title: "Vår nya bordsbön",
-    description: "En helt ny bordsbön att lära sig utantill och be hemma kring matbordet – om liv, försörjning, tjänst och gemenskap.",
-    cta: { label: "Läs bönen här", href: "/bordsbon" },
-  },
-  {
     key: "samtalskort",
     image: "/images/samtalskort-card.png",
     alt: "Samtalskort för barnfamiljer",
