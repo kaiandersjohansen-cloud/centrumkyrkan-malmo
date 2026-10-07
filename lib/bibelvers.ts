@@ -82,10 +82,73 @@ export interface Translation {
   name: string;
 }
 
-// Översättningarnas id-nummer på bible.com.
+// Översättningarnas id-nummer på bible.com. Den första är förvald.
 export const TRANSLATIONS: Translation[] = [
-  { id: 154, abbr: "B2000", name: "Bibel 2000" },
   { id: 1223, abbr: "SFB15", name: "Svenska Folkbibeln 2015" },
+  { id: 154, abbr: "B2000", name: "Bibel 2000" },
+];
+
+export interface PresetVerse {
+  usfm: string;
+  chapter: number;
+  from: number;
+  to?: number;
+  theme: string;
+}
+
+// 50 välkända bibelord. Bara referenser: texten hämtas av användaren från bible.com,
+// eftersom de moderna svenska översättningarna är upphovsrättsskyddade.
+export const PRESETS: PresetVerse[] = [
+  { usfm: "JHN", chapter: 3, from: 16, theme: "Så älskade Gud världen" },
+  { usfm: "PSA", chapter: 23, from: 1, theme: "Herren är min herde" },
+  { usfm: "JER", chapter: 29, from: 11, theme: "Framtid och hopp" },
+  { usfm: "PRO", chapter: 3, from: 5, to: 6, theme: "Förtrösta på Herren" },
+  { usfm: "ISA", chapter: 41, from: 10, theme: "Var inte rädd" },
+  { usfm: "MAT", chapter: 11, from: 28, theme: "Kom till mig" },
+  { usfm: "ROM", chapter: 8, from: 28, theme: "Allt samverkar till det bästa" },
+  { usfm: "PHP", chapter: 4, from: 13, theme: "Kraft i Kristus" },
+  { usfm: "PHP", chapter: 4, from: 6, to: 7, theme: "Bekymra er inte" },
+  { usfm: "JOS", chapter: 1, from: 9, theme: "Var stark och modig" },
+  { usfm: "JHN", chapter: 14, from: 6, theme: "Vägen, sanningen och livet" },
+  { usfm: "MAT", chapter: 28, from: 19, to: 20, theme: "Missionsbefallningen" },
+  { usfm: "MAT", chapter: 6, from: 33, theme: "Sök först Guds rike" },
+  { usfm: "MAT", chapter: 6, from: 9, to: 13, theme: "Herrens bön" },
+  { usfm: "MAT", chapter: 22, from: 37, to: 39, theme: "Det största budet" },
+  { usfm: "MAT", chapter: 5, from: 14, to: 16, theme: "Världens ljus" },
+  { usfm: "JHN", chapter: 1, from: 1, theme: "I begynnelsen var Ordet" },
+  { usfm: "JHN", chapter: 8, from: 32, theme: "Sanningen gör er fria" },
+  { usfm: "JHN", chapter: 10, from: 10, theme: "Liv i överflöd" },
+  { usfm: "JHN", chapter: 11, from: 25, theme: "Uppståndelsen och livet" },
+  { usfm: "JHN", chapter: 13, from: 34, to: 35, theme: "Ett nytt bud" },
+  { usfm: "ROM", chapter: 3, from: 23, theme: "Alla har syndat" },
+  { usfm: "ROM", chapter: 5, from: 8, theme: "Kristus dog för oss" },
+  { usfm: "ROM", chapter: 6, from: 23, theme: "Guds gåva är evigt liv" },
+  { usfm: "ROM", chapter: 8, from: 38, to: 39, theme: "Ingenting kan skilja oss" },
+  { usfm: "ROM", chapter: 10, from: 9, theme: "Bekänn och tro" },
+  { usfm: "ROM", chapter: 12, from: 2, theme: "Ett förnyat sinne" },
+  { usfm: "ROM", chapter: 15, from: 13, theme: "Hoppets Gud" },
+  { usfm: "1CO", chapter: 13, from: 4, to: 7, theme: "Kärleken är tålmodig" },
+  { usfm: "2CO", chapter: 5, from: 17, theme: "En ny skapelse" },
+  { usfm: "GAL", chapter: 2, from: 20, theme: "Kristus lever i mig" },
+  { usfm: "GAL", chapter: 5, from: 22, to: 23, theme: "Andens frukt" },
+  { usfm: "EPH", chapter: 2, from: 8, to: 9, theme: "Frälsta av nåd" },
+  { usfm: "HEB", chapter: 11, from: 1, theme: "Vad tro är" },
+  { usfm: "HEB", chapter: 13, from: 8, theme: "Densamme i går, i dag och i evighet" },
+  { usfm: "HEB", chapter: 4, from: 12, theme: "Guds ord är levande" },
+  { usfm: "2TI", chapter: 3, from: 16, theme: "Hela Skriften är utandad av Gud" },
+  { usfm: "JAS", chapter: 1, from: 5, theme: "Be om vishet" },
+  { usfm: "1PE", chapter: 5, from: 7, theme: "Kasta era bekymmer på honom" },
+  { usfm: "1JN", chapter: 1, from: 9, theme: "Han förlåter" },
+  { usfm: "GEN", chapter: 1, from: 1, theme: "I begynnelsen skapade Gud" },
+  { usfm: "NUM", chapter: 6, from: 24, to: 26, theme: "Herren välsigne dig" },
+  { usfm: "PSA", chapter: 27, from: 1, theme: "Herren är mitt ljus" },
+  { usfm: "PSA", chapter: 37, from: 4, theme: "Ha din glädje i Herren" },
+  { usfm: "PSA", chapter: 119, from: 105, theme: "En lykta för min fot" },
+  { usfm: "PSA", chapter: 121, from: 1, to: 2, theme: "Min hjälp kommer från Herren" },
+  { usfm: "PSA", chapter: 139, from: 14, theme: "Underbart skapad" },
+  { usfm: "ISA", chapter: 40, from: 31, theme: "Nya krafter" },
+  { usfm: "LAM", chapter: 3, from: 22, to: 23, theme: "Ny varje morgon" },
+  { usfm: "MIC", chapter: 6, from: 8, theme: "Vad Herren begär av dig" },
 ];
 
 export interface SavedVerse {

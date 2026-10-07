@@ -5,11 +5,13 @@ import ToolPageHeader from "@/components/tool-pages/ToolPageHeader";
 import {
   BIBELVERS_KEY,
   BOOKS,
+  PRESETS,
   TRANSLATIONS,
   bibleComUrl,
   formatRef,
   leadWords,
   shuffle,
+  type PresetVerse,
   type SavedVerse,
 } from "@/lib/bibelvers";
 
@@ -41,6 +43,7 @@ const CSS = `
   .vers-pick .vers-book { grid-column: 1 / -1; }
   .vers-face { padding: 32px 24px !important; }
   .vers-hide-sm { display: none; }
+  .vers-presets { grid-template-columns: 1fr !important; }
 }
 @media print {
   @page { margin: 14mm; }
@@ -130,6 +133,7 @@ export default function Bibelvers() {
   const [ref, setRef] = useState("");
   const [text, setText] = useState("");
   const [msg, setMsg] = useState("");
+  const [showAllPresets, setShowAllPresets] = useState(false);
 
   // localStorage only exists client-side; state must hydrate after mount
   // (an effect, not a lazy useState initializer) to avoid an SSR/hydration mismatch.
@@ -155,6 +159,15 @@ export default function Bibelvers() {
     const b = BOOKS[nextBookIdx];
     const f = parseInt(nextFrom, 10);
     if (b && f > 0) setRef(formatRef(b, nextChapter, f, parseInt(nextTo, 10) || undefined));
+  }
+
+  function pickPreset(p: PresetVerse) {
+    updateSelection(BOOKS.findIndex((b) => b.usfm === p.usfm), p.chapter, String(p.from), p.to ? String(p.to) : "");
+    setText("");
+    setMsg("Kopiera versen på bible.com och klistra in den i rutan nedan.");
+    const textarea = document.getElementById("vers-text");
+    textarea?.scrollIntoView({ behavior: "smooth", block: "center" });
+    textarea?.focus({ preventScroll: true });
   }
 
   function go(step: number) {
@@ -336,6 +349,46 @@ export default function Bibelvers() {
               <p style={{ margin: 0, color: MUTED, fontSize: 15.5 }}>Lägg till din första vers nedan, så dyker den upp här som ett kort.</p>
             </div>
           )}
+
+          <section style={{ marginTop: 56 }}>
+            <h2 style={{ fontFamily: "var(--font-lora), serif", fontSize: 24, fontWeight: 500, margin: "0 0 8px" }}>50 kända bibelord</h2>
+            <p style={{ fontSize: 15.5, color: MUTED, margin: "0 0 20px" }}>
+              Vet du inte var du ska börja? Välj ett bibelord nedan. Versen öppnas på bible.com och formuläret fylls i, så klistrar du bara in texten.
+            </p>
+            <ul className="vers-presets" style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 24px", borderTop: `1px solid ${LINE}` }}>
+              {(showAllPresets ? PRESETS : PRESETS.slice(0, 10)).map((p) => {
+                const b = BOOKS.find((x) => x.usfm === p.usfm)!;
+                const presetRef = formatRef(b, p.chapter, p.from, p.to);
+                const added = verses.some((v) => v.ref === presetRef);
+                return (
+                  <li key={presetRef} style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, padding: "12px 0", borderBottom: `1px solid ${LINE}` }}>
+                    <div style={{ minWidth: 0 }}>
+                      <p style={{ margin: 0, fontWeight: 600, fontSize: 15 }}>{presetRef}</p>
+                      <p style={{ margin: 0, fontSize: 14, color: MUTED }}>{p.theme}</p>
+                    </div>
+                    {added ? (
+                      <span style={{ fontSize: 14, fontWeight: 500, color: GREEN, flex: "none" }}>✓ Tillagd</span>
+                    ) : (
+                      <a
+                        href={bibleComUrl(b, p.chapter, translation, p.from, p.to)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => pickPreset(p)}
+                        style={{ flex: "none", fontSize: 14, fontWeight: 500, color: GREEN, border: `1px solid ${GREEN}`, borderRadius: 100, padding: "6px 14px" }}
+                      >
+                        Lägg till
+                      </a>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+            {!showAllPresets && (
+              <button type="button" onClick={() => setShowAllPresets(true)} style={{ ...outlineBtn, marginTop: 20, padding: "10px 20px", fontSize: 14.5 }}>
+                Visa alla 50
+              </button>
+            )}
+          </section>
 
           <section style={{ marginTop: 56, background: "white", border: `1px solid ${LINE}`, borderRadius: 8, padding: 32 }}>
             <h2 style={{ fontFamily: "var(--font-lora), serif", fontSize: 24, fontWeight: 500, margin: "0 0 8px" }}>Lägg till en vers</h2>
