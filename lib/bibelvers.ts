@@ -166,6 +166,22 @@ export function formatRef(book: BibleBook, chapter: number, verseFrom: number, v
   return `${book.short} ${chapter}:${verses}`;
 }
 
+// Byter ut en förkortning i början av referensen mot hela boknamnet, t.ex.
+// "Joh 3:16" -> "Johannesevangeliet 3:16". Fungerar även för egeninskrivna referenser.
+const SHORTS_LONGEST_FIRST = BOOKS.slice().sort((a, b) => b.short.length - a.short.length);
+
+export function expandRef(ref: string): string {
+  const trimmed = ref.trim();
+  for (const book of SHORTS_LONGEST_FIRST) {
+    const prefix = trimmed.slice(0, book.short.length);
+    const rest = trimmed.slice(book.short.length);
+    if (prefix.toLowerCase() === book.short.toLowerCase() && /^\.?\s*\d/.test(rest)) {
+      return `${book.name} ${rest.replace(/^\.?\s*/, "")}`;
+    }
+  }
+  return trimmed;
+}
+
 export function bibleComUrl(book: BibleBook, chapter: number, translation: Translation, verseFrom?: number, verseTo?: number): string {
   let passage = `${book.usfm}.${chapter}`;
   if (verseFrom) passage += `.${verseFrom}${verseTo && verseTo > verseFrom ? `-${verseTo}` : ""}`;

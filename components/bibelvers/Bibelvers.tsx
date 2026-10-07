@@ -8,6 +8,7 @@ import {
   PRESETS,
   TRANSLATIONS,
   bibleComUrl,
+  expandRef,
   formatRef,
   leadWords,
   shuffle,
@@ -43,6 +44,7 @@ const CSS = `
   .vers-pick .vers-book { grid-column: 1 / -1; }
   .vers-face { padding: 32px 24px !important; }
   .vers-hide-sm { display: none; }
+  .vers-ref-title { font-size: 26px !important; overflow-wrap: anywhere; }
   .vers-presets { grid-template-columns: 1fr !important; }
 }
 @media print {
@@ -312,7 +314,7 @@ export default function Bibelvers() {
                     style={{ background: "white", border: `1px solid ${LINE}`, borderTop: `5px solid ${GREEN}`, borderRadius: 8, padding: "44px 40px", minHeight: 320, display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}
                   >
                     <p style={{ ...eyebrow, margin: "0 0 22px" }}>Framsida</p>
-                    <h2 style={{ fontFamily: "var(--font-lora), serif", fontSize: 36, fontWeight: 500, margin: "0 0 18px", lineHeight: 1.2 }}>{verse.ref}</h2>
+                    <h2 className="vers-ref-title" style={{ fontFamily: "var(--font-lora), serif", fontSize: 32, fontWeight: 500, margin: "0 0 18px", lineHeight: 1.2, textWrap: "balance" }}>{expandRef(verse.ref)}</h2>
                     <p style={{ fontFamily: "var(--font-lora), serif", fontStyle: "italic", fontSize: 21, color: MUTED, margin: 0 }}>
                       {lead}
                       {hasMore && " …"}
@@ -350,7 +352,7 @@ export default function Bibelvers() {
             </div>
           )}
 
-          <section style={{ marginTop: 56 }}>
+          <section id="kanda-bibelord" style={{ marginTop: 56, scrollMarginTop: 24 }}>
             <h2 style={{ fontFamily: "var(--font-lora), serif", fontSize: 24, fontWeight: 500, margin: "0 0 8px" }}>50 kända bibelord</h2>
             <p style={{ fontSize: 15.5, color: MUTED, margin: "0 0 20px" }}>
               Vet du inte var du ska börja? Välj ett bibelord nedan. Versen öppnas på bible.com och formuläret fylls i, så klistrar du bara in texten.
@@ -383,11 +385,16 @@ export default function Bibelvers() {
                 );
               })}
             </ul>
-            {!showAllPresets && (
-              <button type="button" onClick={() => setShowAllPresets(true)} style={{ ...outlineBtn, marginTop: 20, padding: "10px 20px", fontSize: 14.5 }}>
-                Visa alla 50
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => {
+                if (showAllPresets) document.getElementById("kanda-bibelord")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                setShowAllPresets((v) => !v);
+              }}
+              style={{ ...outlineBtn, marginTop: 20, padding: "10px 20px", fontSize: 14.5 }}
+            >
+              {showAllPresets ? "Visa färre" : "Visa alla 50"}
+            </button>
           </section>
 
           <section style={{ marginTop: 56, background: "white", border: `1px solid ${LINE}`, borderRadius: 8, padding: 32 }}>
