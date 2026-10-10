@@ -15,7 +15,7 @@ interface Card {
 
 const SKRIFTEN_DATES = [
   { date: "Sön 4 okt", title: "Läsa & meditera" },
-  { date: "Sön 11 okt", title: "Varför är Bibeln Guds ord? Gäst: Joel MacInnes, teologie doktor och lärare i Nya testamentet vid ALT" },
+  { date: "Sön 11 okt", title: "Varför är Bibeln Guds ord? Gäst: Joel MacInnes" },
   { date: "Sön 18 okt", title: "Studera & förstå" },
   { date: "Sön 25 okt", title: "Memorera & bevara" },
 ];
