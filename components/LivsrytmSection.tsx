@@ -1,26 +1,26 @@
 const PRACTICES: { text: string; linkLabel: string; href: string }[] = [
   {
-    text: "Att bli en gemenskap som tar sig tid att vila i en kultur av stress och upptagenhet genom att praktisera",
+    text: "En gemenskap som tar sig tid att vila i en kultur av stress och upptagenhet genom att praktisera",
     linkLabel: "sabbaten",
     href: "https://open.spotify.com/episode/1rBmJyYmhWcbQcb0TyH4Lp?si=xzJNBEE8QUuiHausCiQqBg",
   },
   {
-    text: "Att bli en gemenskap av förnöjsamhet i en kultur av materialism genom att praktisera",
+    text: "En gemenskap av förnöjsamhet i en kultur av materialism genom att praktisera",
     linkLabel: "generositet",
     href: "https://open.spotify.com/episode/1R8D3WEpqtgh6EcX4nfgdY?si=vlNRlj-qSX6sWg4AVxydXg",
   },
   {
-    text: "Att bli en församling av kärlek i en kultur av individualism och ytlighet genom att praktisera",
+    text: "En församling av kärlek i en kultur av individualism och ytlighet genom att praktisera",
     linkLabel: "gemenskap",
     href: "https://open.spotify.com/episode/7ebYV73MD2TjgRwSQnJf25?si=y9RhiOEpRfGd8LZcLGzkXA",
   },
   {
-    text: "Att bli en gemenskap som lever i relation till Gud i en kultur av distraktion och verklighetsflykt genom att praktisera",
+    text: "En gemenskap som lever i relation till Gud i en kultur av distraktion och verklighetsflykt genom att praktisera",
     linkLabel: "bön",
     href: "https://open.spotify.com/episode/2LLyN49K64798wcDfXDLLm?si=Ryg05V87QIi3jziuOWzARQ",
   },
   {
-    text: "Att bli en gemenskap av helighet i en kultur av utsvävningar och omoral genom att praktisera",
+    text: "En gemenskap av helighet i en kultur av utsvävningar och omoral genom att praktisera",
     linkLabel: "fasta",
     href: "https://open.spotify.com/episode/4xw8zDnB5UcKA2HeVuE2fZ?si=fT2PNTvCS8-jlRoXQ-x9tg",
   },
@@ -29,9 +29,14 @@ const PRACTICES: { text: string; linkLabel: string; href: string }[] = [
     linkLabel: "tjänande",
     href: "https://open.spotify.com/episode/6T1tKD98LBwOrGBSckmGvC?si=9Db77RqpTtyhgShyDJ5qfQ",
   },
+  {
+    text: "En gemenskap som modigt håller fast vid den klassiska kristna tron i en kultur där sanningen är förhandlingsbar, genom att praktisera läsning av",
+    linkLabel: "Skriften",
+    href: "https://open.spotify.com/episode/5zI5EIE02fFijNmDETpLJ7?si=4a70fb9a94884d64",
+  },
 ];
 
-const UPCOMING = ["Skriften (hösten 2026)", "Vittna (fastan 2027)", "Avskildhet och tystnad (våren 2027)"];
+const UPCOMING = ["Vittna (fastan 2027)", "Avskildhet och tystnad (hösten 2027)"];
 
 const pillLink = {
   display: "inline-block" as const,
