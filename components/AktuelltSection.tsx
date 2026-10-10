@@ -13,7 +13,34 @@ interface Card {
   expires?: Date;
 }
 
+const SKRIFTEN_DATES = [
+  { date: "Sön 4 okt", title: "Läsa & meditera" },
+  { date: "Sön 11 okt", title: "Varför är Bibeln Guds ord? Gäst: Joel MacInnes, teologie doktor och lärare i Nya testamentet vid ALT" },
+  { date: "Sön 18 okt", title: "Studera & förstå" },
+  { date: "Sön 25 okt", title: "Memorera & bevara" },
+];
+
 const CARDS: Card[] = [
+  {
+    key: "skriften",
+    image: "/images/skriften-card.jpg",
+    alt: "Ny predikoserie: Skriften – att lära sig att älska Bibeln",
+    title: "Ny predikoserie: Skriften – att lära sig att älska Bibeln",
+    description: (
+      <>
+        Under oktober tittar vi närmare på Bibeln: hur vi kan läsa den, förstå den och bära den med oss i vardagen. Serien är för dig som redan älskar Bibeln, för dig som tycker att den är svår och för dig som är nyfiken.
+        <span style={{ display: "block", marginTop: 12 }}>
+          {SKRIFTEN_DATES.map((d) => (
+            <span key={d.date} style={{ display: "block", marginTop: 4 }}>
+              <strong style={{ fontWeight: 600, color: "oklch(30% 0.015 50)" }}>{d.date}</strong> – {d.title}
+            </span>
+          ))}
+        </span>
+      </>
+    ),
+    cta: { label: "Lyssna här", href: "https://open.spotify.com/episode/5zI5EIE02fFijNmDETpLJ7?si=4a70fb9a94884d64", external: true },
+    expires: new Date(2026, 9, 26),
+  },
   {
     key: "alpha-sep",
     image: "/images/alpha-24-sep.png",
@@ -118,6 +145,7 @@ export default function AktuelltSection() {
                 {card.cta && "href" in card.cta && (
                   <a
                     href={card.cta.href}
+                    {...(card.cta.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     className="btn-solid-green"
                     style={{
                       display: "inline-block",
