@@ -30,8 +30,8 @@ const PRACTICES: { text: string; linkLabel: string; href: string }[] = [
     href: "https://open.spotify.com/episode/6T1tKD98LBwOrGBSckmGvC?si=9Db77RqpTtyhgShyDJ5qfQ",
   },
   {
-    text: "En gemenskap som modigt håller fast vid den klassiska kristna tron i en kultur där sanningen är förhandlingsbar, genom att praktisera läsning av",
-    linkLabel: "Skriften",
+    text: "En gemenskap som håller fast vid den klassiska kristna tron i en kultur där sanningen är förhandlingsbar, genom att praktisera läsning av",
+    linkLabel: "skriften",
     href: "https://open.spotify.com/episode/5zI5EIE02fFijNmDETpLJ7?si=4a70fb9a94884d64",
   },
 ];
