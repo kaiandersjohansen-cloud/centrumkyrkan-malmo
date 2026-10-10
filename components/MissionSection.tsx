@@ -1,19 +1,17 @@
 const EVANGELISTS = [
   {
-    image: "/images/mission-nipen-das.jpg",
-    alt: "Nipen Das står med sin cykel i en by i Bangladesh",
+    image: "/images/mission-nipen-das-rund.jpg",
+    alt: "Nipen Das",
     name: "Nipen Das",
     place: "Panchagarh",
     text: "Nipen växte upp i en hinduisk familj och sökte länge efter frid. Ett vanligt samtal på marknaden med en pastor förändrade allt. I dag berättar han för andra om den frid han själv har hittat hos Jesus, en frid som han säger ”ges fritt till alla som söker honom”.",
-    objectPosition: "center 35%",
   },
   {
-    image: "/images/mission-jibon-biswas.jpg",
+    image: "/images/mission-jibon-biswas-rund.jpg",
     alt: "Jibon Biswas",
     name: "Jibon Biswas",
     place: "Chachra, Khulna",
     text: "Jibon arbetar i södra Bangladesh. ”Att tjäna Herren är en välsignelse och en kallelse”, säger han. ”Det är hans kärlek till människor som driver mig.”",
-    objectPosition: "center 30%",
   },
 ];
 
@@ -54,21 +52,25 @@ export default function MissionSection() {
         <p style={{ ...eyebrow, textAlign: "center", margin: "0 0 28px" }}>Våra evangelister</p>
         <div className="stack-2" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, marginBottom: 72 }}>
           {EVANGELISTS.map((person) => (
-            <article key={person.name}>
-              <div style={{ aspectRatio: "4/3", borderRadius: 6, overflow: "hidden", marginBottom: 22 }}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={person.image}
-                  alt={person.alt}
-                  width={800}
-                  height={600}
-                  loading="lazy"
-                  decoding="async"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: person.objectPosition, display: "block" }}
-                />
+            <article key={person.name} style={{ paddingTop: 24, borderTop: "1px solid oklch(89% 0.008 80)" }}>
+              <div style={{ display: "flex", gap: 20, alignItems: "center", marginBottom: 18 }}>
+                <div style={{ width: 112, height: 112, flex: "none", borderRadius: "50%", overflow: "hidden" }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={person.image}
+                    alt={person.alt}
+                    width={112}
+                    height={112}
+                    loading="lazy"
+                    decoding="async"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                </div>
+                <div>
+                  <h3 style={{ fontFamily: "var(--font-lora), serif", fontSize: 21, fontWeight: 500, margin: "0 0 4px" }}>{person.name}</h3>
+                  <p style={{ margin: 0, fontSize: 14, fontWeight: 600, color: "oklch(50% 0.06 145)" }}>{person.place}</p>
+                </div>
               </div>
-              <h3 style={{ fontFamily: "var(--font-lora), serif", fontSize: 21, fontWeight: 500, margin: "0 0 4px" }}>{person.name}</h3>
-              <p style={{ margin: "0 0 12px", fontSize: 14, fontWeight: 600, color: "oklch(50% 0.06 145)" }}>{person.place}</p>
               <p style={bodyText}>{person.text}</p>
             </article>
           ))}
