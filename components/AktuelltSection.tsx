@@ -51,15 +51,6 @@ const CARDS: Card[] = [
     expires: new Date(2026, 8, 25),
   },
   {
-    key: "tacksagelse",
-    image: "/images/tacksagelse-card.jpg",
-    alt: "Thankful – Tacksägelsebruncher i hemmen 11 oktober",
-    title: "Tacksägelsebruncher – söndag 11 oktober",
-    description: "Söndag 11 oktober är det tacksägelsedagen! Ett perfekt tillfälle att ge extra tid åt gemenskapen och visa hur tacksamma vi är för Gud och varandra. Välkommen till tacksägelsebrunch med knytkalas i hemmen kl 10:30–ca 13:30, innan gudstjänsten.",
-    cta: { badge: "Anmälan stängd", muted: true },
-    expires: new Date(2026, 9, 12),
-  },
-  {
     key: "kyrkoavgift",
     image: "/images/kyrkoavgiften-card.png",
     alt: "Kyrkoavgiften till Centrumkyrkan Malmö – registrera dig innan 31 oktober",
