@@ -28,7 +28,7 @@ const CARDS: Card[] = [
     title: "Ny predikoserie: Skriften – att lära sig att älska Bibeln",
     description: (
       <>
-        Under oktober tittar vi närmare på Bibeln: hur vi kan läsa den, förstå den och bära den med oss i vardagen. Serien är för dig som redan älskar Bibeln, för dig som tycker att den är svår och för dig som är nyfiken.
+        Under oktober tittar vi närmare på Bibeln: hur vi kan läsa den, förstå den och bära den med oss i vardagen.
         <span style={{ display: "block", marginTop: 12 }}>
           {SKRIFTEN_DATES.map((d) => (
             <span key={d.date} style={{ display: "block", marginTop: 4 }}>
