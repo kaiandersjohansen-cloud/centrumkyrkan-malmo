@@ -42,6 +42,14 @@ const CARDS: Card[] = [
     expires: new Date(2026, 9, 26),
   },
   {
+    key: "bibelvers",
+    image: "/images/bibelvers-card.jpg",
+    alt: "Ett verskort med Johannesevangeliet 3:16 och orden ”Så älskade Gud …”",
+    title: "Nytt verktyg: Memorera bibelord",
+    description: "Vill du bära Guds ord med dig i vardagen? Spara de bibelord du vill lära dig utantill som kort du kan vända. Framsidan visar början av versen och baksidan hela. Välj bland 50 kända bibelord eller lägg till egna, och öva i ordning eller slumpvis.",
+    cta: { label: "Testa här", href: "/bibelvers" },
+  },
+  {
     key: "alpha-sep",
     image: "/images/alpha-24-sep.png",
     alt: "Alpha-kurs start 24/9 kl 18.30, Centrumkyrkan Malmö & Immanuelskyrkan",
