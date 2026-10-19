@@ -16,6 +16,10 @@ import MediaSection from "@/components/MediaSection";
 import Footer from "@/components/Footer";
 import { PRAYER_RELAY_EXPIRES, isExpired } from "@/lib/dates";
 
+// Bygg om startsidan varje timme så att datumstyrda kort och banners
+// visas och försvinner i tid, utan att någon behöver göra en ny publicering.
+export const revalidate = 3600;
+
 export default function Home() {
   const showPrayerCampaign = !isExpired(PRAYER_RELAY_EXPIRES);
 

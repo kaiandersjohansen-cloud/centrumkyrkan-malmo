@@ -10,6 +10,7 @@ interface Card {
   title: string;
   description: ReactNode;
   cta?: { label: string; href: string; external?: boolean } | { badge: string; muted?: boolean };
+  starts?: Date;
   expires?: Date;
 }
 
@@ -21,6 +22,16 @@ const SKRIFTEN_DATES = [
 ];
 
 const CARDS: Card[] = [
+  {
+    key: "bibelvers",
+    image: "/images/bibelvers-card.jpg",
+    alt: "En bibel bredvid ett verskort med Johannesevangeliet 3:16 och orden ”Så älskade Gud …”",
+    title: "Nytt verktyg: Memorera bibelord",
+    description: "Vill du bära Guds ord med dig i vardagen? Spara de bibelord du vill lära dig utantill som kort du kan vända. Framsidan visar början av versen och baksidan hela. Välj bland 50 kända bibelord eller lägg till egna, och öva i ordning eller slumpvis.",
+    cta: { label: "Testa här", href: "/bibelvers" },
+    // Visas från söndag 25 oktober, samma dag som predikan "Memorera & bevara".
+    starts: new Date("2026-10-25T00:00:00+02:00"),
+  },
   {
     key: "skriften",
     image: "/images/skriften-card.jpg",
@@ -40,14 +51,6 @@ const CARDS: Card[] = [
     ),
     cta: { label: "Lyssna här", href: "https://open.spotify.com/episode/5zI5EIE02fFijNmDETpLJ7?si=4a70fb9a94884d64", external: true },
     expires: new Date(2026, 9, 26),
-  },
-  {
-    key: "bibelvers",
-    image: "/images/bibelvers-card.jpg",
-    alt: "En bibel bredvid ett verskort med Johannesevangeliet 3:16 och orden ”Så älskade Gud …”",
-    title: "Nytt verktyg: Memorera bibelord",
-    description: "Vill du bära Guds ord med dig i vardagen? Spara de bibelord du vill lära dig utantill som kort du kan vända. Framsidan visar början av versen och baksidan hela. Välj bland 50 kända bibelord eller lägg till egna, och öva i ordning eller slumpvis.",
-    cta: { label: "Testa här", href: "/bibelvers" },
   },
   {
     key: "alpha-sep",
@@ -88,7 +91,7 @@ const CARDS: Card[] = [
 ];
 
 export default function AktuelltSection() {
-  const visibleCards = CARDS.filter((c) => !c.expires || !isExpired(c.expires));
+  const visibleCards = CARDS.filter((c) => (!c.starts || isExpired(c.starts)) && (!c.expires || !isExpired(c.expires)));
 
   return (
     <section style={{ padding: "56px 28px 96px" }}>
