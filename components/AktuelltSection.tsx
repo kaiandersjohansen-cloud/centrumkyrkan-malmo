@@ -44,7 +44,7 @@ const CARDS: Card[] = [
   {
     key: "bibelvers",
     image: "/images/bibelvers-card.jpg",
-    alt: "Ett verskort med Johannesevangeliet 3:16 och orden ”Så älskade Gud …”",
+    alt: "En bibel bredvid ett verskort med Johannesevangeliet 3:16 och orden ”Så älskade Gud …”",
     title: "Nytt verktyg: Memorera bibelord",
     description: "Vill du bära Guds ord med dig i vardagen? Spara de bibelord du vill lära dig utantill som kort du kan vända. Framsidan visar början av versen och baksidan hela. Välj bland 50 kända bibelord eller lägg till egna, och öva i ordning eller slumpvis.",
     cta: { label: "Testa här", href: "/bibelvers" },
