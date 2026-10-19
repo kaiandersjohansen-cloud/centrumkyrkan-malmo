@@ -311,7 +311,7 @@ export default function Bibelvers() {
                   <div
                     className="vers-face vers-front"
                     aria-hidden={flipped}
-                    style={{ background: "white", border: `1px solid ${LINE}`, borderTop: `5px solid ${GREEN}`, borderRadius: 8, padding: "44px 40px", minHeight: 320, display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}
+                    style={{ background: "white", border: `2px solid ${GREEN}`, boxShadow: "inset 0 0 0 8px white, inset 0 0 0 9px oklch(82% 0.035 145)", borderRadius: 10, padding: "44px 40px", minHeight: 320, display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}
                   >
                     <p style={{ ...eyebrow, margin: "0 0 22px" }}>Framsida</p>
                     <h2 className="vers-ref-title" style={{ fontFamily: "var(--font-lora), serif", fontSize: 32, fontWeight: 500, margin: "0 0 18px", lineHeight: 1.2, textWrap: "balance" }}>{expandRef(verse.ref)}</h2>
@@ -324,7 +324,7 @@ export default function Bibelvers() {
                   <div
                     className="vers-face vers-back"
                     aria-hidden={!flipped}
-                    style={{ background: "oklch(96.5% 0.01 95)", border: `1px solid ${LINE}`, borderTop: `5px solid ${GREEN}`, borderRadius: 8, padding: "44px 40px", minHeight: 320, display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}
+                    style={{ background: "oklch(96.5% 0.01 95)", border: `2px solid ${GREEN}`, boxShadow: "inset 0 0 0 8px oklch(96.5% 0.01 95), inset 0 0 0 9px oklch(82% 0.035 145)", borderRadius: 10, padding: "44px 40px", minHeight: 320, display: "flex", flexDirection: "column", justifyContent: "center", textAlign: "center" }}
                   >
                     <p style={{ ...eyebrow, margin: "0 0 22px" }}>Baksida</p>
                     <p style={{ fontFamily: "var(--font-lora), serif", fontSize: 21, lineHeight: 1.55, margin: "0 0 22px", textWrap: "pretty" }}>{verse.text}</p>
