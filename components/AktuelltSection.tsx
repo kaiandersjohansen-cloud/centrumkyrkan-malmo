@@ -12,6 +12,7 @@ interface Card {
   cta?: { label: string; href: string; external?: boolean } | { badge: string; muted?: boolean };
   starts?: Date;
   expires?: Date;
+  hidden?: boolean;
 }
 
 const SKRIFTEN_DATES = [
@@ -31,14 +32,6 @@ const CARDS: Card[] = [
     cta: { label: "Testa här", href: "/bibelvers" },
     // Visas från söndag 25 oktober, samma dag som predikan "Memorera & bevara".
     starts: new Date("2026-10-25T00:00:00+02:00"),
-  },
-  {
-    key: "advent",
-    image: "/images/adventsgudstjanst-card.jpg",
-    alt: "Adventsgudstjänst söndag 29 november kl 15.30 i Centrumkyrkan Malmö",
-    title: "Adventsgudstjänst – söndag 29 november kl 15:30",
-    description: "Nu börjar det närma sig! Snart tänder vi det första adventsljuset och går in i adventstiden tillsammans. Välkommen till en stämningsfull gudstjänst med musik, ljus och hopp – nya och välkända adventssånger, barnkör och ett hoppfullt budskap inför julen. Kom gärna tidigare, vi har glöggmingel från kl 15:15, och efteråt bjuder vi på adventsfika. Bjud gärna med en vän!",
-    expires: new Date("2026-11-30T00:00:00+01:00"),
   },
   {
     key: "skriften",
@@ -79,12 +72,21 @@ const CARDS: Card[] = [
     expires: new Date(2026, 10, 1),
   },
   {
+    key: "advent",
+    image: "/images/adventsgudstjanst-card.jpg",
+    alt: "Adventsgudstjänst söndag 29 november kl 15.30 i Centrumkyrkan Malmö",
+    title: "Adventsgudstjänst – söndag 29 november kl 15:30",
+    description: "Nu börjar det närma sig! Snart tänder vi det första adventsljuset och går in i adventstiden tillsammans. Välkommen till en stämningsfull gudstjänst med musik, ljus och hopp – nya och välkända adventssånger, barnkör och ett hoppfullt budskap inför julen. Kom gärna tidigare, vi har glöggmingel från kl 15:15, och efteråt bjuder vi på adventsfika. Bjud gärna med en vän!",
+    expires: new Date("2026-11-30T00:00:00+01:00"),
+  },
+  {
     key: "bordssamtal",
     image: "/images/bordssamtal-hero.png",
     alt: "Fyra personer samtalar runt ett bord med Bibel och samtalsfrågor",
     title: "Testa Bordssamtal – nytt digitalt verktyg",
     description: "Ett enkelt verktyg för att komma i gång med bättre och djupare samtal tillsammans med vänner eller i hemgruppen.",
     cta: { label: "Testa här", href: "/bordssamtal" },
+    hidden: true, // Tillfälligt borttagen från Aktuellt. Ta bort raden för att visa kortet igen.
   },
   {
     key: "samtalskort",
@@ -99,7 +101,7 @@ const CARDS: Card[] = [
 ];
 
 export default function AktuelltSection() {
-  const visibleCards = CARDS.filter((c) => (!c.starts || isExpired(c.starts)) && (!c.expires || !isExpired(c.expires)));
+  const visibleCards = CARDS.filter((c) => !c.hidden && (!c.starts || isExpired(c.starts)) && (!c.expires || !isExpired(c.expires)));
 
   return (
     <section style={{ padding: "56px 28px 96px" }}>
