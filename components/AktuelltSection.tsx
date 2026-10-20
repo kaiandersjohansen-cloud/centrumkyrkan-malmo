@@ -33,6 +33,14 @@ const CARDS: Card[] = [
     starts: new Date("2026-10-25T00:00:00+02:00"),
   },
   {
+    key: "advent",
+    image: "/images/adventsgudstjanst-card.jpg",
+    alt: "Adventsgudstjänst söndag 29 november kl 15.30 i Centrumkyrkan Malmö",
+    title: "Adventsgudstjänst – söndag 29 november kl 15:30",
+    description: "Nu börjar det närma sig! Snart tänder vi det första adventsljuset och går in i adventstiden tillsammans. Välkommen till en stämningsfull gudstjänst med musik, ljus och hopp – nya och välkända adventssånger, barnkör och ett hoppfullt budskap inför julen. Kom gärna tidigare, vi har glöggmingel från kl 15:15, och efteråt bjuder vi på adventsfika. Bjud gärna med en vän!",
+    expires: new Date("2026-11-30T00:00:00+01:00"),
+  },
+  {
     key: "skriften",
     image: "/images/skriften-card.jpg",
     alt: "Ny predikoserie: Skriften – att lära sig att älska Bibeln",
