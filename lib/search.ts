@@ -3,6 +3,7 @@ const SECTION_KEYS: Record<string, string> = {
   kalender: "kalender händelser program datum vad händer",
   bonuppmaning: "bön bönestafett böneämnen fasta morgonbön lunchbön böneskola",
   vagen: "nästa steg dop medlem medlemskap alpha smågrupp växa engagera",
+  verktyg: "digitala verktyg memorera bibelord bibelvers bordssamtal samtalskort bordsbön",
   barn: "barn ungdom biblia söndagsskola cungarna tonår familj",
   "om-oss": "om oss stab pastor personal ledning historia tro vision styrelse",
   mission: "mission bangladesh evangelister ingen utelatt nipen jibon missionskollekt ge be",

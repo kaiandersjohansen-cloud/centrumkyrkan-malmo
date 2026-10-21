@@ -6,6 +6,7 @@ import GudstjanstSection from "@/components/GudstjanstSection";
 import AktuelltSection from "@/components/AktuelltSection";
 import ReflektionSection from "@/components/ReflektionSection";
 import VagenSection from "@/components/VagenSection";
+import VerktygSection from "@/components/VerktygSection";
 import LivsrytmSection from "@/components/LivsrytmSection";
 import KalenderSection from "@/components/KalenderSection";
 import BarnSection from "@/components/BarnSection";
@@ -34,6 +35,7 @@ export default function Home() {
         <AktuelltSection />
         <ReflektionSection />
         <VagenSection />
+        <VerktygSection />
         <LivsrytmSection />
         <KalenderSection />
         <BarnSection />
