@@ -1,4 +1,7 @@
-const TOOLS = [
+import type { CSSProperties } from "react";
+import { isExpired } from "@/lib/dates";
+
+const TOOLS: { href: string; title: string; text: string; ink: string; soft: string; line: string; starts?: Date }[] = [
   {
     href: "/bibelvers",
     title: "Memorera bibelord",
@@ -6,6 +9,8 @@ const TOOLS = [
     ink: "oklch(46% 0.09 145)",
     soft: "oklch(94% 0.035 145)",
     line: "oklch(86% 0.05 145)",
+    // Visas från söndag 25 oktober, samma dag som kortet i Aktuellt.
+    starts: new Date("2026-10-25T00:00:00+02:00"),
   },
   {
     href: "/bordssamtal",
@@ -34,7 +39,7 @@ const TOOLS = [
 ];
 
 const CSS = `
-.verktyg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+.verktyg-grid { display: grid; grid-template-columns: repeat(var(--verktyg-cols), 1fr); gap: 20px; }
 .verktyg-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .verktyg-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px oklch(30% 0.02 50 / 0.08); }
 @media (max-width: 980px) { .verktyg-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -47,6 +52,8 @@ const CSS = `
 `;
 
 export default function VerktygSection() {
+  const visibleTools = TOOLS.filter((t) => !t.starts || isExpired(t.starts));
+
   return (
     <section id="verktyg" style={{ padding: "24px 28px 96px", scrollMarginTop: 88 }}>
       <style>{CSS}</style>
@@ -59,8 +66,8 @@ export default function VerktygSection() {
             Hjälp att leva med Jesus i vardagen.
           </h2>
         </div>
-        <div className="verktyg-grid">
-          {TOOLS.map((tool) => (
+        <div className="verktyg-grid" style={{ "--verktyg-cols": visibleTools.length } as CSSProperties}>
+          {visibleTools.map((tool) => (
             <a
               key={tool.href}
               href={tool.href}
