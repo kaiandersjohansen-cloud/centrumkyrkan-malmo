@@ -55,7 +55,7 @@ export default function VerktygSection() {
   const visibleTools = TOOLS.filter((t) => !t.starts || isExpired(t.starts));
 
   return (
-    <section id="verktyg" style={{ padding: "24px 28px 96px", scrollMarginTop: 88 }}>
+    <section id="verktyg" style={{ padding: "96px 28px", scrollMarginTop: 88 }}>
       <style>{CSS}</style>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <div style={{ maxWidth: 640, margin: "0 auto 40px", textAlign: "center" }}>

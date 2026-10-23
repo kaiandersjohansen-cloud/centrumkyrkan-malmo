@@ -12,7 +12,7 @@ const linkStyle: CSSProperties = {
 
 export default function VagenSection() {
   return (
-    <section id="vagen" style={{ padding: "96px 28px" }}>
+    <section id="vagen" style={{ padding: "96px 28px", background: "oklch(96.5% 0.01 95)" }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <div style={{ maxWidth: 640, margin: "0 auto 64px", textAlign: "center" }}>
           <p style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "oklch(50% 0.06 145)", margin: "0 0 18px" }}>

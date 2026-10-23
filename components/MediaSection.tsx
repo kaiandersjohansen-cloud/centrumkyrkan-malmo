@@ -23,7 +23,7 @@ const pillOutline = {
 
 export default function MediaSection() {
   return (
-    <section id="media" style={{ padding: "96px 28px", scrollMarginTop: 88 }}>
+    <section id="media" style={{ padding: "96px 28px", background: "oklch(96.5% 0.01 95)", scrollMarginTop: 88 }}>
       <div style={{ maxWidth: 1080, margin: "0 auto", textAlign: "center" }}>
         <p style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "oklch(50% 0.06 145)", margin: "0 0 18px" }}>
           Sociala medier &amp; Podd
