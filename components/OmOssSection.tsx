@@ -18,7 +18,7 @@ const STAFF = [
 
 export default function OmOssSection() {
   return (
-    <section id="om-oss" style={{ padding: "96px 28px", scrollMarginTop: 88 }}>
+    <section id="om-oss" style={{ padding: "96px 28px", background: "oklch(96.5% 0.01 95)", scrollMarginTop: 88 }}>
       <div className="stack-2" style={{ maxWidth: 1080, margin: "0 auto", display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 72 }}>
         <div>
           <p style={{ fontSize: 14, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase", color: "oklch(50% 0.06 145)", margin: "0 0 18px" }}>

@@ -8,8 +8,8 @@ const NAV_LINKS = [
   { href: "#gudstjanst", label: "Gudstjänst" },
   { href: "#kalender", label: "Kalender" },
   { href: "#vagen", label: "Ditt nästa steg" },
+  { href: "#verktyg", label: "Digitala verktyg" },
   { href: "#barn", label: "Barn & unga" },
-  { href: "#om-oss", label: "Om oss" },
   { href: "#mission", label: "Mission" },
   { href: "#media", label: "Media" },
   { href: "#kontakt", label: "Kontakt" },
@@ -51,7 +51,7 @@ export default function Header() {
       </a>
       <div
         style={{
-          maxWidth: 1080,
+          maxWidth: 1240,
           margin: "0 auto",
           padding: "22px 28px",
           display: "flex",

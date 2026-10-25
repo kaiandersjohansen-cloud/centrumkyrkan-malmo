@@ -34,7 +34,7 @@ const bodyText = { margin: 0, color: "oklch(42% 0.015 50)", fontSize: 15.5 };
 
 export default function MissionSection() {
   return (
-    <section id="mission" style={{ padding: "96px 28px", background: "oklch(96.5% 0.01 95)", scrollMarginTop: 88 }}>
+    <section id="mission" style={{ padding: "96px 28px", scrollMarginTop: 88 }}>
       <div style={{ maxWidth: 1080, margin: "0 auto" }}>
         <div style={{ maxWidth: 680, margin: "0 auto 64px", textAlign: "center" }}>
           <p style={eyebrow}>Mission</p>

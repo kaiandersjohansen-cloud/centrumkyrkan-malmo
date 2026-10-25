@@ -39,8 +39,8 @@ export default function Home() {
         <LivsrytmSection />
         <KalenderSection />
         <BarnSection />
-        <OmOssSection />
         <MissionSection />
+        <OmOssSection />
         <KontaktSection />
         <MediaSection />
       </main>
