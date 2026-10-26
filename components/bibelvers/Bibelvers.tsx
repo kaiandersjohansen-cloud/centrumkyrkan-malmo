@@ -312,8 +312,11 @@ export default function Bibelvers() {
           <h1 style={{ fontFamily: "var(--font-lora), serif", fontSize: 34, fontWeight: 500, textAlign: "center", margin: "0 0 16px" }}>
             Memorera bibelord
           </h1>
-          <p style={{ fontSize: 16.5, color: MUTED, textAlign: "center", margin: "0 auto 44px", maxWidth: 520 }}>
+          <p style={{ fontSize: 16.5, color: MUTED, textAlign: "center", margin: "0 auto 24px", maxWidth: 520 }}>
             Spara de verser du vill lära dig utantill. Framsidan visar bara början, så får du försöka minnas resten innan du vänder kortet.
+          </p>
+          <p style={{ fontSize: 14.5, color: MUTED, textAlign: "center", margin: "0 auto 44px", maxWidth: 560, background: "white", border: `1px solid ${LINE}`, borderRadius: 8, padding: "12px 18px" }}>
+            <strong style={{ fontWeight: 600, color: INK }}>Bra att veta:</strong> korten sparas i den webbläsare du använder nu, på den här telefonen eller datorn. Använd samma webbläsare på samma enhet nästa gång, så finns de kvar.
           </p>
 
           {verse ? (
