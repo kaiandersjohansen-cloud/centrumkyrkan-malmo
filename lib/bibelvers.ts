@@ -82,6 +82,8 @@ export interface Translation {
   name: string;
   // true = texten hämtas automatiskt via YouVersion Platform (licens finns).
   api?: boolean;
+  // Kort rad vid varje vers och hela texten längst ner på sidan och i utskriften.
+  copyrightShort?: string;
   copyright?: string;
   // Kort förklaring som visas under valet av översättning.
   description: string;
@@ -94,6 +96,7 @@ export const TRANSLATIONS: Translation[] = [
     abbr: "NUB",
     name: "nuBibeln",
     api: true,
+    copyrightShort: "nuBibeln © 2015 Biblica, Inc.",
     copyright: "nuBibeln (Swedish Contemporary Bible). Copyright © 2015 av Biblica, Inc.® Utgiven med tillstånd från Biblica, Inc.® Alla rättigheter förbehållna över hela världen.",
     description: "Modern och lättläst svenska som är lätt att ta till sig. Texten fylls i automatiskt.",
   },
@@ -217,6 +220,10 @@ export function bibleComUrl(book: BibleBook, chapter: number, translation: Trans
 
 export function copyrightFor(abbr?: string): string | undefined {
   return TRANSLATIONS.find((t) => t.abbr === abbr)?.copyright;
+}
+
+export function copyrightShortFor(abbr?: string): string | undefined {
+  return TRANSLATIONS.find((t) => t.abbr === abbr)?.copyrightShort;
 }
 
 export const LEAD_WORDS = 3;

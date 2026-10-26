@@ -9,6 +9,7 @@ import {
   TRANSLATIONS,
   bibleComUrl,
   copyrightFor,
+  copyrightShortFor,
   expandRef,
   formatRef,
   leadWords,
@@ -390,8 +391,8 @@ export default function Bibelvers() {
                     <p style={{ ...eyebrow, margin: "0 0 22px" }}>Baksida</p>
                     <p style={{ fontFamily: "var(--font-lora), serif", fontSize: 21, lineHeight: 1.55, margin: "0 0 22px", textWrap: "pretty" }}>{verse.text}</p>
                     <p style={{ fontSize: 15, fontWeight: 600, color: GREEN, margin: 0 }}>{refWithTranslation(verse)}</p>
-                    {copyrightFor(verse.translation) && (
-                      <p style={{ fontSize: 11.5, color: "oklch(55% 0.01 80)", margin: "14px auto 0", maxWidth: 440, lineHeight: 1.45 }}>{copyrightFor(verse.translation)}</p>
+                    {copyrightShortFor(verse.translation) && (
+                      <p style={{ fontSize: 11.5, color: "oklch(55% 0.01 80)", margin: "10px 0 0" }}>{copyrightShortFor(verse.translation)}</p>
                     )}
                   </div>
                 </div>
@@ -548,7 +549,7 @@ export default function Bibelvers() {
                   placeholder={fetching ? "Hämtar texten …" : "Klistra in eller skriv versen här"}
                   style={{ ...inputStyle, resize: "vertical" }}
                 />
-                {translation.copyright && <p style={{ margin: "6px 0 0", fontSize: 12, color: MUTED, lineHeight: 1.45 }}>{translation.copyright}</p>}
+                {translation.copyrightShort && <p style={{ margin: "6px 0 0", fontSize: 12, color: MUTED }}>{translation.copyrightShort}</p>}
               </div>
               <button type="button" onClick={save} disabled={fetching} style={{ ...solidBtn, alignSelf: "flex-start", marginTop: 4, opacity: fetching ? 0.6 : 1 }}>
                 Spara versen
@@ -587,6 +588,14 @@ export default function Bibelvers() {
               </p>
             </section>
           )}
+
+          <footer style={{ marginTop: 64, paddingTop: 20, borderTop: `1px solid ${LINE}` }}>
+            {TRANSLATIONS.filter((t) => t.copyright).map((t) => (
+              <p key={t.abbr} style={{ margin: 0, fontSize: 12, color: MUTED, lineHeight: 1.5 }}>
+                {t.copyright}
+              </p>
+            ))}
+          </footer>
         </main>
       </div>
 
