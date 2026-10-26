@@ -80,11 +80,21 @@ export interface Translation {
   id: number;
   abbr: string;
   name: string;
+  // true = texten hämtas automatiskt via YouVersion Platform (licens finns).
+  api?: boolean;
+  copyright?: string;
 }
 
 // Översättningarnas id-nummer på bible.com. Den första är förvald.
 export const TRANSLATIONS: Translation[] = [
   { id: 1223, abbr: "SFB15", name: "Svenska Folkbibeln 2015" },
+  {
+    id: 916,
+    abbr: "NUB",
+    name: "nuBibeln",
+    api: true,
+    copyright: "nuBibeln (Swedish Contemporary Bible). Copyright © 2015 av Biblica, Inc.® Utgiven med tillstånd från Biblica, Inc.® Alla rättigheter förbehållna över hela världen.",
+  },
   { id: 154, abbr: "B2000", name: "Bibel 2000" },
 ];
 
@@ -182,10 +192,18 @@ export function expandRef(ref: string): string {
   return trimmed;
 }
 
-export function bibleComUrl(book: BibleBook, chapter: number, translation: Translation, verseFrom?: number, verseTo?: number): string {
+export function passageId(book: BibleBook, chapter: number, verseFrom?: number, verseTo?: number): string {
   let passage = `${book.usfm}.${chapter}`;
   if (verseFrom) passage += `.${verseFrom}${verseTo && verseTo > verseFrom ? `-${verseTo}` : ""}`;
-  return `https://www.bible.com/bible/${translation.id}/${passage}.${translation.abbr}`;
+  return passage;
+}
+
+export function bibleComUrl(book: BibleBook, chapter: number, translation: Translation, verseFrom?: number, verseTo?: number): string {
+  return `https://www.bible.com/bible/${translation.id}/${passageId(book, chapter, verseFrom, verseTo)}.${translation.abbr}`;
+}
+
+export function copyrightFor(abbr?: string): string | undefined {
+  return TRANSLATIONS.find((t) => t.abbr === abbr)?.copyright;
 }
 
 export const LEAD_WORDS = 3;

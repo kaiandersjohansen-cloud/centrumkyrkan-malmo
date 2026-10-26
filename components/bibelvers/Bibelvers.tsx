@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import ToolPageHeader from "@/components/tool-pages/ToolPageHeader";
 import {
   BIBELVERS_KEY,
@@ -8,9 +8,11 @@ import {
   PRESETS,
   TRANSLATIONS,
   bibleComUrl,
+  copyrightFor,
   expandRef,
   formatRef,
   leadWords,
+  passageId,
   shuffle,
   type PresetVerse,
   type SavedVerse,
@@ -136,6 +138,12 @@ export default function Bibelvers() {
   const [text, setText] = useState("");
   const [msg, setMsg] = useState("");
   const [showAllPresets, setShowAllPresets] = useState(false);
+  const [fetching, setFetching] = useState(false);
+  const fetchTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const fetchId = useRef(0);
+  // Texten som senast hämtades automatiskt, så att den kan rensas om man byter
+  // vers eller översättning (annars kan fel text få fel märkning).
+  const autoText = useRef("");
 
   // localStorage only exists client-side; state must hydrate after mount
   // (an effect, not a lazy useState initializer) to avoid an SSR/hydration mismatch.
@@ -153,7 +161,53 @@ export default function Bibelvers() {
   const from = parseInt(verseFrom, 10) || undefined;
   const to = parseInt(verseTo, 10) || undefined;
 
-  function updateSelection(nextBookIdx: number, nextChapter: number, nextFrom: string, nextTo: string) {
+  // Hämtar versens text automatiskt för översättningar som har licens via
+  // YouVersion Platform. Väntar en kort stund så att man hinner skriva klart.
+  function requestText(nextBookIdx: number, nextChapter: number, nextFrom: string, nextTo: string, nextTranslationIdx: number, delay = 400) {
+    clearTimeout(fetchTimer.current);
+    const t = TRANSLATIONS[nextTranslationIdx];
+    const b = BOOKS[nextBookIdx];
+    const f = parseInt(nextFrom, 10);
+    if (!t?.api || !b || !(f > 0)) return;
+    const passage = passageId(b, nextChapter, f, parseInt(nextTo, 10) || undefined);
+    fetchTimer.current = setTimeout(async () => {
+      const id = ++fetchId.current;
+      setFetching(true);
+      try {
+        const res = await fetch(`/api/bibeltext?version=${t.id}&passage=${encodeURIComponent(passage)}`);
+        if (id !== fetchId.current) return;
+        if (res.ok) {
+          const data: { text: string } = await res.json();
+          autoText.current = data.text;
+          setText(data.text);
+          setMsg(`Texten är hämtad från ${t.name}. Tryck på ”Spara versen” för att lägga till den.`);
+        } else if (res.status === 404) {
+          setText("");
+          setMsg(`Hittade inte den versen i ${t.name}. Kontrollera kapitel och vers.`);
+        } else {
+          setMsg("Texten kunde inte hämtas just nu. Du kan öppna versen på bible.com och klistra in den själv.");
+        }
+      } catch {
+        if (id === fetchId.current) setMsg("Texten kunde inte hämtas just nu. Du kan öppna versen på bible.com och klistra in den själv.");
+      } finally {
+        if (id === fetchId.current) setFetching(false);
+      }
+    }, delay);
+  }
+
+  function clearAutoText() {
+    clearTimeout(fetchTimer.current);
+    fetchId.current++;
+    setFetching(false);
+    if (autoText.current && text === autoText.current) {
+      setText("");
+      setMsg("");
+    }
+    autoText.current = "";
+  }
+
+  function updateSelection(nextBookIdx: number, nextChapter: number, nextFrom: string, nextTo: string, delay?: number) {
+    clearAutoText();
     setBookIdx(nextBookIdx);
     setChapter(nextChapter);
     setVerseFrom(nextFrom);
@@ -161,12 +215,19 @@ export default function Bibelvers() {
     const b = BOOKS[nextBookIdx];
     const f = parseInt(nextFrom, 10);
     if (b && f > 0) setRef(formatRef(b, nextChapter, f, parseInt(nextTo, 10) || undefined));
+    requestText(nextBookIdx, nextChapter, nextFrom, nextTo, translationIdx, delay);
+  }
+
+  function changeTranslation(nextTranslationIdx: number) {
+    clearAutoText();
+    setTranslationIdx(nextTranslationIdx);
+    requestText(bookIdx, chapter, verseFrom, verseTo, nextTranslationIdx, 0);
   }
 
   function pickPreset(p: PresetVerse) {
-    updateSelection(BOOKS.findIndex((b) => b.usfm === p.usfm), p.chapter, String(p.from), p.to ? String(p.to) : "");
+    updateSelection(BOOKS.findIndex((b) => b.usfm === p.usfm), p.chapter, String(p.from), p.to ? String(p.to) : "", 0);
     setText("");
-    setMsg("Kopiera versen på bible.com och klistra in den i rutan nedan.");
+    setMsg(translation.api ? "Hämtar texten …" : "Kopiera versen på bible.com och klistra in den i rutan nedan.");
     const textarea = document.getElementById("vers-text");
     textarea?.scrollIntoView({ behavior: "smooth", block: "center" });
     textarea?.focus({ preventScroll: true });
@@ -329,6 +390,9 @@ export default function Bibelvers() {
                     <p style={{ ...eyebrow, margin: "0 0 22px" }}>Baksida</p>
                     <p style={{ fontFamily: "var(--font-lora), serif", fontSize: 21, lineHeight: 1.55, margin: "0 0 22px", textWrap: "pretty" }}>{verse.text}</p>
                     <p style={{ fontSize: 15, fontWeight: 600, color: GREEN, margin: 0 }}>{refWithTranslation(verse)}</p>
+                    {copyrightFor(verse.translation) && (
+                      <p style={{ fontSize: 11.5, color: "oklch(55% 0.01 80)", margin: "14px auto 0", maxWidth: 440, lineHeight: 1.45 }}>{copyrightFor(verse.translation)}</p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -355,7 +419,7 @@ export default function Bibelvers() {
           <section id="kanda-bibelord" style={{ marginTop: 56, scrollMarginTop: 24 }}>
             <h2 style={{ fontFamily: "var(--font-lora), serif", fontSize: 24, fontWeight: 500, margin: "0 0 8px" }}>50 kända bibelord</h2>
             <p style={{ fontSize: 15.5, color: MUTED, margin: "0 0 20px" }}>
-              Vet du inte var du ska börja? Välj ett bibelord nedan. Versen öppnas på bible.com och formuläret fylls i, så klistrar du bara in texten.
+              Vet du inte var du ska börja? Välj ett bibelord nedan. Med nuBibeln fylls texten i direkt. Med de andra översättningarna öppnas versen på bible.com, så klistrar du in texten.
             </p>
             <ul className="vers-presets" style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0 24px", borderTop: `1px solid ${LINE}` }}>
               {(showAllPresets ? PRESETS : PRESETS.slice(0, 10)).map((p) => {
@@ -370,6 +434,14 @@ export default function Bibelvers() {
                     </div>
                     {added ? (
                       <span style={{ fontSize: 14, fontWeight: 500, color: GREEN, flex: "none" }}>✓ Tillagd</span>
+                    ) : translation.api ? (
+                      <button
+                        type="button"
+                        onClick={() => pickPreset(p)}
+                        style={{ flex: "none", fontSize: 14, fontWeight: 500, color: GREEN, background: "none", border: `1px solid ${GREEN}`, borderRadius: 100, padding: "6px 14px", cursor: "pointer", fontFamily: "var(--font-public-sans), sans-serif" }}
+                      >
+                        Lägg till
+                      </button>
                     ) : (
                       <a
                         href={bibleComUrl(b, p.chapter, translation, p.from, p.to)}
@@ -400,7 +472,7 @@ export default function Bibelvers() {
           <section style={{ marginTop: 56, background: "white", border: `1px solid ${LINE}`, borderRadius: 8, padding: 32 }}>
             <h2 style={{ fontFamily: "var(--font-lora), serif", fontSize: 24, fontWeight: 500, margin: "0 0 8px" }}>Lägg till en vers</h2>
             <p style={{ fontSize: 15.5, color: MUTED, margin: "0 0 24px" }}>
-              Välj vers och öppna den på bible.com. Kopiera texten där och klistra in den här. Du kan också skriva in en vers helt själv.
+              Välj bok, kapitel och vers. Med nuBibeln hämtas texten automatiskt. Med Folkbibeln 2015 eller Bibel 2000 öppnar du versen på bible.com och klistrar in texten. Du kan också skriva in en vers helt själv.
             </p>
 
             <div className="vers-pick" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
@@ -438,7 +510,7 @@ export default function Bibelvers() {
             <div style={{ display: "flex", gap: 12, alignItems: "flex-end", flexWrap: "wrap", marginBottom: 24 }}>
               <div style={{ flex: "1 1 220px" }}>
                 <label style={labelStyle} htmlFor="vers-oversattning">Översättning</label>
-                <select id="vers-oversattning" value={translationIdx} onChange={(e) => setTranslationIdx(Number(e.target.value))} style={inputStyle}>
+                <select id="vers-oversattning" value={translationIdx} onChange={(e) => changeTranslation(Number(e.target.value))} style={inputStyle}>
                   {TRANSLATIONS.map((t, idx) => (
                     <option key={t.abbr} value={idx}>
                       {t.name}
@@ -467,9 +539,17 @@ export default function Bibelvers() {
               </div>
               <div>
                 <label style={labelStyle} htmlFor="vers-text">Versens text</label>
-                <textarea id="vers-text" value={text} onChange={(e) => setText(e.target.value)} rows={4} placeholder="Klistra in eller skriv versen här" style={{ ...inputStyle, resize: "vertical" }} />
+                <textarea
+                  id="vers-text"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  rows={4}
+                  placeholder={fetching ? "Hämtar texten …" : "Klistra in eller skriv versen här"}
+                  style={{ ...inputStyle, resize: "vertical" }}
+                />
+                {translation.copyright && <p style={{ margin: "6px 0 0", fontSize: 12, color: MUTED, lineHeight: 1.45 }}>{translation.copyright}</p>}
               </div>
-              <button type="button" onClick={save} style={{ ...solidBtn, alignSelf: "flex-start", marginTop: 4 }}>
+              <button type="button" onClick={save} disabled={fetching} style={{ ...solidBtn, alignSelf: "flex-start", marginTop: 4, opacity: fetching ? 0.6 : 1 }}>
                 Spara versen
               </button>
             </div>
@@ -517,6 +597,9 @@ export default function Bibelvers() {
             <p style={{ fontSize: 12.5, fontWeight: 600, margin: "0 0 6px" }}>{refWithTranslation(v)}</p>
             <p style={{ fontSize: 12, margin: 0 }}>{v.text}</p>
           </div>
+        ))}
+        {Array.from(new Set(verses.map((v) => copyrightFor(v.translation)).filter(Boolean))).map((c) => (
+          <p key={c} style={{ fontSize: 9.5, color: "#555", margin: "12px 0 0" }}>{c}</p>
         ))}
       </div>
     </div>
