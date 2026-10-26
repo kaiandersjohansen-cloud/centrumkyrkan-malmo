@@ -83,19 +83,32 @@ export interface Translation {
   // true = texten hämtas automatiskt via YouVersion Platform (licens finns).
   api?: boolean;
   copyright?: string;
+  // Kort förklaring som visas under valet av översättning.
+  description: string;
 }
 
 // Översättningarnas id-nummer på bible.com. Den första är förvald.
 export const TRANSLATIONS: Translation[] = [
-  { id: 1223, abbr: "SFB15", name: "Svenska Folkbibeln 2015" },
   {
     id: 916,
     abbr: "NUB",
     name: "nuBibeln",
     api: true,
     copyright: "nuBibeln (Swedish Contemporary Bible). Copyright © 2015 av Biblica, Inc.® Utgiven med tillstånd från Biblica, Inc.® Alla rättigheter förbehållna över hela världen.",
+    description: "Modern och lättläst svenska som är lätt att ta till sig. Texten fylls i automatiskt.",
   },
-  { id: 154, abbr: "B2000", name: "Bibel 2000" },
+  {
+    id: 1223,
+    abbr: "SFB15",
+    name: "Svenska Folkbibeln 2015",
+    description: "Ligger nära grundtexten och översätter mer ord för ord. Öppna versen på bible.com och klistra in texten.",
+  },
+  {
+    id: 154,
+    abbr: "B2000",
+    name: "Bibel 2000",
+    description: "Ledig nutida svenska och Svenska kyrkans officiella bibel. Öppna versen på bible.com och klistra in texten.",
+  },
 ];
 
 export interface PresetVerse {

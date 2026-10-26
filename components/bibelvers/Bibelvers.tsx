@@ -472,7 +472,7 @@ export default function Bibelvers() {
           <section style={{ marginTop: 56, background: "white", border: `1px solid ${LINE}`, borderRadius: 8, padding: 32 }}>
             <h2 style={{ fontFamily: "var(--font-lora), serif", fontSize: 24, fontWeight: 500, margin: "0 0 8px" }}>Lägg till en vers</h2>
             <p style={{ fontSize: 15.5, color: MUTED, margin: "0 0 24px" }}>
-              Välj bok, kapitel och vers. Med nuBibeln hämtas texten automatiskt. Med Folkbibeln 2015 eller Bibel 2000 öppnar du versen på bible.com och klistrar in texten. Du kan också skriva in en vers helt själv.
+              Välj bok, kapitel och vers. Med nuBibeln fylls texten i automatiskt. Väljer du Folkbibeln 2015 eller Bibel 2000 öppnar du versen på bible.com och klistrar in texten. Du kan också skriva in en vers helt själv.
             </p>
 
             <div className="vers-pick" style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 12, marginBottom: 12 }}>
@@ -531,6 +531,7 @@ export default function Bibelvers() {
                 Öppna på bible.com ↗
               </a>
             </div>
+            <p style={{ margin: "-12px 0 24px", fontSize: 14, color: MUTED }}>{translation.description}</p>
 
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <div>
