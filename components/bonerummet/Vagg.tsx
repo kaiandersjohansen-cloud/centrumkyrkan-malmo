@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { LIVSLANGD_DAGAR, type FastAmne, type Inlagg, type VaggData } from "@/lib/bonerummet";
+import Link from "next/link";
 import { C, SANS, SERIF } from "@/components/bonerummet/stil";
 
 const BER_KEY = "centrumkyrkan-bonerummet-ber";
@@ -10,6 +11,7 @@ const UPPDATERA_MS = 5000;
 
 const CSS = `
 .vagg { min-height: 100vh; display: flex; flex-direction: column; }
+.vagg-lagg-till { display: none; }
 .vagg-kolumner { flex: 1; display: grid; grid-template-columns: 1.15fr 1fr 0.85fr; gap: 28px; min-height: 0; }
 .vagg-kol { display: flex; flex-direction: column; min-height: 0; }
 .vagg-lista { display: flex; flex-direction: column; gap: 10px; }
@@ -26,6 +28,7 @@ const CSS = `
   .vagg-header h1 { font-size: 30px !important; }
   .vagg-yta { padding: 24px 16px 0 !important; }
   .vagg-qr { display: none; }
+  .vagg-lagg-till { display: inline-block; }
 }
 @keyframes vaggIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
 @keyframes vaggGlod { 0% { box-shadow: 0 0 0 6px var(--glod); } 100% { box-shadow: 0 0 0 0 transparent; } }
@@ -281,6 +284,14 @@ export default function Vagg() {
           <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: ".14em", textTransform: "uppercase", color: C.gron, margin: "0 0 6px" }}>Centrumkyrkan Malmö</p>
           <h1 style={{ fontFamily: SERIF, fontSize: 42, fontWeight: 500, margin: "0 0 6px" }}>Bönerummet</h1>
           <p style={{ fontSize: 15.5, color: C.dampad, margin: 0 }}>Vi bär varandras böneämnen och tacksägelser tillsammans</p>
+          {/* I mobilen visas ingen QR-kod, så där finns en knapp i stället. */}
+          <Link
+            href="/bonerummet"
+            className="vagg-lagg-till btn-solid-green"
+            style={{ marginTop: 18, background: C.gron, color: "oklch(98.5% 0.006 90)", padding: "13px 24px", borderRadius: 100, fontWeight: 600, fontSize: 15 }}
+          >
+            Lägg till ett böneämne eller en tacksägelse
+          </Link>
         </header>
 
         {data && !data.aktiv && (
@@ -361,7 +372,11 @@ export default function Vagg() {
         {qr && <img className="vagg-qr" src={qr} alt="QR-kod till bönerummet" width={92} height={92} style={{ borderRadius: 10, background: "white", padding: 4, flexShrink: 0 }} />}
         <div style={{ fontSize: 13.5, color: C.dampad, minWidth: 0 }}>
           <p style={{ margin: "0 0 2px" }}>Skanna för att lägga till ett böneämne eller en tacksägelse</p>
-          <p style={{ margin: 0, fontWeight: 600, color: C.text }}>{lank.replace(/^https?:\/\//, "")}</p>
+          <p style={{ margin: 0 }}>
+            <Link href="/bonerummet" style={{ fontWeight: 600, color: C.text, borderBottom: `1px solid ${C.linje}` }}>
+              {lank.replace(/^https?:\/\//, "")}
+            </Link>
+          </p>
           <p style={{ margin: "4px 0 0", fontSize: 12 }}>Inlägg raderas automatiskt efter {LIVSLANGD_DAGAR} dagar.</p>
         </div>
         <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
