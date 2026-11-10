@@ -284,7 +284,7 @@ export default function Vagg() {
         <header className="vagg-header" style={{ textAlign: "center", marginBottom: 26 }}>
           <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: ".14em", textTransform: "uppercase", color: C.gron, margin: "0 0 6px" }}>Centrumkyrkan Malmö</p>
           <h1 style={{ fontFamily: SERIF, fontSize: 42, fontWeight: 500, margin: "0 0 6px" }}>Bönerummet</h1>
-          <p style={{ fontSize: 15.5, color: C.dampad, margin: 0 }}>Vi bär varandras böneämnen och tacksägelser tillsammans</p>
+          <p style={{ fontSize: 15.5, color: C.dampad, margin: 0 }}>Vi bär varandras böneämnen och delar tacksägelser tillsammans</p>
           {/* I mobilen visas ingen QR-kod, så där finns en knapp i stället. */}
           <Link
             href="/bonerummet"
@@ -332,7 +332,7 @@ export default function Vagg() {
             </h2>
             {data?.bibelord ? (
               <figure style={{ margin: 0, background: C.kort, border: `1px solid ${C.linje}`, borderRadius: 12, padding: "20px 20px 16px" }}>
-                <blockquote style={{ margin: 0, fontFamily: SERIF, fontSize: 19, lineHeight: 1.55 }}>{data.bibelord.text}</blockquote>
+                <blockquote style={{ margin: 0, fontFamily: SERIF, fontSize: 16, lineHeight: 1.55 }}>{data.bibelord.text}</blockquote>
                 <figcaption style={{ marginTop: 12 }}>
                   <span style={{ fontSize: 14, fontWeight: 600, color: C.gron }}>{data.bibelord.referens}</span>
                   <span style={{ display: "block", fontSize: 11.5, color: C.dampad, marginTop: 4 }}>{data.bibelord.copyright}</span>
