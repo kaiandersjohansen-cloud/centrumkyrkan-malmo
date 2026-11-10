@@ -45,7 +45,6 @@ export const FASTA_BONEAMNEN = [
   "Be för Malmö och människorna som bor här",
   "Be för våra evangelister Nipen och Jibon i Bangladesh",
   "Be för barn och unga i församlingen",
-  "Be för alla som söker Gud och vill veta mer om Jesus",
 ];
 export const KALENDER_DAGAR = 14;
 export const KALENDER_MAX = 4;

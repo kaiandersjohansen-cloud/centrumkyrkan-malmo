@@ -12,6 +12,7 @@ const UPPDATERA_MS = 5000;
 const CSS = `
 .vagg { min-height: 100vh; display: flex; flex-direction: column; }
 .vagg-lagg-till { display: none; }
+.vagg-fasta { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
 .vagg-kolumner { flex: 1; display: grid; grid-template-columns: 1.15fr 1fr 0.85fr; gap: 28px; min-height: 0; }
 .vagg-kol { display: flex; flex-direction: column; min-height: 0; }
 .vagg-lista { display: flex; flex-direction: column; gap: 10px; }
@@ -312,29 +313,6 @@ export default function Vagg() {
               Böneämnen
             </h2>
             <div className="vagg-lista">
-              <div style={{ background: C.gronLjus, border: `1px solid oklch(86% 0.05 145)`, borderRadius: 12, padding: "14px 16px" }}>
-                <p style={{ margin: "0 0 2px", fontSize: 12, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: C.gron }}>Församlingens böneämnen</p>
-                <p style={{ margin: "0 0 4px", fontSize: 12, color: C.dampad }}>Räknarna nollställs varannan dag.</p>
-                <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
-                  {(data?.fasta ?? [])
-                    .filter((f: FastAmne) => kod || !f.dold)
-                    .map((f: FastAmne, idx) => (
-                      <li key={f.id} style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", padding: "8px 0", borderTop: idx ? "1px solid oklch(86% 0.05 145)" : undefined, fontSize: 15, lineHeight: 1.45, opacity: f.dold ? 0.5 : 1 }}>
-                        <span style={{ flex: 1, minWidth: 0, textDecoration: f.dold ? "line-through" : undefined }}>{f.text}</span>
-                        {!f.dold && berKnapp(f.id, f.ber)}
-                        {kod && (
-                          <button
-                            type="button"
-                            onClick={() => doljAmne(f.id, !f.dold)}
-                            style={{ ...smaKnapp, padding: "5px 12px", fontSize: 12.5, flexShrink: 0, ...(f.dold ? {} : { color: C.rod, borderColor: "oklch(85% 0.05 30)" }) }}
-                          >
-                            {f.dold ? "Visa igen" : "Ta bort"}
-                          </button>
-                        )}
-                      </li>
-                    ))}
-                </ul>
-              </div>
               {data ? (bon.length ? bon.map(kort) : tom("Inga böneämnen än. Skanna QR-koden för att lägga till ett.")) : tom("Laddar …")}
             </div>
           </section>
@@ -365,6 +343,39 @@ export default function Vagg() {
             )}
           </section>
         </div>
+
+        {/* Församlingens böneämnen ligger längst ner så att spalterna ovanför börjar på samma höjd. */}
+        <section aria-labelledby="rubrik-fasta" style={{ marginTop: 22 }}>
+          <h2 id="rubrik-fasta" style={{ ...kolRubrik, fontSize: 18, flexWrap: "wrap", rowGap: 2 }}>
+            <span style={{ width: 11, height: 11, borderRadius: "50%", background: C.gron }} />
+            Församlingens böneämnen
+            <span style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 400, color: C.dampad, marginLeft: "auto" }}>Räknarna nollställs varannan dag</span>
+          </h2>
+          <ul className="vagg-fasta" style={{ margin: 0, padding: 0, listStyle: "none" }}>
+            {(data?.fasta ?? [])
+              .filter((f: FastAmne) => kod || !f.dold)
+              .map((f: FastAmne) => (
+                <li
+                  key={f.id}
+                  style={{ display: "flex", flexDirection: "column", gap: 10, background: C.gronLjus, border: "1px solid oklch(86% 0.05 145)", borderRadius: 12, padding: "12px 14px", fontSize: 15, lineHeight: 1.45, opacity: f.dold ? 0.5 : 1 }}
+                >
+                  <span style={{ textDecoration: f.dold ? "line-through" : undefined }}>{f.text}</span>
+                  <span style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: "auto" }}>
+                    {!f.dold && berKnapp(f.id, f.ber)}
+                    {kod && (
+                      <button
+                        type="button"
+                        onClick={() => doljAmne(f.id, !f.dold)}
+                        style={{ ...smaKnapp, padding: "5px 12px", fontSize: 12.5, flexShrink: 0, ...(f.dold ? {} : { color: C.rod, borderColor: "oklch(85% 0.05 30)" }) }}
+                      >
+                        {f.dold ? "Visa igen" : "Ta bort"}
+                      </button>
+                    )}
+                  </span>
+                </li>
+              ))}
+          </ul>
+        </section>
       </div>
 
       <footer style={{ marginTop: 24, padding: "18px 40px", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", borderTop: `1px solid ${C.linje}`, background: "oklch(94% 0.02 145 / 0.5)" }}>
