@@ -4,10 +4,12 @@ import type { Metadata } from "next";
 // Messenger ska visa bilden direkt första gången en länk delas.
 export const OG_BILDER = {
   hero: { url: "/images/hero-v2.jpg", width: 1600, height: 1200, alt: "Gudstjänst i Centrumkyrkan Malmö" },
-  bibelvers: { url: "/images/bibelvers-card.jpg", width: 1600, height: 900, alt: "Memorera bibelord" },
-  bordsbon: { url: "/images/bordsbon-card.png", width: 816, height: 410, alt: "Vår nya bordsbön" },
-  bordssamtal: { url: "/images/bordssamtal-hero.png", width: 1672, height: 941, alt: "Bordssamtal" },
-  samtalskort: { url: "/images/samtalskort-card.png", width: 1162, height: 486, alt: "Samtalskort för barnfamiljer" },
+  bonerummet: { url: "/images/og/bonerummet.jpg", width: 1200, height: 630, alt: "Bönerummet – Centrumkyrkan Malmö" },
+  bonerummetVaggen: { url: "/images/og/bonerummet-vaggen.jpg", width: 1200, height: 630, alt: "Bönerummet – väggen" },
+  bibelvers: { url: "/images/og/bibelvers.jpg", width: 1200, height: 630, alt: "Memorera bibelord" },
+  bordsbon: { url: "/images/og/bordsbon.jpg", width: 1200, height: 630, alt: "Vår bordsbön" },
+  bordssamtal: { url: "/images/og/bordssamtal.jpg", width: 1200, height: 630, alt: "Bordssamtal" },
+  samtalskort: { url: "/images/og/samtalskort.jpg", width: 1200, height: 630, alt: "Samtalskort för barnfamiljer" },
 };
 
 type OgBild = (typeof OG_BILDER)[keyof typeof OG_BILDER];
