@@ -1,6 +1,19 @@
 import { timingSafeEqual } from "node:crypto";
 import { pipeline, redis } from "@/lib/redis";
-import { LIVSLANGD_DAGAR, MAX_NAMN, MAX_TEXT, type Inlagg, type Kategori } from "@/lib/bonerummet";
+import { getUpcomingCalendarEvents } from "@/lib/calendar";
+import {
+  FASTA_BONEAMNEN,
+  KALENDER_DAGAR,
+  KALENDER_MAX,
+  LIVSLANGD_DAGAR,
+  MAX_NAMN,
+  MAX_TEXT,
+  PERIOD_DAGAR,
+  amneId,
+  type FastAmne,
+  type Inlagg,
+  type Kategori,
+} from "@/lib/bonerummet";
 
 // Serverdelen av Bönerummet. Varje inlägg är en egen nyckel som Redis raderar
 // automatiskt efter LIVSLANGD_DAGAR; ett sorterat index håller ordningen.
@@ -11,6 +24,7 @@ const LIVSLANGD_MS = LIVSLANGD_DAGAR * 24 * 60 * 60 * 1000;
 const MAX_VISADE = 200;
 
 const inlaggKey = (id: string) => `${P}inlagg:${id}`;
+const fastKey = (period: number, id: string) => `${P}fast:${period}:${id}`;
 const berKey = (id: string) => `${P}ber:${id}`;
 
 type Sparat = Omit<Inlagg, "ber">;
@@ -36,7 +50,8 @@ export async function hamtaInlagg(): Promise<Inlagg[]> {
 
 export async function laggTill(kategori: Kategori, text: string, namn: string): Promise<Inlagg> {
   const ts = Date.now();
-  const id = `${ts.toString(36)}${Math.random().toString(36).slice(2, 8)}`;
+  // "i" först så att inläggens id aldrig förväxlas med fasta böneämnen ("f").
+  const id = `i${ts.toString(36)}${Math.random().toString(36).slice(2, 8)}`;
   const sparat: Sparat = {
     id,
     kategori,
@@ -92,4 +107,27 @@ export function ratKod(kod: unknown): boolean {
   const a = Buffer.from(kod.trim());
   const b = Buffer.from(ratt);
   return a.length === b.length && timingSafeEqual(a, b);
+}
+
+// Församlingens fasta böneämnen: kommande händelser i kalendern och den fasta listan.
+export async function fastaAmnenText(): Promise<string[]> {
+  const handelser = (await getUpcomingCalendarEvents(KALENDER_MAX, KALENDER_DAGAR)) ?? [];
+  const franKalendern = handelser.map((h) => `${h.title} (${h.dateLabel}${h.time ? ` kl ${h.time}` : ""})`);
+  return [...franKalendern, ...FASTA_BONEAMNEN];
+}
+
+export async function hamtaFasta(period: number, texter: string[]): Promise<FastAmne[]> {
+  const ids = texter.map(amneId);
+  const antal = await redis<(string | null)[]>("MGET", ...ids.map((id) => fastKey(period, id)));
+  return texter.map((text, i) => ({ id: ids[i], text, ber: Number(antal[i] ?? 0) }));
+}
+
+// "Jag ber för detta" på ett fast böneämne. Räknaren gäller en period (varannan dag).
+export async function berForFast(period: number, id: string): Promise<number> {
+  const key = fastKey(period, id);
+  const [antal] = (await pipeline([
+    ["INCR", key],
+    ["EXPIRE", key, (PERIOD_DAGAR + 1) * 86_400],
+  ])) as [number, number];
+  return antal;
 }

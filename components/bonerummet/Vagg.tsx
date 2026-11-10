@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { FASTA_BONEAMNEN, LIVSLANGD_DAGAR, type Inlagg, type VaggData } from "@/lib/bonerummet";
+import { LIVSLANGD_DAGAR, type FastAmne, type Inlagg, type VaggData } from "@/lib/bonerummet";
 import { C, SANS, SERIF } from "@/components/bonerummet/stil";
 
 const BER_KEY = "centrumkyrkan-bonerummet-ber";
@@ -136,14 +136,26 @@ export default function Vagg() {
 
   const inlagg = data?.inlagg ?? [];
 
+  // Fasta böneämnen sparas per period, så att man kan be för dem igen när räknaren nollställs.
+  const berNyckel = (id: string) => (id.startsWith("f") ? `${data?.period ?? 0}:${id}` : id);
+
   async function ber(id: string) {
-    if (bett.includes(id)) return;
-    const nasta = bett.concat(id);
+    const nyckel = berNyckel(id);
+    if (bett.includes(nyckel)) return;
+    const nasta = bett.concat(nyckel);
     setBett(nasta);
     try {
       localStorage.setItem(BER_KEY, JSON.stringify(nasta.slice(-300)));
     } catch {}
-    setData((d) => (d ? { ...d, inlagg: d.inlagg.map((i) => (i.id === id ? { ...i, ber: i.ber + 1 } : i)) } : d));
+    setData((d) =>
+      d
+        ? {
+            ...d,
+            inlagg: d.inlagg.map((i) => (i.id === id ? { ...i, ber: i.ber + 1 } : i)),
+            fasta: d.fasta.map((f) => (f.id === id ? { ...f, ber: f.ber + 1 } : f)),
+          }
+        : d,
+    );
     try {
       await fetch("/api/bonerummet/ber", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ id }) });
     } catch {}
@@ -199,10 +211,35 @@ export default function Vagg() {
   const bon = inlagg.filter((i) => i.kategori === "bon");
   const tack = inlagg.filter((i) => i.kategori === "tack");
 
+  function berKnapp(id: string, antal: number) {
+    const harBett = bett.includes(berNyckel(id));
+    return (
+      <button
+        type="button"
+        className="vagg-ber"
+        onClick={() => ber(id)}
+        disabled={harBett || !data?.aktiv}
+        aria-label={harBett ? `Du ber för detta. ${antal} ber.` : "Jag ber för detta"}
+        style={{
+          ...smaKnapp,
+          padding: "5px 12px",
+          fontSize: 12.5,
+          flexShrink: 0,
+          cursor: harBett ? "default" : "pointer",
+          background: harBett ? C.blaLjus : "white",
+          borderColor: harBett ? C.bla : C.linje,
+          color: C.bla,
+        }}
+      >
+        {harBett ? "Du ber" : "Jag ber för detta"}
+        {antal > 0 && <span style={{ fontWeight: 500 }}> · {antal}</span>}
+      </button>
+    );
+  }
+
   function kort(i: Inlagg) {
     const ar = i.kategori === "bon";
     const farg = ar ? C.bla : C.guld;
-    const harBett = bett.includes(i.id);
     return (
       <article
         key={i.id}
@@ -215,27 +252,7 @@ export default function Vagg() {
             {i.namn && <span style={{ fontStyle: "italic" }}>{i.namn} · </span>}
             {datum(i.ts)}
           </p>
-          {ar && (
-            <button
-              type="button"
-              className="vagg-ber"
-              onClick={() => ber(i.id)}
-              disabled={harBett}
-              aria-label={harBett ? `Du ber för detta. ${i.ber} ber.` : "Jag ber för detta"}
-              style={{
-                ...smaKnapp,
-                padding: "5px 12px",
-                fontSize: 12.5,
-                cursor: harBett ? "default" : "pointer",
-                background: harBett ? C.blaLjus : "white",
-                borderColor: harBett ? C.bla : C.linje,
-                color: C.bla,
-              }}
-            >
-              {harBett ? "Du ber" : "Jag ber för detta"}
-              {i.ber > 0 && <span style={{ fontWeight: 500 }}> · {i.ber}</span>}
-            </button>
-          )}
+          {ar && berKnapp(i.id, i.ber)}
           {!ar && i.ber > 0 && <span style={{ fontSize: 12.5, color: C.dampad }}>{i.ber} ber</span>}
           {kod && (
             <button type="button" onClick={() => taBort(i.id)} aria-label="Ta bort inlägget" style={{ ...smaKnapp, padding: "5px 12px", fontSize: 12.5, color: C.rod, borderColor: "oklch(85% 0.05 30)" }}>
@@ -279,10 +296,14 @@ export default function Vagg() {
             </h2>
             <div className="vagg-lista">
               <div style={{ background: C.gronLjus, border: `1px solid oklch(86% 0.05 145)`, borderRadius: 12, padding: "14px 16px" }}>
-                <p style={{ margin: "0 0 6px", fontSize: 12, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: C.gron }}>Församlingen ber för</p>
-                <ul style={{ margin: 0, paddingLeft: 18, fontSize: 15, lineHeight: 1.6 }}>
-                  {FASTA_BONEAMNEN.map((a) => (
-                    <li key={a}>{a}</li>
+                <p style={{ margin: "0 0 2px", fontSize: 12, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: C.gron }}>Församlingen ber för</p>
+                <p style={{ margin: "0 0 4px", fontSize: 12, color: C.dampad }}>Räknarna nollställs varannan dag.</p>
+                <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
+                  {(data?.fasta ?? []).map((f: FastAmne, idx) => (
+                    <li key={f.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderTop: idx ? "1px solid oklch(86% 0.05 145)" : undefined, fontSize: 15, lineHeight: 1.45 }}>
+                      <span style={{ flex: 1, minWidth: 0 }}>{f.text}</span>
+                      {berKnapp(f.id, f.ber)}
+                    </li>
                   ))}
                 </ul>
               </div>

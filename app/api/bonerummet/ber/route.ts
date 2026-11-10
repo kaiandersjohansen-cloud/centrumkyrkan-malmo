@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { berFor } from "@/lib/bonerummet-store";
+import { aktuellPeriod, amneId } from "@/lib/bonerummet";
+import { berFor, berForFast, fastaAmnenText } from "@/lib/bonerummet-store";
 import { redisConfigured } from "@/lib/redis";
 
 export async function POST(request: Request) {
@@ -9,6 +10,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "fel_format" }, { status: 400 });
   }
   try {
+    // Fasta böneämnen har id som börjar med "f" och måste finnas i dagens lista.
+    if (body.id.startsWith("f")) {
+      const texter = await fastaAmnenText();
+      if (!texter.some((t) => amneId(t) === body.id)) return NextResponse.json({ error: "finns_inte" }, { status: 404 });
+      return NextResponse.json({ ber: await berForFast(aktuellPeriod(), body.id) });
+    }
     const antal = await berFor(body.id);
     if (antal === null) return NextResponse.json({ error: "finns_inte" }, { status: 404 });
     return NextResponse.json({ ber: antal });

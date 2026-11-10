@@ -17,9 +17,18 @@ export interface Bibelord {
   copyright: string;
 }
 
+export interface FastAmne {
+  id: string;
+  text: string;
+  ber: number;
+}
+
 export interface VaggData {
   aktiv: boolean;
   inlagg: Inlagg[];
+  fasta: FastAmne[];
+  // Räknarna för de fasta böneämnena nollställs när perioden byts (varannan dag).
+  period: number;
   bibelord: Bibelord | null;
 }
 
@@ -28,13 +37,34 @@ export const LIVSLANGD_DAGAR = 14;
 export const MAX_TEXT = 240;
 export const MAX_NAMN = 40;
 
-// Församlingens fasta böneämnen, som alltid visas överst på väggen.
+// Församlingens fasta böneämnen, som alltid visas överst på väggen. Kommande
+// händelser i kalendern läggs till automatiskt (se app/api/bonerummet/route.ts).
 export const FASTA_BONEAMNEN = [
   "Malmö och människorna som bor här",
   "Våra evangelister Nipen och Jibon i Bangladesh",
   "Barn och unga i församlingen",
   "Alla som söker Gud och vill veta mer om Jesus",
 ];
+export const KALENDER_DAGAR = 7;
+export const KALENDER_MAX = 4;
+export const PERIOD_DAGAR = 2;
+
+// Dagnummer räknat på svenskt datum (byts vid midnatt i Sverige).
+export function svenskDag(nu = new Date()): number {
+  const datum = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm" }).format(nu);
+  return Math.floor(Date.parse(`${datum}T00:00:00Z`) / 86_400_000);
+}
+
+export function aktuellPeriod(nu = new Date()): number {
+  return Math.floor(svenskDag(nu) / PERIOD_DAGAR);
+}
+
+// Stabilt id för ett fast böneämne, byggt av texten.
+export function amneId(text: string): string {
+  let h = 5381;
+  for (let i = 0; i < text.length; i++) h = ((h << 5) + h + text.charCodeAt(i)) >>> 0;
+  return `f${h.toString(36)}`;
+}
 
 // Bibelord om bön som visas på väggen, ett nytt varje dag (nuBibeln).
 export const BIBELORD = [

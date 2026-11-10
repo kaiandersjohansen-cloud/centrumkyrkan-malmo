@@ -20,15 +20,24 @@ export default function KontaktSection() {
             </p>
           </div>
           <p style={{ fontSize: 16, color: "oklch(42% 0.015 50)", margin: "0 0 22px", maxWidth: "48ch" }}>
-            Har du ett bönämne? Vi vill gärna be för dig – hör av dig så tar vi det vidare.
+            Har du ett böneämne? Lägg det i vårt digitala bönerum, så ber vi för det tillsammans. Du kan också höra av dig direkt.
           </p>
-          <a
-            href="mailto:hej@centrumkyrkanmalmo.se"
-            className="btn-solid-green"
-            style={{ display: "inline-block", background: "oklch(50% 0.06 145)", color: "oklch(98.5% 0.006 90)", padding: "15px 30px", borderRadius: 100, fontWeight: 500, fontSize: 15.5 }}
-          >
-            Skicka ett meddelande
-          </a>
+          <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <a
+              href="/bonerummet"
+              className="btn-solid-green"
+              style={{ display: "inline-block", background: "oklch(50% 0.06 145)", color: "oklch(98.5% 0.006 90)", padding: "15px 30px", borderRadius: 100, fontWeight: 500, fontSize: 15.5 }}
+            >
+              Till bönerummet
+            </a>
+            <a
+              href="mailto:hej@centrumkyrkanmalmo.se"
+              className="btn-outline-cream"
+              style={{ display: "inline-block", background: "oklch(98.5% 0.006 90)", color: "oklch(50% 0.06 145)", border: "1px solid oklch(50% 0.06 145)", padding: "15px 30px", borderRadius: 100, fontWeight: 600, fontSize: 15.5 }}
+            >
+              Skicka ett meddelande
+            </a>
+          </div>
           <p style={{ fontSize: 16, color: "oklch(42% 0.015 50)", margin: "26px 0 22px", maxWidth: "48ch" }}>
             Har du behov av samtal eller själavård kan du kontakta pastor Kai Johansen som har tystnadsplikt.
           </p>
