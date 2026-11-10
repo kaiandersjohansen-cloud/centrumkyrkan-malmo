@@ -41,10 +41,11 @@ export const MAX_NAMN = 40;
 
 // Församlingens fasta böneämnen, som alltid visas överst på väggen. Kommande
 // händelser i kalendern läggs till automatiskt (se app/api/bonerummet/route.ts).
-export const FASTA_BONEAMNEN = [
-  "Be för Malmö och människorna som bor här",
-  "Be för våra evangelister Nipen och Jibon i Bangladesh",
-  "Be för barn och unga i församlingen",
+// Ett ämne med "till" visas bara fram till och med det datumet (svensk tid).
+export const FASTA_BONEAMNEN: { text: string; till?: string }[] = [
+  { text: "Be för adventsgudstjänsten", till: "2026-11-29" },
+  { text: "Be för våra evangelister Nipen och Jibon i Bangladesh" },
+  { text: "Be för barn och unga i församlingen" },
 ];
 export const KALENDER_DAGAR = 14;
 export const KALENDER_MAX = 4;

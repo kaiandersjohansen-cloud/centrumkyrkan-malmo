@@ -118,7 +118,9 @@ export async function fastaAmnenText(): Promise<string[]> {
   const franKalendern = handelser
     .filter((h) => !skaHoppasOver(h.title, h.recurring))
     .map((h) => kalenderAmne(h.title, h.start, h.recurring));
-  return [...new Set([...franKalendern.slice(0, KALENDER_MAX), ...FASTA_BONEAMNEN])];
+  const idag = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm" }).format(new Date());
+  const fasta = FASTA_BONEAMNEN.filter((a) => !a.till || idag <= a.till).map((a) => a.text);
+  return [...new Set([...franKalendern.slice(0, KALENDER_MAX), ...fasta])];
 }
 
 export async function hamtaFasta(period: number, texter: string[]): Promise<FastAmne[]> {

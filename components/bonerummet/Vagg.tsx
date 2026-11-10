@@ -247,6 +247,34 @@ export default function Vagg() {
     );
   }
 
+  // Tacksägelser får ett hjärta i stället för "Jag ber för detta" (samma räknare).
+  function hjartaKnapp(id: string, antal: number) {
+    const harGillat = bett.includes(id);
+    return (
+      <button
+        type="button"
+        className="vagg-ber"
+        onClick={() => ber(id)}
+        disabled={harGillat || !data?.aktiv}
+        aria-label={harGillat ? `Du har gett ett hjärta. ${antal} hjärtan.` : "Ge ett hjärta"}
+        aria-pressed={harGillat}
+        style={{
+          ...smaKnapp,
+          padding: "4px 12px",
+          fontSize: 14,
+          flexShrink: 0,
+          cursor: harGillat ? "default" : "pointer",
+          background: harGillat ? C.guldLjus : "white",
+          borderColor: harGillat ? C.guld : C.linje,
+          color: C.guldText,
+        }}
+      >
+        <span aria-hidden="true">{harGillat ? "♥" : "♡"}</span>
+        {antal > 0 && <span style={{ fontWeight: 500, fontSize: 12.5 }}> {antal}</span>}
+      </button>
+    );
+  }
+
   function kort(i: Inlagg) {
     const ar = i.kategori === "bon";
     const farg = ar ? C.bla : C.guld;
@@ -263,7 +291,7 @@ export default function Vagg() {
             {datum(i.ts)}
           </p>
           {ar && berKnapp(i.id, i.ber)}
-          {!ar && i.ber > 0 && <span style={{ fontSize: 12.5, color: C.dampad }}>{i.ber} ber</span>}
+          {!ar && hjartaKnapp(i.id, i.ber)}
           {kod && (
             <button type="button" onClick={() => taBort(i.id)} aria-label="Ta bort inlägget" style={{ ...smaKnapp, padding: "5px 12px", fontSize: 12.5, color: C.rod, borderColor: "oklch(85% 0.05 30)" }}>
               Ta bort
