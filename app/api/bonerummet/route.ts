@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { BIBELORD, MAX_NAMN, MAX_TEXT, aktuellPeriod, amneId, svenskDag, type Bibelord, type Kategori, type VaggData } from "@/lib/bonerummet";
-import { fastaAmnenText, hamtaFasta, hamtaInlagg, inomGrans, laggTill } from "@/lib/bonerummet-store";
+import { fastaAmnenText, hamtaFasta, hamtaInlagg, hamtaVanner, inomGrans, laggTill } from "@/lib/bonerummet-store";
 import { copyrightShortFor } from "@/lib/bibelvers";
 import { redisConfigured } from "@/lib/redis";
 import { fetchPassage } from "@/lib/youversion";
@@ -20,12 +20,12 @@ export async function GET() {
   const period = aktuellPeriod();
   const [texter, bibelord] = await Promise.all([fastaAmnenText(), dagensBibelord()]);
   if (!redisConfigured()) {
-    const data: VaggData = { aktiv: false, inlagg: [], fasta: texter.map((text) => ({ id: amneId(text), text, ber: 0, dold: false })), period, bibelord };
+    const data: VaggData = { aktiv: false, inlagg: [], fasta: texter.map((text) => ({ id: amneId(text), text, ber: 0, dold: false })), period, bibelord, vanner: 0 };
     return NextResponse.json(data);
   }
   try {
-    const [inlagg, fasta] = await Promise.all([hamtaInlagg(), hamtaFasta(period, texter)]);
-    const data: VaggData = { aktiv: true, inlagg, fasta, period, bibelord };
+    const [inlagg, fasta, vanner] = await Promise.all([hamtaInlagg(), hamtaFasta(period, texter), hamtaVanner()]);
+    const data: VaggData = { aktiv: true, inlagg, fasta, period, bibelord, vanner };
     return NextResponse.json(data, { headers: { "Cache-Control": "no-store" } });
   } catch {
     return NextResponse.json({ error: "lagring" }, { status: 502 });

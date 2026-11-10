@@ -8,6 +8,7 @@ import {
   LIVSLANGD_DAGAR,
   MAX_FEEDBACK,
   MAX_NAMN,
+  MAX_VANNER_PER_PERSON,
   MAX_TEXT,
   PERIOD_DAGAR,
   amneId,
@@ -170,4 +171,20 @@ export async function hamtaFeedback(): Promise<Feedback[]> {
 
 export async function taBortFeedback(id: string): Promise<void> {
   await redis("HDEL", FEEDBACK, id);
+}
+
+// "Vi ber för att __ vänner ska börja tro på Jesus". Varje telefon/dator har ett
+// slumpat id och sparar sitt eget antal; totalen är summan. Inga namn sparas.
+const VANNER = `${P}vanner`;
+
+export async function hamtaVanner(): Promise<number> {
+  const varden = await redis<string[]>("HVALS", VANNER);
+  return varden.reduce((summa, v) => summa + (Number(v) || 0), 0);
+}
+
+export async function sattVanner(enhet: string, antal: number): Promise<number> {
+  const n = Math.max(0, Math.min(MAX_VANNER_PER_PERSON, Math.floor(antal)));
+  if (n === 0) await redis("HDEL", VANNER, enhet);
+  else await redis("HSET", VANNER, enhet, n);
+  return hamtaVanner();
 }

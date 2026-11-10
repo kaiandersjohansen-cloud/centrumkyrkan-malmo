@@ -32,7 +32,11 @@ export interface VaggData {
   // Räknarna för de fasta böneämnena nollställs när perioden byts (varannan dag).
   period: number;
   bibelord: Bibelord | null;
+  // Summan av alla som skrivit hur många vänner de ber ska börja tro på Jesus.
+  vanner: number;
 }
+
+export const MAX_VANNER_PER_PERSON = 50;
 
 // Inläggen raderas automatiskt efter så här lång tid.
 export const LIVSLANGD_DAGAR = 14;

@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type CSSProperties } from "re
 import { LIVSLANGD_DAGAR, type FastAmne, type Feedback, type Inlagg, type VaggData } from "@/lib/bonerummet";
 import Link from "next/link";
 import FeedbackRuta from "@/components/bonerummet/FeedbackRuta";
+import VannerRad from "@/components/bonerummet/VannerRad";
 import { C, SANS, SERIF } from "@/components/bonerummet/stil";
 
 // Lägger innehåll ovanpå sidan med mörk bakgrund. Klick utanför stänger.
@@ -349,6 +350,7 @@ export default function Vagg() {
           >
             Lägg till böneämne eller tacksägelse
           </Link>
+          <VannerRad totalt={data?.vanner ?? 0} aktiv={Boolean(data?.aktiv)} onAndrad={(vanner) => setData((d) => (d ? { ...d, vanner } : d))} />
         </header>
 
         {data && !data.aktiv && (
