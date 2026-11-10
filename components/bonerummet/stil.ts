@@ -17,7 +17,7 @@ export const C = {
   rod: "oklch(50% 0.13 30)",
   // Vännerraden ("Vi ber för att __ vänner ska börja tro på Jesus").
   rosa: "oklch(48% 0.12 350)",
-  rosaLjus: "oklch(95% 0.03 350)",
+  rosaLjus: "oklch(96.5% 0.02 350)",
   rosaLinje: "oklch(86% 0.06 350)",
 };
 

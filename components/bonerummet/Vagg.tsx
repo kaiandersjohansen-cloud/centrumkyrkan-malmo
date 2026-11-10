@@ -37,7 +37,7 @@ const CSS = `
 }
 @media (max-width: 720px) {
   .vagg-kolumner { grid-template-columns: 1fr; }
-  .vagg-header h1 { font-size: 30px !important; }
+  .vagg-header h1 { font-size: 44px !important; }
   .vagg-yta { padding: 24px 16px 0 !important; }
   .vagg-qr, .vagg-skanna { display: none; }
 }
@@ -337,13 +337,13 @@ export default function Vagg() {
       <div className="vagg-yta" style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, padding: "32px 40px 0" }}>
         <header className="vagg-header" style={{ textAlign: "center", marginBottom: 26 }}>
           <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: ".14em", textTransform: "uppercase", color: C.gron, margin: "0 0 6px" }}>Centrumkyrkan Malmö</p>
-          <h1 style={{ fontFamily: SERIF, fontSize: 42, fontWeight: 500, margin: 0 }}>Bönerummet</h1>
+          <h1 style={{ fontFamily: SERIF, fontSize: 64, fontWeight: 500, lineHeight: 1.05, letterSpacing: "-0.01em", margin: 0 }}>Bönerummet</h1>
           <Link
             href="/bonerummet"
-            className="btn-solid-green"
-            style={{ display: "inline-block", marginTop: 18, background: C.gron, color: "oklch(98.5% 0.006 90)", padding: "13px 24px", borderRadius: 100, fontWeight: 600, fontSize: 15 }}
+            className="btn-outline-green"
+            style={{ display: "inline-block", marginTop: 20, border: `1.5px solid ${C.gron}`, color: C.gron, padding: "9px 20px", borderRadius: 100, fontWeight: 600, fontSize: 14.5, transition: "background .15s, color .15s" }}
           >
-            Lägg till böneämne eller tacksägelse
+            + Lägg till böneämne eller tacksägelse
           </Link>
           <VannerRad totalt={data?.vanner ?? 0} aktiv={Boolean(data?.aktiv)} onAndrad={(vanner) => setData((d) => (d ? { ...d, vanner } : d))} />
         </header>

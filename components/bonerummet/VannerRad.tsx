@@ -76,7 +76,7 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
   const knappRosa: CSSProperties = { ...knapp, background: C.rosa, borderColor: C.rosa, color: "oklch(98.5% 0.006 90)" };
 
   return (
-    <div style={{ marginTop: 18, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, fontFamily: SANS }}>
+    <div style={{ marginTop: 14, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, fontFamily: SANS }}>
       <div
         style={{
           display: "flex",
@@ -85,16 +85,15 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
           gap: 12,
           flexWrap: "wrap",
           background: C.rosaLjus,
-          border: `1.5px solid ${C.rosaLinje}`,
-          borderRadius: 16,
-          padding: "10px 12px 10px 18px",
+          borderRadius: 20,
+          padding: "8px 14px",
           maxWidth: 720,
         }}
       >
-        <p style={{ margin: 0, fontSize: 16, color: C.text, textAlign: "center" }}>
+        <p style={{ margin: 0, fontSize: 15, color: C.text, textAlign: "center" }}>
           {totalt > 0 ? (
             <>
-              Vi ber för att <strong style={{ color: C.rosa, fontWeight: 700, fontSize: 19 }}>{totalt}</strong> {ord} ska börja tro på Jesus
+              Vi ber för att <strong style={{ color: C.rosa, fontWeight: 700, fontSize: 18 }}>{totalt}</strong> {ord} ska börja tro på Jesus
             </>
           ) : (
             "Hur många vänner ber du för som ännu inte tror på Jesus?"
@@ -108,7 +107,7 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
               setVal(mitt || 1);
               setUtfalld(true);
             }}
-            style={mitt ? { ...knapp, color: C.rosa, borderColor: C.rosaLinje } : knappRosa}
+            style={{ ...knapp, padding: "5px 14px", fontSize: 13, color: C.rosa, borderColor: C.rosaLinje }}
           >
             {mitt ? `Du ber för ${mitt} – ändra` : "Lägg till dina"}
           </button>
