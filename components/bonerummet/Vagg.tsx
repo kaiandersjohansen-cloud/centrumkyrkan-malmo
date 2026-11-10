@@ -405,7 +405,7 @@ export default function Vagg() {
           <h2 id="rubrik-fasta" style={{ ...kolRubrik, fontSize: 18, flexWrap: "wrap", rowGap: 2 }}>
             <span style={{ width: 11, height: 11, borderRadius: "50%", background: C.gron }} />
             Församlingens böneämnen
-            <span style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 400, color: C.dampad, marginLeft: "auto" }}>Räknarna nollställs varannan dag</span>
+            <span style={{ flexBasis: "100%", paddingLeft: 21, fontFamily: SANS, fontSize: 12.5, fontWeight: 400, color: C.dampad }}>Räknarna nollställs varannan dag</span>
           </h2>
           <ul className="vagg-fasta" style={{ margin: 0, padding: 0, listStyle: "none" }}>
             {(data?.fasta ?? [])
