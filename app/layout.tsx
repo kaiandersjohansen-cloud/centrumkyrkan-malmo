@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Lora, Public_Sans } from "next/font/google";
 import "./globals.css";
+import { OG_BILDER } from "@/lib/metadata";
 
 const lora = Lora({
   subsets: ["latin"],
@@ -27,13 +28,13 @@ export const metadata: Metadata = {
     type: "website",
     title: "Centrumkyrkan Malmö",
     description,
-    images: ["https://www.centrumkyrkanmalmo.se/images/hero-v2.jpg"],
+    images: [OG_BILDER.hero],
   },
   twitter: {
     card: "summary_large_image",
     title: "Centrumkyrkan Malmö",
     description: "Vi följer Jesus tillsammans. Församlingen Centrumkyrkan Malmö.",
-    images: ["https://www.centrumkyrkanmalmo.se/images/hero-v2.jpg"],
+    images: [OG_BILDER.hero],
   },
 };
 
