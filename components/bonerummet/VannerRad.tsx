@@ -73,7 +73,7 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
 
   const ord = totalt === 1 ? "vän" : "vänner";
 
-  const knappRosa: CSSProperties = { ...knapp, background: C.rosa, borderColor: C.rosa, color: "oklch(98.5% 0.006 90)" };
+  const knappFylld: CSSProperties = { ...knapp, background: C.gron, borderColor: C.gron, color: "oklch(98.5% 0.006 90)" };
 
   return (
     <div style={{ marginTop: 14, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, fontFamily: SANS }}>
@@ -84,7 +84,7 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
           justifyContent: "center",
           gap: 12,
           flexWrap: "wrap",
-          background: C.rosaLjus,
+          background: "oklch(94% 0.02 145 / 0.5)",
           borderRadius: 20,
           padding: "8px 14px",
           maxWidth: 720,
@@ -93,7 +93,7 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
         <p style={{ margin: 0, fontSize: 15, color: C.text, textAlign: "center" }}>
           {totalt > 0 ? (
             <>
-              Vi ber för att <strong style={{ color: C.rosa, fontWeight: 700, fontSize: 18 }}>{totalt}</strong> {ord} ska börja tro på Jesus
+              Vi ber för att <strong style={{ color: C.gron, fontWeight: 700, fontSize: 18 }}>{totalt}</strong> {ord} ska börja tro på Jesus
             </>
           ) : (
             "Hur många vänner ber du för som ännu inte tror på Jesus?"
@@ -107,7 +107,7 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
               setVal(mitt || 1);
               setUtfalld(true);
             }}
-            style={{ ...knapp, padding: "5px 14px", fontSize: 13, color: C.rosa, borderColor: C.rosaLinje }}
+            style={{ ...knapp, padding: "5px 14px", fontSize: 13, color: C.gron, borderColor: "oklch(86% 0.04 145)" }}
           >
             {mitt ? `Du ber för ${mitt} – ändra` : "Lägg till dina"}
           </button>
@@ -116,16 +116,16 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
         {utfalld && (
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
             <span style={{ fontSize: 14, color: C.dampad }}>Antal vänner</span>
-            <button type="button" aria-label="Färre" onClick={() => setVal((v) => Math.max(1, v - 1))} style={{ ...rund, color: C.rosa }}>
+            <button type="button" aria-label="Färre" onClick={() => setVal((v) => Math.max(1, v - 1))} style={{ ...rund, color: C.gron }}>
               −
             </button>
             <span aria-live="polite" style={{ minWidth: 24, textAlign: "center", fontSize: 17, fontWeight: 700 }}>
               {val}
             </span>
-            <button type="button" aria-label="Fler" onClick={() => setVal((v) => Math.min(MAX_VANNER_PER_PERSON, v + 1))} style={{ ...rund, color: C.rosa }}>
+            <button type="button" aria-label="Fler" onClick={() => setVal((v) => Math.min(MAX_VANNER_PER_PERSON, v + 1))} style={{ ...rund, color: C.gron }}>
               +
             </button>
-            <button type="button" onClick={() => spara(val)} disabled={sparar} style={knappRosa}>
+            <button type="button" onClick={() => spara(val)} disabled={sparar} style={knappFylld}>
               Spara
             </button>
             {mitt > 0 && (

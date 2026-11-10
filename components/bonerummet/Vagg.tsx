@@ -37,7 +37,7 @@ const CSS = `
 }
 @media (max-width: 720px) {
   .vagg-kolumner { grid-template-columns: 1fr; }
-  .vagg-header h1 { font-size: 44px !important; }
+  .vagg-header h1 { font-size: 38px !important; }
   .vagg-yta { padding: 24px 16px 0 !important; }
   .vagg-qr, .vagg-skanna { display: none; }
 }
@@ -337,7 +337,7 @@ export default function Vagg() {
       <div className="vagg-yta" style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, padding: "32px 40px 0" }}>
         <header className="vagg-header" style={{ textAlign: "center", marginBottom: 26 }}>
           <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: ".14em", textTransform: "uppercase", color: C.gron, margin: "0 0 6px" }}>Centrumkyrkan Malmö</p>
-          <h1 style={{ fontFamily: SERIF, fontSize: 64, fontWeight: 500, lineHeight: 1.05, letterSpacing: "-0.01em", margin: 0 }}>Bönerummet</h1>
+          <h1 style={{ fontFamily: SERIF, fontSize: 52, fontWeight: 500, lineHeight: 1.1, letterSpacing: "-0.01em", margin: 0 }}>Bönerummet</h1>
           <Link
             href="/bonerummet"
             className="btn-outline-green"
