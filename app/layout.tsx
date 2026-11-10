@@ -20,13 +20,13 @@ const description =
   "Vi följer Jesus tillsammans. Församlingen Centrumkyrkan Malmö – gudstjänst söndagar kl 15:30.";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.centrumkyrkanmalmo.se"),
   title: "Centrumkyrkan Malmö",
   description,
   openGraph: {
     type: "website",
     title: "Centrumkyrkan Malmö",
     description,
-    url: "https://www.centrumkyrkanmalmo.se/",
     images: ["https://www.centrumkyrkanmalmo.se/images/hero-v2.jpg"],
   },
   twitter: {
