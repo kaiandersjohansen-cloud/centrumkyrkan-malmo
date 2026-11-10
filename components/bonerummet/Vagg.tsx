@@ -31,8 +31,11 @@ const CSS = `
 .vagg-kolumner { flex: 1; display: grid; grid-template-columns: 1.15fr 1fr 0.85fr; gap: 28px; min-height: 0; }
 .vagg-kol { display: flex; flex-direction: column; min-height: 0; }
 .vagg-lista { display: flex; flex-direction: column; gap: 10px; }
-@media (min-width: 1100px) {
+/* Hela väggen på en skärm (för Meet) bara när skärmen är tillräckligt hög.
+   På lägre skärmar rullar sidan som vanligt, så att inget hamnar ovanpå något annat. */
+@media (min-width: 1100px) and (min-height: 820px) {
   .vagg { height: 100vh; }
+  .vagg-kolumner { min-height: 240px; }
   .vagg-lista { flex: 1; overflow-y: auto; padding-right: 4px; }
 }
 @media (max-width: 1099px) {
@@ -388,6 +391,7 @@ export default function Vagg() {
               <span style={{ width: 11, height: 11, borderRadius: "50%", background: C.gron }} />
               Dagens bibelord
             </h2>
+            <div className="vagg-lista">
             {data?.bibelord ? (
               <figure style={{ margin: 0, background: C.kort, border: `1px solid ${C.linje}`, borderRadius: 12, padding: "20px 20px 16px" }}>
                 <blockquote style={{ margin: 0, fontFamily: SERIF, fontSize: 16, lineHeight: 1.55 }}>{data.bibelord.text}</blockquote>
@@ -399,6 +403,7 @@ export default function Vagg() {
             ) : (
               tom(data ? "Dagens bibelord kunde inte hämtas." : "Laddar …")
             )}
+            </div>
           </section>
         </div>
 

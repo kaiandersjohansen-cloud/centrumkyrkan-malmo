@@ -15,6 +15,10 @@ export const C = {
   guldLjus: "oklch(95% 0.035 80)",
   guldText: "oklch(45% 0.09 65)",
   rod: "oklch(50% 0.13 30)",
+  // Vännerraden ("Vi ber för att __ vänner ska börja tro på Jesus").
+  rosa: "oklch(48% 0.12 350)",
+  rosaLjus: "oklch(95% 0.03 350)",
+  rosaLinje: "oklch(86% 0.06 350)",
 };
 
 export const SERIF = "var(--font-lora), serif";

@@ -73,58 +73,73 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
 
   const ord = totalt === 1 ? "vän" : "vänner";
 
-  return (
-    <div style={{ marginTop: 18, display: "flex", flexDirection: "column", alignItems: "center", gap: 10, fontFamily: SANS }}>
-      <p style={{ margin: 0, fontSize: 16, color: C.text }}>
-        {totalt > 0 ? (
-          <>
-            Vi ber för att <strong style={{ color: C.gron, fontWeight: 700, fontSize: 18 }}>{totalt}</strong> {ord} ska börja tro på Jesus
-          </>
-        ) : (
-          "Hur många vänner ber du för som ännu inte tror på Jesus?"
-        )}
-        {aktiv && !utfalld && (
-          <>
-            {" · "}
-            <button
-              type="button"
-              onClick={() => {
-                setVal(mitt || 1);
-                setUtfalld(true);
-              }}
-              style={{ background: "none", border: "none", padding: 0, font: "inherit", fontSize: 15, fontWeight: 600, color: C.gron, borderBottom: `1px solid ${C.gron}`, cursor: "pointer" }}
-            >
-              {mitt ? `Du ber för ${mitt} – ändra` : "Lägg till dina"}
-            </button>
-          </>
-        )}
-      </p>
+  const knappRosa: CSSProperties = { ...knapp, background: C.rosa, borderColor: C.rosa, color: "oklch(98.5% 0.006 90)" };
 
-      {utfalld && (
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", justifyContent: "center", background: C.kort, border: `1px solid ${C.linje}`, borderRadius: 100, padding: "6px 8px 6px 16px" }}>
-          <span style={{ fontSize: 14, color: C.dampad }}>Antal vänner</span>
-          <button type="button" aria-label="Färre" onClick={() => setVal((v) => Math.max(1, v - 1))} style={rund}>
-            −
-          </button>
-          <span aria-live="polite" style={{ minWidth: 24, textAlign: "center", fontSize: 17, fontWeight: 700 }}>
-            {val}
-          </span>
-          <button type="button" aria-label="Fler" onClick={() => setVal((v) => Math.min(MAX_VANNER_PER_PERSON, v + 1))} style={rund}>
-            +
-          </button>
-          <button type="button" onClick={() => spara(val)} disabled={sparar} className="btn-solid-green" style={{ ...knapp, background: C.gron, borderColor: C.gron, color: "oklch(98.5% 0.006 90)" }}>
-            Spara
-          </button>
-          {mitt > 0 && (
-            <button type="button" onClick={() => spara(0)} disabled={sparar} style={{ ...knapp, color: C.rod }}>
-              Ta bort mina
-            </button>
+  return (
+    <div style={{ marginTop: 18, display: "flex", flexDirection: "column", alignItems: "center", gap: 8, fontFamily: SANS }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 12,
+          flexWrap: "wrap",
+          background: C.rosaLjus,
+          border: `1.5px solid ${C.rosaLinje}`,
+          borderRadius: 16,
+          padding: "10px 12px 10px 18px",
+          maxWidth: 720,
+        }}
+      >
+        <p style={{ margin: 0, fontSize: 16, color: C.text, textAlign: "center" }}>
+          {totalt > 0 ? (
+            <>
+              Vi ber för att <strong style={{ color: C.rosa, fontWeight: 700, fontSize: 19 }}>{totalt}</strong> {ord} ska börja tro på Jesus
+            </>
+          ) : (
+            "Hur många vänner ber du för som ännu inte tror på Jesus?"
           )}
-          <button type="button" onClick={() => setUtfalld(false)} style={knapp}>
-            Avbryt
+        </p>
+
+        {aktiv && !utfalld && (
+          <button
+            type="button"
+            onClick={() => {
+              setVal(mitt || 1);
+              setUtfalld(true);
+            }}
+            style={mitt ? { ...knapp, color: C.rosa, borderColor: C.rosaLinje } : knappRosa}
+          >
+            {mitt ? `Du ber för ${mitt} – ändra` : "Lägg till dina"}
           </button>
-        </div>
-      )}
+        )}
+
+        {utfalld && (
+          <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
+            <span style={{ fontSize: 14, color: C.dampad }}>Antal vänner</span>
+            <button type="button" aria-label="Färre" onClick={() => setVal((v) => Math.max(1, v - 1))} style={{ ...rund, color: C.rosa }}>
+              −
+            </button>
+            <span aria-live="polite" style={{ minWidth: 24, textAlign: "center", fontSize: 17, fontWeight: 700 }}>
+              {val}
+            </span>
+            <button type="button" aria-label="Fler" onClick={() => setVal((v) => Math.min(MAX_VANNER_PER_PERSON, v + 1))} style={{ ...rund, color: C.rosa }}>
+              +
+            </button>
+            <button type="button" onClick={() => spara(val)} disabled={sparar} style={knappRosa}>
+              Spara
+            </button>
+            {mitt > 0 && (
+              <button type="button" onClick={() => spara(0)} disabled={sparar} style={{ ...knapp, color: C.rod }}>
+                Ta bort mina
+              </button>
+            )}
+            <button type="button" onClick={() => setUtfalld(false)} style={knapp}>
+              Avbryt
+            </button>
+          </div>
+        )}
+      </div>
       {fel && (
         <p role="alert" style={{ margin: 0, fontSize: 13, color: C.rod }}>
           {fel}
