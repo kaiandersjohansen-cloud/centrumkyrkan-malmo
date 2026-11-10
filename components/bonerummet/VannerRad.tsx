@@ -109,13 +109,13 @@ export default function VannerRad({ totalt, aktiv, onAndrad }: { totalt: number;
             }}
             style={{ ...knapp, padding: "5px 14px", fontSize: 13, color: C.gron, borderColor: "oklch(86% 0.04 145)" }}
           >
-            {mitt ? `Du ber för ${mitt} – ändra` : "Lägg till dina"}
+            {mitt ? `Du ber för ${mitt} – ändra` : "Lägg till ditt antal"}
           </button>
         )}
 
         {utfalld && (
           <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
-            <span style={{ fontSize: 14, color: C.dampad }}>Antal vänner</span>
+            <span style={{ fontSize: 14, color: C.dampad }}>Hur många? (inga namn)</span>
             <button type="button" aria-label="Färre" onClick={() => setVal((v) => Math.max(1, v - 1))} style={{ ...rund, color: C.gron }}>
               −
             </button>
