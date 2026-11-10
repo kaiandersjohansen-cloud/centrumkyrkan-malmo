@@ -337,8 +337,7 @@ export default function Vagg() {
       <div className="vagg-yta" style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, padding: "32px 40px 0" }}>
         <header className="vagg-header" style={{ textAlign: "center", marginBottom: 26 }}>
           <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: ".14em", textTransform: "uppercase", color: C.gron, margin: "0 0 6px" }}>Centrumkyrkan Malmö</p>
-          <h1 style={{ fontFamily: SERIF, fontSize: 42, fontWeight: 500, margin: "0 0 6px" }}>Bönerummet</h1>
-          <p style={{ fontSize: 15.5, color: C.dampad, margin: 0 }}>Vi bär varandras böneämnen och delar tacksägelser tillsammans</p>
+          <h1 style={{ fontFamily: SERIF, fontSize: 42, fontWeight: 500, margin: 0 }}>Bönerummet</h1>
           <Link
             href="/bonerummet"
             className="btn-solid-green"
@@ -432,6 +431,10 @@ export default function Vagg() {
               ))}
           </ul>
         </section>
+
+        <p style={{ fontFamily: SERIF, fontSize: 19, fontStyle: "italic", color: C.dampad, textAlign: "center", margin: "34px 0 0" }}>
+          Vi bär varandras böneämnen och delar tacksägelser tillsammans!
+        </p>
       </div>
 
       <footer style={{ marginTop: 24, padding: "18px 40px", display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", borderTop: `1px solid ${C.linje}`, background: "oklch(94% 0.02 145 / 0.5)" }}>
