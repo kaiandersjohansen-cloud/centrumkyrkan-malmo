@@ -11,7 +11,6 @@ const UPPDATERA_MS = 5000;
 
 const CSS = `
 .vagg { min-height: 100vh; display: flex; flex-direction: column; }
-.vagg-lagg-till { display: none; }
 .vagg-fasta { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
 .vagg-kolumner { flex: 1; display: grid; grid-template-columns: 1.15fr 1fr 0.85fr; gap: 28px; min-height: 0; }
 .vagg-kol { display: flex; flex-direction: column; min-height: 0; }
@@ -29,7 +28,6 @@ const CSS = `
   .vagg-header h1 { font-size: 30px !important; }
   .vagg-yta { padding: 24px 16px 0 !important; }
   .vagg-qr, .vagg-skanna { display: none; }
-  .vagg-lagg-till { display: inline-block; }
 }
 @keyframes vaggIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
 @keyframes vaggGlod { 0% { box-shadow: 0 0 0 6px var(--glod); } 100% { box-shadow: 0 0 0 0 transparent; } }
@@ -313,13 +311,12 @@ export default function Vagg() {
           <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: ".14em", textTransform: "uppercase", color: C.gron, margin: "0 0 6px" }}>Centrumkyrkan Malmö</p>
           <h1 style={{ fontFamily: SERIF, fontSize: 42, fontWeight: 500, margin: "0 0 6px" }}>Bönerummet</h1>
           <p style={{ fontSize: 15.5, color: C.dampad, margin: 0 }}>Vi bär varandras böneämnen och delar tacksägelser tillsammans</p>
-          {/* I mobilen visas ingen QR-kod, så där finns en knapp i stället. */}
           <Link
             href="/bonerummet"
-            className="vagg-lagg-till btn-solid-green"
-            style={{ marginTop: 18, background: C.gron, color: "oklch(98.5% 0.006 90)", padding: "13px 24px", borderRadius: 100, fontWeight: 600, fontSize: 15 }}
+            className="btn-solid-green"
+            style={{ display: "inline-block", marginTop: 18, background: C.gron, color: "oklch(98.5% 0.006 90)", padding: "13px 24px", borderRadius: 100, fontWeight: 600, fontSize: 15 }}
           >
-            Lägg till ett böneämne eller en tacksägelse
+            Lägg till böneämne eller tacksägelse
           </Link>
         </header>
 
