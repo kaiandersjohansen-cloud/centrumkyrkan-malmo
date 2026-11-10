@@ -1,10 +1,11 @@
 // Minimal klient för Upstash Redis REST API, utan extra paket. Vercels
-// Upstash-integration sätter KV_REST_API_URL och KV_REST_API_TOKEN automatiskt.
+// Upstash-integration sätter KV_REST_API_URL och KV_REST_API_TOKEN automatiskt
+// (eller STORAGE_… om inget eget prefix valdes).
 
 type Command = (string | number)[];
 
-const URL_ = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
-const TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
+const URL_ = process.env.KV_REST_API_URL ?? process.env.STORAGE_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
+const TOKEN = process.env.KV_REST_API_TOKEN ?? process.env.STORAGE_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
 
 export function redisConfigured(): boolean {
   return Boolean(URL_ && TOKEN);
