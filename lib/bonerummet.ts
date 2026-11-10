@@ -40,14 +40,43 @@ export const MAX_NAMN = 40;
 // Församlingens fasta böneämnen, som alltid visas överst på väggen. Kommande
 // händelser i kalendern läggs till automatiskt (se app/api/bonerummet/route.ts).
 export const FASTA_BONEAMNEN = [
-  "Malmö och människorna som bor här",
-  "Våra evangelister Nipen och Jibon i Bangladesh",
-  "Barn och unga i församlingen",
-  "Alla som söker Gud och vill veta mer om Jesus",
+  "Be för Malmö och människorna som bor här",
+  "Be för våra evangelister Nipen och Jibon i Bangladesh",
+  "Be för barn och unga i församlingen",
+  "Be för alla som söker Gud och vill veta mer om Jesus",
 ];
-export const KALENDER_DAGAR = 7;
+export const KALENDER_DAGAR = 14;
 export const KALENDER_MAX = 4;
 export const PERIOD_DAGAR = 2;
+
+// Hur kalenderhändelser heter i böneämnena. Nyckeln är namnet i kalendern.
+// Saknas namnet används kalenderns namn som det är.
+export const KALENDER_NAMN: Record<string, string> = {
+  alpha: "Alphakursen",
+  "alpha-kurs": "Alphakursen",
+  alphakurs: "Alphakursen",
+  adventsgudstjänst: "adventsgudstjänsten",
+  julbön: "julbönen",
+  "julafton": "julaftonens gudstjänst",
+  församlingsmöte: "församlingsmötet",
+  församlingshelg: "församlingshelgen",
+};
+
+// Den vanliga gudstjänsten är inget eget böneämne eftersom den kommer varje vecka.
+export function arVanligGudstjanst(titel: string, aterkommande: boolean): boolean {
+  return /^gudstjänst\b/i.test(titel) || (aterkommande && /gudstjänst/i.test(titel));
+}
+
+const VECKODAGAR = ["söndagar", "måndagar", "tisdagar", "onsdagar", "torsdagar", "fredagar", "lördagar"];
+
+// "Be för Alphakursen på torsdagar" eller "Be för adventsgudstjänsten".
+export function kalenderAmne(titel: string, start: Date, aterkommande: boolean): string {
+  const namn = KALENDER_NAMN[titel.toLowerCase()] ?? titel;
+  if (!aterkommande) return `Be för ${namn}`;
+  const dag = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Stockholm", weekday: "short" }).format(start);
+  const index = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(dag);
+  return `Be för ${namn} på ${VECKODAGAR[index] ?? "veckorna"}`;
+}
 
 // Dagnummer räknat på svenskt datum (byts vid midnatt i Sverige).
 export function svenskDag(nu = new Date()): number {

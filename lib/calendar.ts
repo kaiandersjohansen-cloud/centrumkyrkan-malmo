@@ -7,6 +7,7 @@ interface GoogleCalendarEventTime {
 
 interface GoogleCalendarEvent {
   summary: string;
+  recurringEventId?: string;
   location?: string;
   start: GoogleCalendarEventTime;
   end?: GoogleCalendarEventTime;
@@ -63,21 +64,61 @@ function toListItem(ev: GoogleCalendarEvent, index: number): CalendarListItem {
 // Live-fetches the church's public Google Calendar. Requires GOOGLE_CALENDAR_API_KEY
 // and GOOGLE_CALENDAR_ID (previously hardcoded client-side in the legacy site — moved
 // server-side here so the key is no longer exposed in page source).
-export async function getUpcomingCalendarEvents(maxResults = 8, daysAhead?: number): Promise<CalendarListItem[] | null> {
+export async function getUpcomingCalendarEvents(maxResults = 8): Promise<CalendarListItem[] | null> {
   const apiKey = process.env.GOOGLE_CALENDAR_API_KEY;
   const calendarId = process.env.GOOGLE_CALENDAR_ID;
   if (!apiKey || !calendarId) return null;
 
   const url =
     `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events` +
-    `?key=${apiKey}&timeMin=${new Date().toISOString()}&singleEvents=true&orderBy=startTime&maxResults=${maxResults}` +
-    (daysAhead ? `&timeMax=${new Date(Date.now() + daysAhead * 86_400_000).toISOString()}` : "");
+    `?key=${apiKey}&timeMin=${new Date().toISOString()}&singleEvents=true&orderBy=startTime&maxResults=${maxResults}`;
 
   try {
     const res = await fetch(url, { next: { revalidate: 300 } });
     if (!res.ok) return null;
     const data = (await res.json()) as { items?: GoogleCalendarEvent[] };
     return (data.items || []).map(toListItem);
+  } catch {
+    return null;
+  }
+}
+
+export interface PrayerCalendarEvent {
+  title: string;
+  start: Date;
+  recurring: boolean;
+}
+
+// Kommande händelser för Bönerummet. Återkommande händelser (t.ex. Alpha varje
+// torsdag) räknas bara en gång.
+export async function getPrayerCalendarEvents(daysAhead: number): Promise<PrayerCalendarEvent[] | null> {
+  const apiKey = process.env.GOOGLE_CALENDAR_API_KEY;
+  const calendarId = process.env.GOOGLE_CALENDAR_ID;
+  if (!apiKey || !calendarId) return null;
+
+  const now = new Date();
+  const url =
+    `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events` +
+    `?key=${apiKey}&timeMin=${now.toISOString()}&timeMax=${new Date(now.getTime() + daysAhead * 86_400_000).toISOString()}` +
+    `&singleEvents=true&orderBy=startTime&maxResults=50`;
+
+  try {
+    const res = await fetch(url, { next: { revalidate: 300 } });
+    if (!res.ok) return null;
+    const data = (await res.json()) as { items?: GoogleCalendarEvent[] };
+    const seen = new Set<string>();
+    const events: PrayerCalendarEvent[] = [];
+    for (const ev of data.items || []) {
+      const key = ev.recurringEventId ?? `${ev.summary}-${ev.start.dateTime ?? ev.start.date}`;
+      if (!ev.summary || seen.has(key)) continue;
+      seen.add(key);
+      events.push({
+        title: ev.summary.trim(),
+        start: ev.start.dateTime ? new Date(ev.start.dateTime) : new Date(`${ev.start.date}T12:00:00`),
+        recurring: Boolean(ev.recurringEventId),
+      });
+    }
+    return events;
   } catch {
     return null;
   }

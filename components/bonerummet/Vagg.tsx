@@ -296,7 +296,7 @@ export default function Vagg() {
             </h2>
             <div className="vagg-lista">
               <div style={{ background: C.gronLjus, border: `1px solid oklch(86% 0.05 145)`, borderRadius: 12, padding: "14px 16px" }}>
-                <p style={{ margin: "0 0 2px", fontSize: 12, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: C.gron }}>Församlingen ber för</p>
+                <p style={{ margin: "0 0 2px", fontSize: 12, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: C.gron }}>Församlingens böneämnen</p>
                 <p style={{ margin: "0 0 4px", fontSize: 12, color: C.dampad }}>Räknarna nollställs varannan dag.</p>
                 <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
                   {(data?.fasta ?? []).map((f: FastAmne, idx) => (

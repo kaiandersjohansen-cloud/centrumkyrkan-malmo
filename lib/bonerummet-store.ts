@@ -1,6 +1,6 @@
 import { timingSafeEqual } from "node:crypto";
 import { pipeline, redis } from "@/lib/redis";
-import { getUpcomingCalendarEvents } from "@/lib/calendar";
+import { getPrayerCalendarEvents } from "@/lib/calendar";
 import {
   FASTA_BONEAMNEN,
   KALENDER_DAGAR,
@@ -10,6 +10,8 @@ import {
   MAX_TEXT,
   PERIOD_DAGAR,
   amneId,
+  arVanligGudstjanst,
+  kalenderAmne,
   type FastAmne,
   type Inlagg,
   type Kategori,
@@ -111,9 +113,11 @@ export function ratKod(kod: unknown): boolean {
 
 // Församlingens fasta böneämnen: kommande händelser i kalendern och den fasta listan.
 export async function fastaAmnenText(): Promise<string[]> {
-  const handelser = (await getUpcomingCalendarEvents(KALENDER_MAX, KALENDER_DAGAR)) ?? [];
-  const franKalendern = handelser.map((h) => `${h.title} (${h.dateLabel}${h.time ? ` kl ${h.time}` : ""})`);
-  return [...franKalendern, ...FASTA_BONEAMNEN];
+  const handelser = (await getPrayerCalendarEvents(KALENDER_DAGAR)) ?? [];
+  const franKalendern = handelser
+    .filter((h) => !arVanligGudstjanst(h.title, h.recurring))
+    .map((h) => kalenderAmne(h.title, h.start, h.recurring));
+  return [...new Set([...franKalendern.slice(0, KALENDER_MAX), ...FASTA_BONEAMNEN])];
 }
 
 export async function hamtaFasta(period: number, texter: string[]): Promise<FastAmne[]> {
