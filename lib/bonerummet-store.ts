@@ -27,6 +27,7 @@ const MAX_VISADE = 200;
 
 const inlaggKey = (id: string) => `${P}inlagg:${id}`;
 const fastKey = (period: number, id: string) => `${P}fast:${period}:${id}`;
+const DOLDA = `${P}dolda`;
 const berKey = (id: string) => `${P}ber:${id}`;
 
 type Sparat = Omit<Inlagg, "ber">;
@@ -122,8 +123,16 @@ export async function fastaAmnenText(): Promise<string[]> {
 
 export async function hamtaFasta(period: number, texter: string[]): Promise<FastAmne[]> {
   const ids = texter.map(amneId);
-  const antal = await redis<(string | null)[]>("MGET", ...ids.map((id) => fastKey(period, id)));
-  return texter.map((text, i) => ({ id: ids[i], text, ber: Number(antal[i] ?? 0) }));
+  const [antal, dolda] = (await pipeline([
+    ["MGET", ...ids.map((id) => fastKey(period, id))],
+    ["SMEMBERS", DOLDA],
+  ])) as [(string | null)[], string[]];
+  return texter.map((text, i) => ({ id: ids[i], text, ber: Number(antal[i] ?? 0), dold: dolda.includes(ids[i]) }));
+}
+
+// Ta bort (dölj) eller visa ett av församlingens böneämnen igen.
+export async function doljAmne(id: string, dolj: boolean): Promise<void> {
+  await redis(dolj ? "SADD" : "SREM", DOLDA, id);
 }
 
 // "Jag ber för detta" på ett fast böneämne. Räknaren gäller en period (varannan dag).

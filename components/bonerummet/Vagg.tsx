@@ -161,7 +161,7 @@ export default function Vagg() {
     } catch {}
   }
 
-  async function hantera(atgard: "kolla" | "ta_bort" | "rensa", id?: string, kodAttAnvanda = kod): Promise<boolean> {
+  async function hantera(atgard: "kolla" | "ta_bort" | "rensa" | "dolj" | "visa", id?: string, kodAttAnvanda = kod): Promise<boolean> {
     const res = await fetch("/api/bonerummet/hantera", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -194,6 +194,12 @@ export default function Vagg() {
   async function taBort(id: string) {
     setData((d) => (d ? { ...d, inlagg: d.inlagg.filter((i) => i.id !== id) } : d));
     await hantera("ta_bort", id);
+    hamta();
+  }
+
+  async function doljAmne(id: string, dolj: boolean) {
+    setData((d) => (d ? { ...d, fasta: d.fasta.map((f) => (f.id === id ? { ...f, dold: dolj } : f)) } : d));
+    await hantera(dolj ? "dolj" : "visa", id);
     hamta();
   }
 
@@ -299,12 +305,23 @@ export default function Vagg() {
                 <p style={{ margin: "0 0 2px", fontSize: 12, fontWeight: 600, letterSpacing: ".1em", textTransform: "uppercase", color: C.gron }}>Församlingens böneämnen</p>
                 <p style={{ margin: "0 0 4px", fontSize: 12, color: C.dampad }}>Räknarna nollställs varannan dag.</p>
                 <ul style={{ margin: 0, padding: 0, listStyle: "none" }}>
-                  {(data?.fasta ?? []).map((f: FastAmne, idx) => (
-                    <li key={f.id} style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 0", borderTop: idx ? "1px solid oklch(86% 0.05 145)" : undefined, fontSize: 15, lineHeight: 1.45 }}>
-                      <span style={{ flex: 1, minWidth: 0 }}>{f.text}</span>
-                      {berKnapp(f.id, f.ber)}
-                    </li>
-                  ))}
+                  {(data?.fasta ?? [])
+                    .filter((f: FastAmne) => kod || !f.dold)
+                    .map((f: FastAmne, idx) => (
+                      <li key={f.id} style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", padding: "8px 0", borderTop: idx ? "1px solid oklch(86% 0.05 145)" : undefined, fontSize: 15, lineHeight: 1.45, opacity: f.dold ? 0.5 : 1 }}>
+                        <span style={{ flex: 1, minWidth: 0, textDecoration: f.dold ? "line-through" : undefined }}>{f.text}</span>
+                        {!f.dold && berKnapp(f.id, f.ber)}
+                        {kod && (
+                          <button
+                            type="button"
+                            onClick={() => doljAmne(f.id, !f.dold)}
+                            style={{ ...smaKnapp, padding: "5px 12px", fontSize: 12.5, flexShrink: 0, ...(f.dold ? {} : { color: C.rod, borderColor: "oklch(85% 0.05 30)" }) }}
+                          >
+                            {f.dold ? "Visa igen" : "Ta bort"}
+                          </button>
+                        )}
+                      </li>
+                    ))}
                 </ul>
               </div>
               {data ? (bon.length ? bon.map(kort) : tom("Inga böneämnen än. Skanna QR-koden för att lägga till ett.")) : tom("Laddar …")}

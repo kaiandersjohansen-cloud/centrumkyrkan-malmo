@@ -20,7 +20,7 @@ export async function GET() {
   const period = aktuellPeriod();
   const [texter, bibelord] = await Promise.all([fastaAmnenText(), dagensBibelord()]);
   if (!redisConfigured()) {
-    const data: VaggData = { aktiv: false, inlagg: [], fasta: texter.map((text) => ({ id: amneId(text), text, ber: 0 })), period, bibelord };
+    const data: VaggData = { aktiv: false, inlagg: [], fasta: texter.map((text) => ({ id: amneId(text), text, ber: 0, dold: false })), period, bibelord };
     return NextResponse.json(data);
   }
   try {

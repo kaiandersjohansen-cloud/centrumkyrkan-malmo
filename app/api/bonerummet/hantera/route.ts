@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { ratKod, rensaTavlan, taBort } from "@/lib/bonerummet-store";
+import { amneId } from "@/lib/bonerummet";
+import { doljAmne, fastaAmnenText, ratKod, rensaTavlan, taBort } from "@/lib/bonerummet-store";
 import { redisConfigured } from "@/lib/redis";
 
 // Kräver koden i BONERUMMET_KOD. "kolla" används för att logga in på väggen.
@@ -13,6 +14,12 @@ export async function POST(request: Request) {
   try {
     if (body.atgard === "ta_bort" && typeof body.id === "string" && /^[a-z0-9]{6,24}$/.test(body.id)) {
       await taBort(body.id);
+      return NextResponse.json({ ok: true });
+    }
+    if ((body.atgard === "dolj" || body.atgard === "visa") && typeof body.id === "string") {
+      const id = body.id;
+      if (!(await fastaAmnenText()).some((t) => amneId(t) === id)) return NextResponse.json({ error: "finns_inte" }, { status: 404 });
+      await doljAmne(id, body.atgard === "dolj");
       return NextResponse.json({ ok: true });
     }
     if (body.atgard === "rensa") {

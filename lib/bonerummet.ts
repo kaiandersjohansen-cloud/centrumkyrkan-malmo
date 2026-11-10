@@ -21,6 +21,8 @@ export interface FastAmne {
   id: string;
   text: string;
   ber: number;
+  // Borttaget av den som hanterar väggen. Visas bara i hanteringsläget.
+  dold: boolean;
 }
 
 export interface VaggData {
