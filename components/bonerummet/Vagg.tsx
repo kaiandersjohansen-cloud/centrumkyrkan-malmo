@@ -28,7 +28,7 @@ const CSS = `
   .vagg-kolumner { grid-template-columns: 1fr; }
   .vagg-header h1 { font-size: 30px !important; }
   .vagg-yta { padding: 24px 16px 0 !important; }
-  .vagg-qr { display: none; }
+  .vagg-qr, .vagg-skanna { display: none; }
   .vagg-lagg-till { display: inline-block; }
 }
 @keyframes vaggIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
@@ -410,8 +410,8 @@ export default function Vagg() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         {qr && <img className="vagg-qr" src={qr} alt="QR-kod till bönerummet" width={92} height={92} style={{ borderRadius: 10, background: "white", padding: 4, flexShrink: 0 }} />}
         <div style={{ fontSize: 13.5, color: C.dampad, minWidth: 0 }}>
-          <p style={{ margin: "0 0 2px" }}>Skanna för att lägga till ett böneämne eller en tacksägelse</p>
-          <p style={{ margin: 0 }}>
+          <p className="vagg-skanna" style={{ margin: "0 0 2px" }}>Skanna för att lägga till ett böneämne eller en tacksägelse</p>
+          <p className="vagg-skanna" style={{ margin: 0 }}>
             <Link href="/bonerummet" style={{ fontWeight: 600, color: C.text, borderBottom: `1px solid ${C.linje}` }}>
               {lank.replace(/^https?:\/\//, "")}
             </Link>
