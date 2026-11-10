@@ -3,6 +3,7 @@
 import { useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { LIVSLANGD_DAGAR, MAX_NAMN, MAX_TEXT, type Kategori } from "@/lib/bonerummet";
+import FeedbackRuta from "@/components/bonerummet/FeedbackRuta";
 import { C, SANS, SERIF } from "@/components/bonerummet/stil";
 
 const falt: CSSProperties = {
@@ -35,6 +36,7 @@ export default function Skicka() {
   const [skickar, setSkickar] = useState(false);
   const [klar, setKlar] = useState(false);
   const [fel, setFel] = useState("");
+  const [visaFeedback, setVisaFeedback] = useState(false);
 
   async function skicka() {
     if (!text.trim()) {
@@ -158,6 +160,16 @@ export default function Skicka() {
             Se väggen och be med →
           </Link>
         </p>
+        <p style={{ margin: "10px 0 0", fontSize: 13 }}>
+          <button type="button" onClick={() => setVisaFeedback(true)} style={{ background: "none", border: "none", padding: 0, fontSize: 13, fontFamily: SANS, color: C.dampad, borderBottom: `1px solid ${C.linje}`, cursor: "pointer" }}>
+            Ge feedback på bönerummet
+          </button>
+        </p>
+        {visaFeedback && (
+          <div style={{ marginTop: 16, display: "flex", justifyContent: "center" }}>
+            <FeedbackRuta onStang={() => setVisaFeedback(false)} />
+          </div>
+        )}
       </div>
     </div>
   );

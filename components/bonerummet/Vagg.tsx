@@ -1,9 +1,24 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { LIVSLANGD_DAGAR, type FastAmne, type Inlagg, type VaggData } from "@/lib/bonerummet";
+import { LIVSLANGD_DAGAR, type FastAmne, type Feedback, type Inlagg, type VaggData } from "@/lib/bonerummet";
 import Link from "next/link";
+import FeedbackRuta from "@/components/bonerummet/FeedbackRuta";
 import { C, SANS, SERIF } from "@/components/bonerummet/stil";
+
+// Lägger innehåll ovanpå sidan med mörk bakgrund. Klick utanför stänger.
+function Overlagg({ onStang, children }: { onStang: () => void; children: React.ReactNode }) {
+  return (
+    <div
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onStang();
+      }}
+      style={{ position: "fixed", inset: 0, zIndex: 50, background: "oklch(20% 0.015 50 / 0.45)", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}
+    >
+      {children}
+    </div>
+  );
+}
 
 const BER_KEY = "centrumkyrkan-bonerummet-ber";
 const KOD_KEY = "centrumkyrkan-bonerummet-kod";
@@ -89,6 +104,8 @@ export default function Vagg() {
   const [visaKod, setVisaKod] = useState(false);
   const [kodFel, setKodFel] = useState("");
   const [rensaRedo, setRensaRedo] = useState(false);
+  const [visaFeedback, setVisaFeedback] = useState(false);
+  const [feedbackLista, setFeedbackLista] = useState<Feedback[] | null>(null);
   const [lank, setLank] = useState("");
   const [nya, setNya] = useState<string[]>([]);
   // Inlägg som fanns vid första laddningen ska inte blinka till som nya.
@@ -163,7 +180,7 @@ export default function Vagg() {
     } catch {}
   }
 
-  async function hantera(atgard: "kolla" | "ta_bort" | "rensa" | "dolj" | "visa", id?: string, kodAttAnvanda = kod): Promise<boolean> {
+  async function hantera(atgard: "kolla" | "ta_bort" | "rensa" | "dolj" | "visa" | "ta_bort_feedback", id?: string, kodAttAnvanda = kod): Promise<boolean> {
     const res = await fetch("/api/bonerummet/hantera", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -203,6 +220,20 @@ export default function Vagg() {
     setData((d) => (d ? { ...d, fasta: d.fasta.map((f) => (f.id === id ? { ...f, dold: dolj } : f)) } : d));
     await hantera(dolj ? "dolj" : "visa", id);
     hamta();
+  }
+
+  async function lasFeedback() {
+    const res = await fetch("/api/bonerummet/hantera", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kod, atgard: "feedback" }),
+    }).catch(() => null);
+    if (res?.ok) setFeedbackLista(((await res.json()) as { feedback: Feedback[] }).feedback);
+  }
+
+  async function taBortFeedback(id: string) {
+    setFeedbackLista((l) => (l ? l.filter((f) => f.id !== id) : l));
+    await hantera("ta_bort_feedback", id);
   }
 
   async function rensa() {
@@ -416,8 +447,14 @@ export default function Vagg() {
           <p style={{ margin: "4px 0 0", fontSize: 12 }}>Inlägg raderas automatiskt efter {LIVSLANGD_DAGAR} dagar.</p>
         </div>
         <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+          <button type="button" onClick={() => setVisaFeedback(true)} style={{ ...smaKnapp, color: C.gron, borderColor: "oklch(80% 0.05 145)" }}>
+            Ge feedback
+          </button>
           {kod ? (
             <>
+              <button type="button" onClick={lasFeedback} style={smaKnapp}>
+                Läs feedback
+              </button>
               <button type="button" onClick={rensa} style={{ ...smaKnapp, ...(rensaRedo ? { color: C.rod, borderColor: C.rod, background: "oklch(96% 0.02 30)" } : {}) }}>
                 {rensaRedo ? "Bekräfta: rensa allt?" : "Rensa tavlan"}
               </button>
@@ -458,6 +495,42 @@ export default function Vagg() {
           )}
         </div>
       </footer>
+
+      {visaFeedback && (
+        <Overlagg onStang={() => setVisaFeedback(false)}>
+          <FeedbackRuta onStang={() => setVisaFeedback(false)} />
+        </Overlagg>
+      )}
+
+      {feedbackLista && (
+        <Overlagg onStang={() => setFeedbackLista(null)}>
+          <div role="dialog" aria-labelledby="fb-lista-rubrik" style={{ width: "100%", maxWidth: 640, maxHeight: "85vh", overflowY: "auto", background: C.kort, borderRadius: 14, padding: "20px 20px 16px", boxShadow: "0 8px 28px oklch(30% 0.02 50 / 0.12)" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+              <h2 id="fb-lista-rubrik" style={{ fontFamily: SERIF, fontSize: 21, fontWeight: 500, margin: 0, flex: 1 }}>
+                Feedback ({feedbackLista.length})
+              </h2>
+              <button type="button" onClick={() => setFeedbackLista(null)} style={smaKnapp}>
+                Stäng
+              </button>
+            </div>
+            {feedbackLista.length === 0 && tom("Ingen feedback än.")}
+            {feedbackLista.map((f) => (
+              <article key={f.id} style={{ borderTop: `1px solid ${C.linje}`, padding: "12px 0" }}>
+                <p style={{ margin: "0 0 8px", fontSize: 15, lineHeight: 1.5, whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>{f.text}</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                  <p style={{ margin: 0, fontSize: 12.5, color: C.dampad, flex: 1 }}>
+                    {f.namn && <span style={{ fontStyle: "italic" }}>{f.namn} · </span>}
+                    {datum(f.ts)}
+                  </p>
+                  <button type="button" onClick={() => taBortFeedback(f.id)} style={{ ...smaKnapp, padding: "5px 12px", fontSize: 12.5, color: C.rod, borderColor: "oklch(85% 0.05 30)" }}>
+                    Ta bort
+                  </button>
+                </div>
+              </article>
+            ))}
+          </div>
+        </Overlagg>
+      )}
     </div>
   );
 }

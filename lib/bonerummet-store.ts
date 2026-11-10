@@ -6,6 +6,7 @@ import {
   KALENDER_DAGAR,
   KALENDER_MAX,
   LIVSLANGD_DAGAR,
+  MAX_FEEDBACK,
   MAX_NAMN,
   MAX_TEXT,
   PERIOD_DAGAR,
@@ -13,6 +14,7 @@ import {
   skaHoppasOver,
   kalenderAmne,
   type FastAmne,
+  type Feedback,
   type Inlagg,
   type Kategori,
 } from "@/lib/bonerummet";
@@ -145,4 +147,27 @@ export async function berForFast(period: number, id: string): Promise<number> {
     ["EXPIRE", key, (PERIOD_DAGAR + 1) * 86_400],
   ])) as [number, number];
   return antal;
+}
+
+// Feedback på bönerummet. Sparas utan tidsgräns tills den tas bort under "Hantera väggen".
+const FEEDBACK = `${P}feedback`;
+
+export async function sparaFeedback(text: string, namn: string): Promise<void> {
+  const ts = Date.now();
+  const fb: Feedback = {
+    id: `b${ts.toString(36)}${Math.random().toString(36).slice(2, 8)}`,
+    text: text.trim().slice(0, MAX_FEEDBACK),
+    namn: namn.trim().replace(/\s+/g, " ").slice(0, MAX_NAMN),
+    ts,
+  };
+  await redis("HSET", FEEDBACK, fb.id, JSON.stringify(fb));
+}
+
+export async function hamtaFeedback(): Promise<Feedback[]> {
+  const alla = await redis<string[]>("HVALS", FEEDBACK);
+  return alla.map((j) => JSON.parse(j) as Feedback).sort((a, b) => b.ts - a.ts);
+}
+
+export async function taBortFeedback(id: string): Promise<void> {
+  await redis("HDEL", FEEDBACK, id);
 }

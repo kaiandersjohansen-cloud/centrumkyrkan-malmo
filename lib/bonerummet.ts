@@ -38,6 +38,14 @@ export interface VaggData {
 export const LIVSLANGD_DAGAR = 14;
 export const MAX_TEXT = 240;
 export const MAX_NAMN = 40;
+export const MAX_FEEDBACK = 2000;
+
+export interface Feedback {
+  id: string;
+  text: string;
+  namn: string;
+  ts: number;
+}
 
 // Församlingens fasta böneämnen, som alltid visas överst på väggen. Kommande
 // händelser i kalendern läggs till automatiskt (se app/api/bonerummet/route.ts).
