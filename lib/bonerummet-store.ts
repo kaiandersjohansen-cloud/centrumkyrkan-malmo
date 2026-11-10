@@ -10,7 +10,7 @@ import {
   MAX_TEXT,
   PERIOD_DAGAR,
   amneId,
-  arVanligGudstjanst,
+  skaHoppasOver,
   kalenderAmne,
   type FastAmne,
   type Inlagg,
@@ -115,7 +115,7 @@ export function ratKod(kod: unknown): boolean {
 export async function fastaAmnenText(): Promise<string[]> {
   const handelser = (await getPrayerCalendarEvents(KALENDER_DAGAR)) ?? [];
   const franKalendern = handelser
-    .filter((h) => !arVanligGudstjanst(h.title, h.recurring))
+    .filter((h) => !skaHoppasOver(h.title, h.recurring))
     .map((h) => kalenderAmne(h.title, h.start, h.recurring));
   return [...new Set([...franKalendern.slice(0, KALENDER_MAX), ...FASTA_BONEAMNEN])];
 }

@@ -49,29 +49,37 @@ export const KALENDER_DAGAR = 14;
 export const KALENDER_MAX = 4;
 export const PERIOD_DAGAR = 2;
 
-// Hur kalenderhändelser heter i böneämnena. Nyckeln är namnet i kalendern.
+// Hur kalenderhändelser heter i böneämnena. Nyckeln är namnet i församlingens
+// kalender (centrumkyrkanmalmo@gmail.com) i gemener, utan "& söndagsskola".
 // Saknas namnet används kalenderns namn som det är.
 export const KALENDER_NAMN: Record<string, string> = {
+  "alpha kurs": "Alphakursen",
   alpha: "Alphakursen",
-  "alpha-kurs": "Alphakursen",
   alphakurs: "Alphakursen",
+  "together malmö ungdomssamling": "ungdomssamlingen Together Malmö",
   adventsgudstjänst: "adventsgudstjänsten",
+  "jul & luciafest": "jul- och luciafesten",
   julbön: "julbönen",
-  "julafton": "julaftonens gudstjänst",
   församlingsmöte: "församlingsmötet",
   församlingshelg: "församlingshelgen",
 };
 
-// Den vanliga gudstjänsten är inget eget böneämne eftersom den kommer varje vecka.
-export function arVanligGudstjanst(titel: string, aterkommande: boolean): boolean {
-  return /^gudstjänst\b/i.test(titel) || (aterkommande && /gudstjänst/i.test(titel));
+function stada(titel: string): string {
+  return titel.replace(/\s*&\s*söndagsskola\s*$/i, "").trim();
+}
+
+// Hoppa över den vanliga gudstjänsten (den kommer varje vecka) och uppehåll.
+export function skaHoppasOver(titel: string, aterkommande: boolean): boolean {
+  const t = stada(titel);
+  return /^gudstjänst\b/i.test(t) || (aterkommande && /gudstjänst/i.test(t)) || /^uppehåll|ingen gudstjänst|inställ/i.test(titel);
 }
 
 const VECKODAGAR = ["söndagar", "måndagar", "tisdagar", "onsdagar", "torsdagar", "fredagar", "lördagar"];
 
 // "Be för Alphakursen på torsdagar" eller "Be för adventsgudstjänsten".
 export function kalenderAmne(titel: string, start: Date, aterkommande: boolean): string {
-  const namn = KALENDER_NAMN[titel.toLowerCase()] ?? titel;
+  const rent = stada(titel);
+  const namn = KALENDER_NAMN[rent.toLowerCase()] ?? rent;
   if (!aterkommande) return `Be för ${namn}`;
   const dag = new Intl.DateTimeFormat("en-US", { timeZone: "Europe/Stockholm", weekday: "short" }).format(start);
   const index = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(dag);
