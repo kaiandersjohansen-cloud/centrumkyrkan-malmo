@@ -13,14 +13,6 @@ const TOOLS: { href: string; title: string; text: string; ink: string; soft: str
     starts: new Date("2026-10-25T00:00:00+02:00"),
   },
   {
-    href: "/bonerummet",
-    title: "Bönerummet",
-    text: "Dela ett böneämne eller en tacksägelse och be för andras.",
-    ink: "oklch(47% 0.09 350)",
-    soft: "oklch(94% 0.032 350)",
-    line: "oklch(87% 0.05 350)",
-  },
-  {
     href: "/bordssamtal",
     title: "Bordssamtal",
     text: "Frågor för bättre och djupare samtal med vänner eller i hemgruppen.",
