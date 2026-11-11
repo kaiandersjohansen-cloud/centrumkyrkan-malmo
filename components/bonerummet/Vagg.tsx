@@ -47,7 +47,7 @@ const CSS = `
 .vagg-ny { animation: vaggIn .55s ease-out, vaggGlod 2.6s ease-out .05s; }
 @media (prefers-reduced-motion: reduce) { .vagg-ny { animation: none; } }
 .vagg-ber:hover:not(:disabled) { border-color: currentColor !important; }
-.vagg-hem:hover { color: ${C.text} !important; }
+.vagg-hem:hover, .vagg-lank:hover { color: ${C.text} !important; }
 `;
 
 function lasLista(key: string): string[] {
@@ -453,6 +453,11 @@ export default function Vagg() {
             </Link>
           </p>
           <p style={{ margin: "4px 0 0", fontSize: 12 }}>Inlägg raderas automatiskt efter {LIVSLANGD_DAGAR} dagar.</p>
+          <p style={{ margin: "6px 0 0", fontSize: 12.5 }}>
+            <Link href="/#verktyg" className="vagg-lank" style={{ color: C.dampad, borderBottom: `1px solid ${C.linje}` }}>
+              Andra digitala verktyg
+            </Link>
+          </p>
         </div>
         <div style={{ marginLeft: "auto", display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
           <button type="button" onClick={() => setVisaFeedback(true)} style={{ ...smaKnapp, color: C.gron, borderColor: "oklch(80% 0.05 145)" }}>

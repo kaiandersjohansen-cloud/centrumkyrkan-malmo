@@ -170,6 +170,11 @@ export default function Skicka() {
             ← Till hemsidan
           </Link>
         </p>
+        <p style={{ margin: "10px 0 0", fontSize: 13 }}>
+          <Link href="/#verktyg" style={{ color: C.dampad, borderBottom: `1px solid ${C.linje}` }}>
+            Andra digitala verktyg
+          </Link>
+        </p>
         {visaFeedback && (
           <div style={{ marginTop: 16, display: "flex", justifyContent: "center" }}>
             <FeedbackRuta onStang={() => setVisaFeedback(false)} />
