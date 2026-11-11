@@ -165,6 +165,11 @@ export default function Skicka() {
             Ge feedback på bönerummet
           </button>
         </p>
+        <p style={{ margin: "10px 0 0", fontSize: 13 }}>
+          <Link href="/" style={{ color: C.dampad, borderBottom: `1px solid ${C.linje}` }}>
+            ← Till hemsidan
+          </Link>
+        </p>
         {visaFeedback && (
           <div style={{ marginTop: 16, display: "flex", justifyContent: "center" }}>
             <FeedbackRuta onStang={() => setVisaFeedback(false)} />

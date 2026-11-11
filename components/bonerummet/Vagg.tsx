@@ -39,6 +39,7 @@ const CSS = `
   .vagg-kolumner { grid-template-columns: 1fr; }
   .vagg-header h1 { font-size: 38px !important; }
   .vagg-yta { padding: 24px 16px 0 !important; }
+  .vagg-hem { position: static !important; display: inline-block; margin-bottom: 14px; }
   .vagg-qr, .vagg-skanna { display: none; }
 }
 @keyframes vaggIn { from { opacity: 0; transform: translateY(8px) scale(0.98); } to { opacity: 1; transform: none; } }
@@ -46,6 +47,7 @@ const CSS = `
 .vagg-ny { animation: vaggIn .55s ease-out, vaggGlod 2.6s ease-out .05s; }
 @media (prefers-reduced-motion: reduce) { .vagg-ny { animation: none; } }
 .vagg-ber:hover:not(:disabled) { border-color: currentColor !important; }
+.vagg-hem:hover { color: ${C.text} !important; }
 `;
 
 function lasLista(key: string): string[] {
@@ -335,7 +337,10 @@ export default function Vagg() {
     <div className="vagg" style={{ background: C.bg, fontFamily: SANS, color: C.text }}>
       <style>{CSS}</style>
       <div className="vagg-yta" style={{ flex: 1, display: "flex", flexDirection: "column", minHeight: 0, padding: "32px 40px 0" }}>
-        <header className="vagg-header" style={{ textAlign: "center", marginBottom: 26 }}>
+        <header className="vagg-header" style={{ position: "relative", textAlign: "center", marginBottom: 26 }}>
+          <Link href="/" className="vagg-hem" style={{ position: "absolute", top: 0, left: 0, fontSize: 13.5, fontWeight: 500, color: C.dampad }}>
+            ← Till hemsidan
+          </Link>
           <p style={{ fontSize: 12, fontWeight: 600, letterSpacing: ".14em", textTransform: "uppercase", color: C.gron, margin: "0 0 6px" }}>Centrumkyrkan Malmö</p>
           <h1 style={{ fontFamily: SERIF, fontSize: 52, fontWeight: 500, lineHeight: 1.1, letterSpacing: "-0.01em", margin: 0 }}>Bönerummet</h1>
           <Link
