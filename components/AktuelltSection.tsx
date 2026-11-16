@@ -24,6 +24,14 @@ const SKRIFTEN_DATES = [
 
 const CARDS: Card[] = [
   {
+    key: "advent",
+    image: "/images/adventsgudstjanst-card.jpg",
+    alt: "Adventsgudstjänst söndag 29 november kl 15.30 i Centrumkyrkan Malmö",
+    title: "Adventsgudstjänst – söndag 29 november kl 15:30",
+    description: "Nu börjar det närma sig! Snart tänder vi det första adventsljuset och går in i adventstiden tillsammans. Välkommen till en stämningsfull gudstjänst med musik, ljus och hopp – nya och välkända adventssånger, barnkör och ett hoppfullt budskap inför julen. Kom gärna tidigare, vi har glöggmingel från kl 15:15, och efteråt bjuder vi på adventsfika. Bjud gärna med en vän!",
+    expires: new Date("2026-11-30T00:00:00+01:00"),
+  },
+  {
     key: "bibelvers",
     image: "/images/bibelvers-card.jpg",
     alt: "En bibel bredvid ett verskort med Johannesevangeliet 3:16 och orden ”Så älskade Gud …”",
@@ -70,14 +78,6 @@ const CARDS: Card[] = [
     description: "Du kan välja att ge 1 procent av din kommunalskatt direkt till församlingen. Du registrerar dig en gång med BankID, sedan sköter Skatteverket resten. Sista dag är 31 oktober.",
     cta: { label: "Anslut dig här", href: "https://app.assently.com/t/va8x1u" },
     expires: new Date(2026, 10, 1),
-  },
-  {
-    key: "advent",
-    image: "/images/adventsgudstjanst-card.jpg",
-    alt: "Adventsgudstjänst söndag 29 november kl 15.30 i Centrumkyrkan Malmö",
-    title: "Adventsgudstjänst – söndag 29 november kl 15:30",
-    description: "Nu börjar det närma sig! Snart tänder vi det första adventsljuset och går in i adventstiden tillsammans. Välkommen till en stämningsfull gudstjänst med musik, ljus och hopp – nya och välkända adventssånger, barnkör och ett hoppfullt budskap inför julen. Kom gärna tidigare, vi har glöggmingel från kl 15:15, och efteråt bjuder vi på adventsfika. Bjud gärna med en vän!",
-    expires: new Date("2026-11-30T00:00:00+01:00"),
   },
   {
     key: "bordssamtal",
