@@ -31,7 +31,7 @@ export default function VagenSection() {
               </a>
             </h3>
             <p style={{ margin: "0 0 14px", color: "oklch(42% 0.015 50)", fontSize: 16 }}>
-              Utforska den kristna tron tillsammans, i en avslappnad miljö – öppet för alla frågor. Nästa kurs: 24 september 2026.
+              Utforska den kristna tron tillsammans, i en avslappnad miljö – öppet för alla frågor. Nästa kurs: september 2027.
             </p>
             <a href="mailto:stina.b.johansen@gmail.com" className="underline-link-green" style={linkStyle}>
               Intresseanmälan →
@@ -54,7 +54,7 @@ export default function VagenSection() {
               </a>
             </h3>
             <p style={{ margin: "0 0 14px", color: "oklch(42% 0.015 50)", fontSize: 16 }}>
-              En kurs som fördjupar dig i kristen praktik och efterföljelse i vardagen. Nästa kurs: Våren 2027.
+              En kurs som fördjupar dig i kristen praktik och efterföljelse i vardagen. Nästa kurs: 8 april 2027.
             </p>
             <a
               href="mailto:kai@centrumkyrkanmalmo.se?subject=Jag%20%C3%A4r%20intresserad%20av%20kursen%20Praktisera%20V%C3%A4gen"
