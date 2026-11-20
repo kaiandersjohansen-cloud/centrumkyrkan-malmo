@@ -106,6 +106,7 @@ const CARDS: Card[] = [
     title: "Nya Samtalskort – för barnfamiljer",
     description: "Tio kort med bibelord, en praktik och en samtalsfråga – perfekt vid matbordet med barnen.",
     cta: { label: "Testa här", href: "/samtalskort" },
+    hidden: true, // Tillfälligt borttagen från Aktuellt. Ta bort raden för att visa kortet igen.
   },
 ];
 
