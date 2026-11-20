@@ -32,6 +32,15 @@ const CARDS: Card[] = [
     expires: new Date("2026-11-30T00:00:00+01:00"),
   },
   {
+    key: "jul-luciafest",
+    image: "/images/jul-luciafest-card.jpg",
+    alt: "Jul & Luciafest söndag 13 december kl. 14–17",
+    title: "Jul & Luciafest – söndag 13 december kl 14–17",
+    description: "Välkommen till en härlig eftermiddag för hela familjen! Vi firar jul och lucia tillsammans med luciasång, julfika och gemenskap. Plats: Mariaskolan, Stensjögatan 2. Bjud gärna med vänner och grannar!",
+    cta: { badge: "Anmälan öppnar snart", muted: true },
+    expires: new Date("2026-12-14T00:00:00+01:00"),
+  },
+  {
     key: "bibelvers",
     image: "/images/bibelvers-card.jpg",
     alt: "En bibel bredvid ett verskort med Johannesevangeliet 3:16 och orden ”Så älskade Gud …”",
