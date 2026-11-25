@@ -17,17 +17,44 @@ const APPLE_PODCASTS_URL = "https://podcasts.apple.com/us/podcast/centrumkyrkan-
 
 interface HeroProps {
   showPrayerCta: boolean;
+  // Adventsbilden visas i stället för knapparna fram till söndag 29 nov kl 18.
+  showAdvent?: boolean;
 }
 
-export default function Hero({ showPrayerCta }: HeroProps) {
+const ADVENT_ALT =
+  "Första advent: Adventsgudstjänst söndag 29 november kl 15.30 på Föreningsgatan 32 (Betaniakyrkan). Barnkör och söndagsskola, glögg och adventsfika. Kollekt till Noomi – swisha din gåva till 123 360 55 24, märk Noomi. Insamling till Noomi: ta med vinterkläder – jackor, mössor, vantar och halsdukar för kvinnor och barn, hela och rena, i påse märkt med storlek.";
+
+function AdventBild({ mobil = false }: { mobil?: boolean }) {
+  return (
+    <a
+      href="/images/advent-hero.jpg"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: "block",
+        borderRadius: mobil ? 10 : 12,
+        overflow: "hidden",
+        boxShadow: mobil ? "0 6px 24px oklch(10% 0.02 50 / 0.45)" : "0 8px 30px oklch(30% 0.02 50 / 0.14)",
+      }}
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/images/advent-hero.jpg"
+        alt={ADVENT_ALT}
+        width={1920}
+        height={1005}
+        decoding="async"
+        style={{ width: "100%", height: "auto", display: "block" }}
+      />
+    </a>
+  );
+}
+
+export default function Hero({ showPrayerCta, showAdvent = false }: HeroProps) {
   return (
     <>
       {/* HERO (desktop/tablet) */}
-      <section
-        id="hero"
-        className="desktop-hero"
-        style={{ textAlign: "center", scrollMarginTop: 88 }}
-      >
+      <section id="hero" className="desktop-hero" style={{ textAlign: "center", scrollMarginTop: 88 }}>
         <div style={{ maxWidth: 760, margin: "0 auto", padding: "120px 28px 0" }}>
           <p
             style={{
@@ -58,72 +85,90 @@ export default function Hero({ showPrayerCta }: HeroProps) {
 
         <FragorBannerSection />
 
-        <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 28px 64px" }}>
-          <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
-            <a
-              href="#kalender"
-              id="next-sunday-cta-desktop"
-              className="btn-solid-green"
-              style={{
-                background: "oklch(50% 0.06 145)",
-                color: "oklch(98.5% 0.006 90)",
-                padding: "15px 30px",
-                borderRadius: 100,
-                fontWeight: 500,
-                fontSize: 15.5,
-              }}
-            >
-              Vad händer framöver?
-            </a>
-            {showPrayerCta && (
+        {showAdvent ? (
+          <div style={{ maxWidth: 960, margin: "0 auto", padding: "8px 28px 64px" }}>
+            <AdventBild />
+          </div>
+        ) : (
+          <div style={{ maxWidth: 760, margin: "0 auto", padding: "0 28px 64px" }}>
+            <div style={{ display: "flex", gap: 20, flexWrap: "wrap", justifyContent: "center" }}>
               <a
-                href="#bonuppmaning"
-                id="hero-cta-desktop"
+                href="#kalender"
+                id="next-sunday-cta-desktop"
+                className="btn-solid-green"
                 style={{
-                  display: "inline-block",
-                  whiteSpace: "nowrap",
-                  border: "1px solid oklch(58% 0.14 45)",
-                  color: "oklch(58% 0.14 45)",
-                  padding: "12px 26px",
+                  background: "oklch(50% 0.06 145)",
+                  color: "oklch(98.5% 0.006 90)",
+                  padding: "15px 30px",
                   borderRadius: 100,
-                  fontSize: 16,
                   fontWeight: 500,
+                  fontSize: 15.5,
                 }}
               >
-                Centrumkyrkan ber
+                Vad händer framöver?
               </a>
-            )}
-          </div>
-          <div
-            style={{
-              marginTop: 32,
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 16,
-              border: "1px solid oklch(50% 0.06 145)",
-              borderRadius: 100,
-              padding: "10px 20px 10px 24px",
-            }}
-          >
-            <span
+              {showPrayerCta && (
+                <a
+                  href="#bonuppmaning"
+                  id="hero-cta-desktop"
+                  style={{
+                    display: "inline-block",
+                    whiteSpace: "nowrap",
+                    border: "1px solid oklch(58% 0.14 45)",
+                    color: "oklch(58% 0.14 45)",
+                    padding: "12px 26px",
+                    borderRadius: 100,
+                    fontSize: 16,
+                    fontWeight: 500,
+                  }}
+                >
+                  Centrumkyrkan ber
+                </a>
+              )}
+            </div>
+            <div
               style={{
-                fontSize: 13,
-                fontWeight: 600,
-                letterSpacing: "0.08em",
-                textTransform: "uppercase",
-                color: "oklch(50% 0.06 145)",
+                marginTop: 32,
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 16,
+                border: "1px solid oklch(50% 0.06 145)",
+                borderRadius: 100,
+                padding: "10px 20px 10px 24px",
               }}
             >
-              Senaste predikan
-            </span>
-            <a href={SPOTIFY_URL} target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Spotify" style={{ display: "flex", color: "oklch(50% 0.06 145)" }}>
-              <SpotifyIcon />
-            </a>
-            <a href={APPLE_PODCASTS_URL} target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Apple Podcasts" style={{ display: "flex", color: "oklch(50% 0.06 145)" }}>
-              <ApplePodcastsIcon />
-            </a>
+              <span
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "oklch(50% 0.06 145)",
+                }}
+              >
+                Senaste predikan
+              </span>
+              <a
+                href={SPOTIFY_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Lyssna på Spotify"
+                style={{ display: "flex", color: "oklch(50% 0.06 145)" }}
+              >
+                <SpotifyIcon />
+              </a>
+              <a
+                href={APPLE_PODCASTS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Lyssna på Apple Podcasts"
+                style={{ display: "flex", color: "oklch(50% 0.06 145)" }}
+              >
+                <ApplePodcastsIcon />
+              </a>
+            </div>
           </div>
-        </div>
+        )}
       </section>
 
       <div className="desktop-hero" style={{ maxWidth: 1080, margin: "0 auto 48px", padding: "0 28px" }}>
@@ -196,11 +241,21 @@ export default function Hero({ showPrayerCta }: HeroProps) {
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "linear-gradient(oklch(15% 0.02 50 / 0.25), oklch(15% 0.02 50 / 0.15) 40%, oklch(15% 0.02 50 / 0.35) 58%, oklch(15% 0.02 50 / 0.85))",
+            background: "linear-gradient(oklch(15% 0.02 50 / 0.25), oklch(15% 0.02 50 / 0.15) 40%, oklch(15% 0.02 50 / 0.35) 58%, oklch(15% 0.02 50 / 0.85))",
           }}
         />
-        <div style={{ position: "relative", flex: 1, display: "flex", alignItems: "center", padding: "0 24px", textAlign: "center", color: "oklch(99% 0.005 90)", marginTop: "16svh" }}>
+        <div
+          style={{
+            position: "relative",
+            flex: 1,
+            display: "flex",
+            alignItems: "center",
+            padding: "0 24px",
+            textAlign: "center",
+            color: "oklch(99% 0.005 90)",
+            marginTop: "16svh",
+          }}
+        >
           <div style={{ width: "100%" }}>
             <p
               style={{
@@ -235,72 +290,90 @@ export default function Hero({ showPrayerCta }: HeroProps) {
             </div>
           </div>
         </div>
-        <div style={{ position: "relative", padding: "0 24px 44px", textAlign: "center" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <a
-              href="#kalender"
-              id="next-sunday-cta"
-              style={{
-                background: "oklch(98.5% 0.006 90)",
-                color: "oklch(50% 0.06 145)",
-                padding: "15px 30px",
-                borderRadius: 100,
-                fontWeight: 600,
-                fontSize: 15.5,
-              }}
-            >
-              Vad händer framöver?
-            </a>
-            {showPrayerCta && (
+        {showAdvent ? (
+          <div style={{ position: "relative", padding: "0 16px 32px" }}>
+            <AdventBild mobil />
+          </div>
+        ) : (
+          <div style={{ position: "relative", padding: "0 24px 44px", textAlign: "center" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <a
-                href="#bonuppmaning"
-                id="hero-cta-mobile"
+                href="#kalender"
+                id="next-sunday-cta"
                 style={{
-                  display: "inline-block",
-                  background: "oklch(58% 0.14 45)",
-                  border: "1px solid oklch(58% 0.14 45)",
-                  color: "oklch(98.5% 0.006 90)",
-                  padding: "12px 26px",
+                  background: "oklch(98.5% 0.006 90)",
+                  color: "oklch(50% 0.06 145)",
+                  padding: "15px 30px",
                   borderRadius: 100,
-                  fontSize: 16,
-                  fontWeight: 500,
-                }}
-              >
-                Centrumkyrkan ber
-              </a>
-            )}
-            <div
-              style={{
-                background: "transparent",
-                border: "1px solid oklch(98.5% 0.006 90)",
-                borderRadius: 100,
-                padding: "12px 22px 12px 26px",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 14,
-                justifyContent: "center",
-              }}
-            >
-              <span
-                style={{
-                  fontSize: 12,
                   fontWeight: 600,
-                  letterSpacing: "0.08em",
-                  textTransform: "uppercase",
-                  color: "oklch(98.5% 0.006 90)",
+                  fontSize: 15.5,
                 }}
               >
-                Senaste predikan
-              </span>
-              <a href={SPOTIFY_URL} target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Spotify" style={{ display: "flex", color: "oklch(98.5% 0.006 90)" }}>
-                <SpotifyIcon size={20} />
+                Vad händer framöver?
               </a>
-              <a href={APPLE_PODCASTS_URL} target="_blank" rel="noopener noreferrer" aria-label="Lyssna på Apple Podcasts" style={{ display: "flex", color: "oklch(98.5% 0.006 90)" }}>
-                <ApplePodcastsIcon size={18} />
-              </a>
+              {showPrayerCta && (
+                <a
+                  href="#bonuppmaning"
+                  id="hero-cta-mobile"
+                  style={{
+                    display: "inline-block",
+                    background: "oklch(58% 0.14 45)",
+                    border: "1px solid oklch(58% 0.14 45)",
+                    color: "oklch(98.5% 0.006 90)",
+                    padding: "12px 26px",
+                    borderRadius: 100,
+                    fontSize: 16,
+                    fontWeight: 500,
+                  }}
+                >
+                  Centrumkyrkan ber
+                </a>
+              )}
+              <div
+                style={{
+                  background: "transparent",
+                  border: "1px solid oklch(98.5% 0.006 90)",
+                  borderRadius: 100,
+                  padding: "12px 22px 12px 26px",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 14,
+                  justifyContent: "center",
+                }}
+              >
+                <span
+                  style={{
+                    fontSize: 12,
+                    fontWeight: 600,
+                    letterSpacing: "0.08em",
+                    textTransform: "uppercase",
+                    color: "oklch(98.5% 0.006 90)",
+                  }}
+                >
+                  Senaste predikan
+                </span>
+                <a
+                  href={SPOTIFY_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Lyssna på Spotify"
+                  style={{ display: "flex", color: "oklch(98.5% 0.006 90)" }}
+                >
+                  <SpotifyIcon size={20} />
+                </a>
+                <a
+                  href={APPLE_PODCASTS_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Lyssna på Apple Podcasts"
+                  style={{ display: "flex", color: "oklch(98.5% 0.006 90)" }}
+                >
+                  <ApplePodcastsIcon size={18} />
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </section>
     </>
   );

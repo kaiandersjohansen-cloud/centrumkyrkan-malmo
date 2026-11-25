@@ -5,6 +5,7 @@
 // Use +02:00 for summer time (late March-late October) and +01:00 for winter.
 export const INFO_BANNER_EXPIRES = new Date("2026-08-23T18:00:00+02:00"); // 23 aug 2026 18:00
 export const PRAYER_RELAY_EXPIRES = new Date("2026-09-06T23:59:00+02:00"); // 6 sep 2026 23:59
+export const ADVENT_HERO_EXPIRES = new Date("2026-11-29T18:00:00+01:00"); // 29 nov 2026 18:00
 
 export function isExpired(cutoff: Date, now: Date = new Date()): boolean {
   return now >= cutoff;

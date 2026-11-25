@@ -15,21 +15,22 @@ import MissionSection from "@/components/MissionSection";
 import KontaktSection from "@/components/KontaktSection";
 import MediaSection from "@/components/MediaSection";
 import Footer from "@/components/Footer";
-import { PRAYER_RELAY_EXPIRES, isExpired } from "@/lib/dates";
+import { ADVENT_HERO_EXPIRES, PRAYER_RELAY_EXPIRES, isExpired } from "@/lib/dates";
 
-// Bygg om startsidan varje timme så att datumstyrda kort och banners
+// Bygg om startsidan var femte minut så att datumstyrda kort och banners
 // visas och försvinner i tid, utan att någon behöver göra en ny publicering.
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export default function Home() {
   const showPrayerCampaign = !isExpired(PRAYER_RELAY_EXPIRES);
+  const showAdvent = !isExpired(ADVENT_HERO_EXPIRES);
 
   return (
     <>
       <Header />
       <InfoBanner />
       <main id="main-content" style={{ scrollMarginTop: 88 }}>
-        <Hero showPrayerCta={showPrayerCampaign} />
+        <Hero showPrayerCta={showPrayerCampaign} showAdvent={showAdvent} />
         {showPrayerCampaign && <BonuppmaningSection />}
         <GudstjanstSection />
         <AktuelltSection />
