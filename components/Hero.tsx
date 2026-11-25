@@ -25,9 +25,11 @@ const ADVENT_ALT =
   "Första advent: Adventsgudstjänst söndag 29 november kl 15.30 på Föreningsgatan 32 (Betaniakyrkan). Barnkör och söndagsskola, glögg och adventsfika. Kollekt till Noomi – swisha din gåva till 123 360 55 24, märk Noomi. Insamling till Noomi: ta med vinterkläder – jackor, mössor, vantar och halsdukar för kvinnor och barn, hela och rena, i påse märkt med storlek.";
 
 function AdventBild({ mobil = false }: { mobil?: boolean }) {
+  // I mobilen visas en stående version av bilden.
+  const src = mobil ? "/images/advent-hero-mobil.jpg" : "/images/advent-hero.jpg";
   return (
     <a
-      href="/images/advent-hero.jpg"
+      href={src}
       target="_blank"
       rel="noopener noreferrer"
       style={{
@@ -39,10 +41,10 @@ function AdventBild({ mobil = false }: { mobil?: boolean }) {
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/images/advent-hero.jpg"
+        src={src}
         alt={ADVENT_ALT}
-        width={1920}
-        height={1005}
+        width={mobil ? 1080 : 1920}
+        height={mobil ? 1350 : 1005}
         decoding="async"
         style={{ width: "100%", height: "auto", display: "block" }}
       />
