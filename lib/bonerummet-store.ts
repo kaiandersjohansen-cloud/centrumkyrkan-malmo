@@ -174,7 +174,7 @@ export async function doljAmne(id: string, dolj: boolean): Promise<void> {
   await redis(dolj ? "SADD" : "SREM", DOLDA, id);
 }
 
-// "Jag ber för detta" på ett fast böneämne. Räknaren gäller en period (varannan dag).
+// "Jag ber för detta" på ett fast böneämne. Räknaren gäller en period (en vecka).
 export async function berForFast(period: number, id: string): Promise<number> {
   const key = fastKey(period, id);
   const [antal] = (await pipeline([

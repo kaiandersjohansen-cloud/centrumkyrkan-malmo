@@ -34,7 +34,7 @@ export interface VaggData {
   aktiv: boolean;
   inlagg: Inlagg[];
   fasta: FastAmne[];
-  // Räknarna för de fasta böneämnena nollställs när perioden byts (varannan dag).
+  // Räknarna för de fasta böneämnena nollställs när perioden byts (varje vecka).
   period: number;
   bibelord: Bibelord | null;
   // Summan av alla som skrivit hur många vänner de ber ska börja tro på Jesus.
@@ -66,7 +66,8 @@ export const FASTA_BONEAMNEN: { text: string; till?: string }[] = [
 ];
 export const KALENDER_DAGAR = 14;
 export const KALENDER_MAX = 4;
-export const PERIOD_DAGAR = 2;
+// Räknarna för församlingens böneämnen nollställs varje vecka, natten mot måndag.
+export const PERIOD_DAGAR = 7;
 
 // Hur kalenderhändelser heter i böneämnena. Nyckeln är namnet i församlingens
 // kalender (centrumkyrkanmalmo@gmail.com) i gemener, utan "& söndagsskola".
@@ -111,8 +112,9 @@ export function svenskDag(nu = new Date()): number {
   return Math.floor(Date.parse(`${datum}T00:00:00Z`) / 86_400_000);
 }
 
+// Dag 0 (1 jan 1970) var en torsdag; +3 gör att varje vecka börjar på en måndag.
 export function aktuellPeriod(nu = new Date()): number {
-  return Math.floor(svenskDag(nu) / PERIOD_DAGAR);
+  return Math.floor((svenskDag(nu) + 3) / PERIOD_DAGAR);
 }
 
 // Stabilt id för ett fast böneämne, byggt av texten.
