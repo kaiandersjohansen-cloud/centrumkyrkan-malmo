@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
-import { LIVSLANGD_DAGAR, type FastAmne, type Feedback, type Inlagg, type VaggData } from "@/lib/bonerummet";
+import { LIVSLANGD_DAGAR, MAX_EGNA_AMNEN, MAX_TEXT, type FastAmne, type Feedback, type Inlagg, type VaggData } from "@/lib/bonerummet";
 import Link from "next/link";
 import FeedbackRuta from "@/components/bonerummet/FeedbackRuta";
 import VannerRad from "@/components/bonerummet/VannerRad";
@@ -107,6 +107,9 @@ export default function Vagg() {
   const [feedbackLista, setFeedbackLista] = useState<Feedback[] | null>(null);
   const [lank, setLank] = useState("");
   const [nya, setNya] = useState<string[]>([]);
+  const [nyttAmne, setNyttAmne] = useState("");
+  const [amneFel, setAmneFel] = useState("");
+  const [spararAmne, setSpararAmne] = useState(false);
   // Inlägg som fanns vid första laddningen ska inte blinka till som nya.
   const sedda = useRef<Set<string> | null>(null);
 
@@ -218,6 +221,42 @@ export default function Vagg() {
   async function doljAmne(id: string, dolj: boolean) {
     setData((d) => (d ? { ...d, fasta: d.fasta.map((f) => (f.id === id ? { ...f, dold: dolj } : f)) } : d));
     await hantera(dolj ? "dolj" : "visa", id);
+    hamta();
+  }
+
+  async function laggTillAmne() {
+    const text = nyttAmne.trim();
+    if (text.length < 3) {
+      setAmneFel("Skriv ett böneämne först.");
+      return;
+    }
+    setSpararAmne(true);
+    setAmneFel("");
+    const res = await fetch("/api/bonerummet/hantera", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kod, atgard: "lagg_till_amne", text }),
+    }).catch(() => null);
+    setSpararAmne(false);
+    if (res?.ok) {
+      setNyttAmne("");
+      hamta();
+    } else if (res?.status === 409) {
+      setAmneFel(`Det går att ha högst ${MAX_EGNA_AMNEN} egna böneämnen. Ta bort något först.`);
+    } else if (res?.status === 401) {
+      setKod("");
+    } else {
+      setAmneFel("Det gick inte att spara. Försök igen.");
+    }
+  }
+
+  async function taBortEgetAmne(id: string) {
+    setData((d) => (d ? { ...d, fasta: d.fasta.filter((f) => f.id !== id) } : d));
+    await fetch("/api/bonerummet/hantera", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kod, atgard: "ta_bort_amne", id }),
+    }).catch(() => null);
     hamta();
   }
 
@@ -425,7 +464,7 @@ export default function Vagg() {
                     {kod && (
                       <button
                         type="button"
-                        onClick={() => doljAmne(f.id, !f.dold)}
+                        onClick={() => (f.egen ? taBortEgetAmne(f.id) : doljAmne(f.id, !f.dold))}
                         style={{ ...smaKnapp, padding: "5px 12px", fontSize: 12.5, flexShrink: 0, ...(f.dold ? {} : { color: C.rod, borderColor: "oklch(85% 0.05 30)" }) }}
                       >
                         {f.dold ? "Visa igen" : "Ta bort"}
@@ -435,6 +474,36 @@ export default function Vagg() {
                 </li>
               ))}
           </ul>
+          {kod && (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                laggTillAmne();
+              }}
+              style={{ marginTop: 12, display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}
+            >
+              <label htmlFor="nytt-amne" style={{ position: "absolute", left: -9999 }}>
+                Nytt böneämne för församlingen
+              </label>
+              <input
+                id="nytt-amne"
+                type="text"
+                value={nyttAmne}
+                onChange={(e) => setNyttAmne(e.target.value)}
+                maxLength={MAX_TEXT}
+                placeholder="Nytt böneämne för församlingen, t.ex. Be för …"
+                style={{ flex: "1 1 280px", minWidth: 0, border: `1.5px solid ${C.linje}`, borderRadius: 100, padding: "9px 16px", fontSize: 14.5, fontFamily: SANS, color: C.text, background: "white" }}
+              />
+              <button type="submit" disabled={spararAmne} style={{ ...smaKnapp, color: C.gron, borderColor: "oklch(80% 0.05 145)", opacity: spararAmne ? 0.6 : 1 }}>
+                + Lägg till
+              </button>
+              {amneFel && (
+                <p role="alert" style={{ flexBasis: "100%", margin: 0, fontSize: 13, color: C.rod }}>
+                  {amneFel}
+                </p>
+              )}
+            </form>
+          )}
         </section>
 
         <p style={{ fontFamily: SERIF, fontSize: 19, fontStyle: "italic", color: C.dampad, textAlign: "center", margin: "34px 0 0" }}>

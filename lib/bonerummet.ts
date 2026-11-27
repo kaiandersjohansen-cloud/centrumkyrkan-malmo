@@ -23,7 +23,12 @@ export interface FastAmne {
   ber: number;
   // Borttaget av den som hanterar väggen. Visas bara i hanteringsläget.
   dold: boolean;
+  // Tillagt av den som hanterar väggen (tas bort helt i stället för att döljas).
+  egen?: boolean;
 }
+
+// Högst så många egna böneämnen kan läggas till under "Hantera väggen".
+export const MAX_EGNA_AMNEN = 20;
 
 export interface VaggData {
   aktiv: boolean;

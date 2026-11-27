@@ -1,11 +1,12 @@
 import { timingSafeEqual } from "node:crypto";
-import { pipeline, redis } from "@/lib/redis";
+import { pipeline, redis, redisConfigured } from "@/lib/redis";
 import { getPrayerCalendarEvents } from "@/lib/calendar";
 import {
   FASTA_BONEAMNEN,
   KALENDER_DAGAR,
   KALENDER_MAX,
   LIVSLANGD_DAGAR,
+  MAX_EGNA_AMNEN,
   MAX_FEEDBACK,
   MAX_NAMN,
   MAX_VANNER_PER_PERSON,
@@ -31,6 +32,8 @@ const MAX_VISADE = 200;
 const inlaggKey = (id: string) => `${P}inlagg:${id}`;
 const fastKey = (period: number, id: string) => `${P}fast:${period}:${id}`;
 const DOLDA = `${P}dolda`;
+// Egna böneämnen som lagts till under "Hantera väggen": id -> {text, ts}.
+const EGNA = `${P}egna`;
 const berKey = (id: string) => `${P}ber:${id}`;
 
 type Sparat = Omit<Inlagg, "ber">;
@@ -115,24 +118,55 @@ export function ratKod(kod: unknown): boolean {
   return a.length === b.length && timingSafeEqual(a, b);
 }
 
-// Församlingens fasta böneämnen: kommande händelser i kalendern och den fasta listan.
+async function hamtaEgna(): Promise<string[]> {
+  if (!redisConfigured()) return [];
+  const alla = await redis<string[]>("HVALS", EGNA);
+  return alla
+    .map((j) => JSON.parse(j) as { text: string; ts: number })
+    .sort((a, b) => a.ts - b.ts)
+    .map((a) => a.text);
+}
+
+// Lägger till ett eget böneämne. Ger false om det redan finns för många.
+export async function laggTillEgetAmne(text: string): Promise<boolean> {
+  const ren = text.trim().replace(/\s+/g, " ").slice(0, MAX_TEXT);
+  if ((await redis<number>("HLEN", EGNA)) >= MAX_EGNA_AMNEN) return false;
+  const id = amneId(ren);
+  await pipeline([
+    ["HSET", EGNA, id, JSON.stringify({ text: ren, ts: Date.now() })],
+    ["SREM", DOLDA, id],
+  ]);
+  return true;
+}
+
+export async function taBortEgetAmne(id: string): Promise<void> {
+  await pipeline([
+    ["HDEL", EGNA, id],
+    ["SREM", DOLDA, id],
+  ]);
+}
+
+// Församlingens fasta böneämnen: kommande händelser i kalendern, egna som lagts
+// till under "Hantera väggen" och den fasta listan.
 export async function fastaAmnenText(): Promise<string[]> {
-  const handelser = (await getPrayerCalendarEvents(KALENDER_DAGAR)) ?? [];
+  const [handelserSvar, egna] = await Promise.all([getPrayerCalendarEvents(KALENDER_DAGAR), hamtaEgna()]);
+  const handelser = handelserSvar ?? [];
   const franKalendern = handelser
     .filter((h) => !skaHoppasOver(h.title, h.recurring))
     .map((h) => kalenderAmne(h.title, h.start, h.recurring));
   const idag = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Stockholm" }).format(new Date());
   const fasta = FASTA_BONEAMNEN.filter((a) => !a.till || idag <= a.till).map((a) => a.text);
-  return [...new Set([...franKalendern.slice(0, KALENDER_MAX), ...fasta])];
+  return [...new Set([...franKalendern.slice(0, KALENDER_MAX), ...egna, ...fasta])];
 }
 
 export async function hamtaFasta(period: number, texter: string[]): Promise<FastAmne[]> {
   const ids = texter.map(amneId);
-  const [antal, dolda] = (await pipeline([
+  const [antal, dolda, egna] = (await pipeline([
     ["MGET", ...ids.map((id) => fastKey(period, id))],
     ["SMEMBERS", DOLDA],
-  ])) as [(string | null)[], string[]];
-  return texter.map((text, i) => ({ id: ids[i], text, ber: Number(antal[i] ?? 0), dold: dolda.includes(ids[i]) }));
+    ["HKEYS", EGNA],
+  ])) as [(string | null)[], string[], string[]];
+  return texter.map((text, i) => ({ id: ids[i], text, ber: Number(antal[i] ?? 0), dold: dolda.includes(ids[i]), egen: egna.includes(ids[i]) }));
 }
 
 // Ta bort (dölj) eller visa ett av församlingens böneämnen igen.

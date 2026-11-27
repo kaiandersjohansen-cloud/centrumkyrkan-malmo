@@ -1,11 +1,21 @@
 import { NextResponse } from "next/server";
-import { amneId } from "@/lib/bonerummet";
-import { doljAmne, fastaAmnenText, hamtaFeedback, ratKod, rensaTavlan, taBort, taBortFeedback } from "@/lib/bonerummet-store";
+import { MAX_TEXT, amneId } from "@/lib/bonerummet";
+import {
+  doljAmne,
+  fastaAmnenText,
+  hamtaFeedback,
+  laggTillEgetAmne,
+  ratKod,
+  rensaTavlan,
+  taBort,
+  taBortEgetAmne,
+  taBortFeedback,
+} from "@/lib/bonerummet-store";
 import { redisConfigured } from "@/lib/redis";
 
 // Kräver koden i BONERUMMET_KOD. "kolla" används för att logga in på väggen.
 export async function POST(request: Request) {
-  const body = (await request.json().catch(() => ({}))) as { kod?: unknown; atgard?: unknown; id?: unknown };
+  const body = (await request.json().catch(() => ({}))) as { kod?: unknown; atgard?: unknown; id?: unknown; text?: unknown };
   if (!process.env.BONERUMMET_KOD) return NextResponse.json({ error: "ingen_kod" }, { status: 503 });
   if (!ratKod(body.kod)) return NextResponse.json({ error: "fel_kod" }, { status: 401 });
   if (body.atgard === "kolla") return NextResponse.json({ ok: true });
@@ -20,6 +30,16 @@ export async function POST(request: Request) {
       const id = body.id;
       if (!(await fastaAmnenText()).some((t) => amneId(t) === id)) return NextResponse.json({ error: "finns_inte" }, { status: 404 });
       await doljAmne(id, body.atgard === "dolj");
+      return NextResponse.json({ ok: true });
+    }
+    if (body.atgard === "lagg_till_amne" && typeof body.text === "string") {
+      const text = body.text.trim();
+      if (text.length < 3 || text.length > MAX_TEXT) return NextResponse.json({ error: "fel_format" }, { status: 400 });
+      if (!(await laggTillEgetAmne(text))) return NextResponse.json({ error: "for_manga" }, { status: 409 });
+      return NextResponse.json({ ok: true });
+    }
+    if (body.atgard === "ta_bort_amne" && typeof body.id === "string" && /^f[a-z0-9]{1,16}$/.test(body.id)) {
+      await taBortEgetAmne(body.id);
       return NextResponse.json({ ok: true });
     }
     if (body.atgard === "feedback") {
